@@ -1,0 +1,372 @@
+<section class="team-journey" aria-labelledby="r7-title">
+  <header class="r7-header">
+    <span class="caption-box">{{ translate('r7.caption', pageState.lang) }}</span>
+    <h1 class="page-title" id="r7-title">{{ translate('r7.title', pageState.lang) }}</h1>
+    <p class="page-subtitle">{{ translate('r7.subtitle', pageState.lang) }}</p>
+  </header>
+
+  <ng-container [ngSwitch]="pageState.status">
+    <app-loading-state
+      *ngSwitchCase="'loading'"
+      [message]="translate('loading', pageState.lang)"
+    ></app-loading-state>
+
+    <section
+      class="functional-panel state-panel"
+      *ngSwitchCase="'empty'"
+      role="status"
+      aria-labelledby="r7-empty-heading"
+    >
+      <ng-container *ngIf="pageState.emptyReason === 'no-journey'; else noEncounters">
+        <h2 class="panel-title" id="r7-empty-heading">
+          {{ translate('r7.noJourney', pageState.lang) }}
+        </h2>
+        <p class="page-subtitle">{{ translate('r7.noJourneyCopy', pageState.lang) }}</p>
+        <a class="button" [routerLink]="pageState.simulateJourneyUrl">
+          {{ translate('r7.simulateLink', pageState.lang) }}
+        </a>
+      </ng-container>
+
+      <ng-template #noEncounters>
+        <h2 class="panel-title" id="r7-empty-heading">
+          {{ translate('r7.encounters', pageState.lang) }}
+        </h2>
+        <p class="page-subtitle">{{ translate('r7.noPlayerEncounters', pageState.lang) }}</p>
+      </ng-template>
+    </section>
+
+    <section
+      class="functional-panel state-panel"
+      *ngSwitchCase="'error'"
+      role="alert"
+      aria-labelledby="r7-error-heading"
+    >
+      <h2 class="panel-title" id="r7-error-heading">
+        {{ translate('error', pageState.lang) }}
+      </h2>
+      <app-error-state
+        [message]="pageState.error ?? translate('error', pageState.lang)"
+        [messageCode]="pageState.errorCode ?? null"
+      ></app-error-state>
+      <button type="button" class="retry-button" (click)="retry()">
+        {{ translate('retry', pageState.lang) }}
+      </button>
+    </section>
+
+    <ng-container *ngSwitchCase="'data'">
+      <section class="functional-panel journey-progress" aria-labelledby="r7-progress-heading">
+        <div class="panel-heading-row">
+          <h2 class="panel-title" id="r7-progress-heading">
+            {{ translate('r7.progress', pageState.lang) }}
+          </h2>
+          <span class="team-chip" *ngIf="pageState.teamId as teamId">
+            {{ translate('r7.playerTeam', pageState.lang) }} · {{ teamId }}
+          </span>
+        </div>
+
+        <ol class="progress-track">
+          <li
+            class="progress-node"
+            *ngFor="let stop of pageState.stops; trackBy: trackStop"
+            [ngClass]="'is-' + stop.outcome"
+            [attr.aria-label]="
+              (stop.stageLabelKey
+                ? translate(stop.stageLabelKey, pageState.lang)
+                : stop.stageCode) +
+              ' — ' +
+              translate(stop.outcomeLabelKey, pageState.lang)
+            "
+          ></li>
+        </ol>
+
+        <ul class="progress-legend">
+          <li class="outcome-tag is-played">
+            {{ translate('r7.played', pageState.lang) }}
+            <b>{{ pageState.progress.played }}</b>
+          </li>
+          <li class="outcome-tag is-win">
+            {{ translate('r7.win', pageState.lang) }}
+            <b>{{ pageState.progress.wins }}</b>
+          </li>
+          <li class="outcome-tag is-draw">
+            {{ translate('r7.draw', pageState.lang) }}
+            <b>{{ pageState.progress.draws }}</b>
+          </li>
+          <li class="outcome-tag is-loss">
+            {{ translate('r7.loss', pageState.lang) }}
+            <b>{{ pageState.progress.losses }}</b>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        class="functional-panel journey-detail"
+        id="r7-detail-panel"
+        aria-labelledby="r7-detail-heading"
+        [attr.aria-busy]="pageState.detailStatus === 'loading'"
+      >
+        <h2 class="panel-title" id="r7-detail-heading">
+          {{ translate('r7.details', pageState.lang) }}
+        </h2>
+        <p class="page-subtitle detail-hint" *ngIf="!pageState.selectedStop">
+          {{ translate('r7.selectEncounter', pageState.lang) }}
+        </p>
+
+        <article class="detail-panel" *ngIf="pageState.selectedStop as stop">
+          <div class="detail-heading">
+            <span class="stage-label" *ngIf="stop.stageLabelKey as stageKey">
+              {{ translate(stageKey, pageState.lang) }}
+            </span>
+            <span class="stage-code">{{ stop.stageCode }}</span>
+            <span class="stage-code" *ngIf="stop.groupId">{{ stop.groupId }}</span>
+            <span class="outcome-tag" [ngClass]="'is-' + stop.outcome">
+              {{ translate(stop.outcomeLabelKey, pageState.lang) }}
+            </span>
+          </div>
+
+          <dl class="detail-grid">
+            <div class="detail">
+              <dt>{{ translate('r7.opponent', pageState.lang) }}</dt>
+              <dd>{{ stop.opponentTeamName }}</dd>
+            </div>
+            <div class="detail">
+              <dt>{{ translate('r7.result', pageState.lang) }}</dt>
+              <dd>{{ translate(stop.outcomeLabelKey, pageState.lang) }}</dd>
+            </div>
+            <div class="detail">
+              <dt>{{ translate('r7.damage', pageState.lang) }}</dt>
+              <dd>{{ stop.damageDealt ?? '—' }}</dd>
+            </div>
+          </dl>
+
+          <p class="resolution-tag" *ngIf="stop.resolutionLabelKey as resolutionKey">
+            {{ translate(resolutionKey, pageState.lang) }}
+          </p>
+
+          <div class="final-result" *ngIf="stop.kind === 'final'">
+            <span class="stage-label">{{ translate('r7.finalOutcome', pageState.lang) }}</span>
+            <span class="outcome-tag" [ngClass]="'is-' + stop.outcome">
+              {{ translate(stop.outcomeLabelKey, pageState.lang) }}
+            </span>
+          </div>
+
+          <ng-container [ngSwitch]="pageState.detailStatus">
+            <p *ngSwitchCase="'idle'" class="detail-state">
+              {{ translate('r7.noEncounterDetails', pageState.lang) }}
+            </p>
+            <p *ngSwitchCase="'loading'" class="detail-state" role="status" aria-live="polite">
+              {{ translate('r7.detailLoading', pageState.lang) }}
+            </p>
+            <p *ngSwitchCase="'pending'" class="detail-state" role="status" aria-live="polite">
+              {{ translate('r7.pending', pageState.lang) }}
+            </p>
+            <ng-container *ngSwitchCase="'unavailable'">
+              <p class="detail-state">
+                {{ translate('r7.noEncounterDetails', pageState.lang) }}
+              </p>
+            </ng-container>
+            <div *ngSwitchCase="'error'" class="detail-error" role="alert">
+              <p class="detail-state">
+                {{ pageState.detailError ?? translate('error', pageState.lang) }}
+              </p>
+              <button type="button" class="retry-button" (click)="retryDetail()">
+                {{ translate('retry', pageState.lang) }}
+              </button>
+            </div>
+            <ng-container *ngSwitchCase="'data'">
+              <ng-container *ngIf="pageState.detail as detail; else detailUnavailable">
+                <ng-container *ngIf="detail.rounds.length; else noRounds">
+                  <ng-container *ngFor="let round of detail.rounds; trackBy: trackRound">
+                    <ng-container
+                      *ngTemplateOutlet="roundCard; context: { $implicit: round }"
+                    ></ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-template #noRounds>
+                  <p class="detail-state" *ngIf="!detail.extraRound">
+                    {{ translate('r7.noEncounterDetails', pageState.lang) }}
+                  </p>
+                </ng-template>
+
+                <ng-container *ngIf="detail.extraRound as extraRound">
+                  <h3 class="stage-label section-label">
+                    {{ translate('r7.roundType.extra', pageState.lang) }}
+                  </h3>
+                  <ng-container
+                    *ngTemplateOutlet="roundCard; context: { $implicit: extraRound }"
+                  ></ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-template #detailUnavailable>
+                <p class="detail-state">{{ translate('r7.noEncounterDetails', pageState.lang) }}</p>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <p class="detail-state">{{ translate('r7.noEncounterDetails', pageState.lang) }}</p>
+            </ng-container>
+          </ng-container>
+
+          <div class="final-action" *ngIf="stop.kind === 'final'">
+            <a class="button" [routerLink]="pageState.finalBattleUrl">
+              {{ translate('r7.finalBattle', pageState.lang) }}
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <section class="functional-panel journey-timeline" aria-labelledby="r7-encounters-heading">
+        <h2 class="panel-title" id="r7-encounters-heading">
+          {{ translate('r7.encounters', pageState.lang) }}
+        </h2>
+
+        <ol class="timeline">
+          <li
+            class="timeline-stop"
+            *ngFor="let stop of pageState.stops; trackBy: trackStop"
+            [ngClass]="'is-' + stop.outcome"
+            [class.is-selected]="pageState.selectedStopId === stop.stopId"
+          >
+            <span class="timeline-marker" aria-hidden="true"></span>
+
+            <article class="stop-body">
+              <div class="stop-heading">
+                <span class="stage-label" *ngIf="stop.stageLabelKey as stageKey">
+                  {{ translate(stageKey, pageState.lang) }}
+                </span>
+                <span class="stage-code">{{ stop.stageCode }}</span>
+                <span class="stage-code" *ngIf="stop.groupId">{{ stop.groupId }}</span>
+                <span class="outcome-tag stop-outcome" [ngClass]="'is-' + stop.outcome">
+                  {{ translate(stop.outcomeLabelKey, pageState.lang) }}
+                </span>
+              </div>
+
+              <dl class="stop-details">
+                <div class="detail">
+                  <dt>{{ translate('r7.opponent', pageState.lang) }}</dt>
+                  <dd>{{ stop.opponentTeamName }}</dd>
+                </div>
+                <div class="detail">
+                  <dt>{{ translate('r7.damage', pageState.lang) }}</dt>
+                  <dd>{{ stop.damageDealt ?? '—' }}</dd>
+                </div>
+              </dl>
+
+              <p class="resolution-tag" *ngIf="stop.resolutionLabelKey as resolutionKey">
+                {{ translate(resolutionKey, pageState.lang) }}
+              </p>
+
+              <button
+                type="button"
+                class="stop-select"
+                *ngIf="stop.encounterId as encounterId"
+                [attr.aria-pressed]="pageState.selectedStopId === stop.stopId"
+                aria-controls="r7-detail-panel"
+                (click)="selectEncounter(encounterId)"
+              >
+                {{ translate('openEncounter', pageState.lang) }}
+              </button>
+
+              <button
+                type="button"
+                class="stop-select"
+                *ngIf="stop.kind === 'final'"
+                [attr.aria-pressed]="pageState.selectedStopId === stop.stopId"
+                aria-controls="r7-detail-panel"
+                (click)="selectFinalStop()"
+              >
+                {{ translate('r7.finalBattle', pageState.lang) }}
+              </button>
+            </article>
+          </li>
+        </ol>
+      </section>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #roundCard let-round>
+    <article class="round-card detail-panel">
+      <div class="detail-heading">
+        <span class="round-chip">
+          {{ translate('r7.roundLabel', pageState.lang, { number: round.number }) }}
+        </span>
+        <span class="stage-label">
+          {{ translate(round.roundTypeLabelKey, pageState.lang) }}
+        </span>
+      </div>
+
+      <dl class="detail-grid">
+        <div class="detail">
+          <dt>{{ translate('r7.initiative', pageState.lang) }}</dt>
+          <dd>{{ round.initiativeTeamName }}</dd>
+        </div>
+        <div class="detail">
+          <dt>{{ translate('r7.roundWinner', pageState.lang) }}</dt>
+          <dd>{{ round.winnerTeamName ?? '—' }}</dd>
+        </div>
+        <div class="detail" *ngFor="let damage of round.damageByTeam; trackBy: trackTeam">
+          <dt>{{ damage.teamName }} · {{ translate('r7.damage', pageState.lang) }}</dt>
+          <dd>{{ damage.damageDealt }}</dd>
+        </div>
+      </dl>
+
+      <div class="active-heroes" *ngIf="round.activeHeroesByTeam.length">
+        <h4 class="stage-label section-label">
+          {{ translate('r7.activeHeroes', pageState.lang) }}
+        </h4>
+        <div class="hero-team" *ngFor="let team of round.activeHeroesByTeam; trackBy: trackTeam">
+          <span class="hero-team-name">{{ team.teamName }}</span>
+          <ul class="progress-legend hero-list">
+            <li *ngFor="let hero of team.heroes; trackBy: trackHero">{{ hero.heroName }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="battle-log" *ngIf="round.events.length">
+        <h4 class="stage-label section-label">{{ translate('r7.battleLog', pageState.lang) }}</h4>
+        <ol class="event-list">
+          <li class="event-line" *ngFor="let event of round.events; trackBy: trackEvent">
+            <div class="detail-heading">
+              <span class="round-chip">{{ translate(event.eventLabelKey, pageState.lang) }}</span>
+              <span class="event-team" *ngIf="event.teamName">{{ event.teamName }}</span>
+            </div>
+
+            <p class="event-target" *ngIf="event.actorHeroName && event.targetHeroNames.length">
+              <ng-container
+                *ngIf="event.eventCode === 'DAMAGE' && event.amount !== null; else nonDamageEvent"
+              >
+                {{
+                  translate('r7.eventDamageDetail', pageState.lang, {
+                    actor: event.actorHeroName,
+                    targets: event.targetHeroNames.join(', '),
+                    amount: event.amount ?? 0,
+                  })
+                }}
+              </ng-container>
+              <ng-template #nonDamageEvent>
+                <ng-container *ngIf="event.eventCode === 'KO'; else plainEvent">
+                  {{
+                    translate('r7.eventKoDetail', pageState.lang, {
+                      actor: event.actorHeroName,
+                      targets: event.targetHeroNames.join(', '),
+                    })
+                  }}
+                </ng-container>
+                <ng-template #plainEvent>
+                  {{ event.actorHeroName }} → {{ event.targetHeroNames.join(', ') }}
+                </ng-template>
+              </ng-template>
+            </p>
+
+            <p
+              class="detail-state"
+              *ngFor="let line of event.narrativeLines; trackBy: trackNarrativeLine"
+            >
+              <span class="event-speaker" *ngIf="line.speakerName">{{ line.speakerName }}: </span>
+              {{ line.text }}
+            </p>
+          </li>
+        </ol>
+      </div>
+    </article>
+  </ng-template>
+</section>

@@ -1,0 +1,5 @@
+export enum JourneyStatus {
+  SIMULATED = 'SIMULATED',
+  FINAL_ACTIVE = 'FINAL_ACTIVE',
+  COMPLETED = 'COMPLETED',
+}

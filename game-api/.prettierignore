@@ -1,0 +1,5 @@
+node_modules/
+dist/
+database/
+balance/
+scripts/themes/**/seed-theme-data.sql

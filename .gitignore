@@ -1,0 +1,19 @@
+# Dependencies and generated build output
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+**/database/
+**/.idea/
+**/*.tsbuildinfo
+**/*.log
+.DS_Store
+
+# Local environment files
+**/.env
+**/.env.*
+!**/.env.example
+!/game-api/.env
+
+# Generated local audit runs
+/game-api/audit/artifacts/

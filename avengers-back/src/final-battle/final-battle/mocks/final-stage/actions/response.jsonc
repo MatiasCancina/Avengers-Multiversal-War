@@ -1,0 +1,444 @@
+// Solo trae actions con 200 con la Final ACTIVE
+// GET game/teams/black-widow/journeys/current/final-stage/actions
+{
+    "serverTime": "2026-10-07T14:59:10.302Z",
+    "success": true,
+    "responseMessage": {
+        "messageCode": "0000",
+        "message": "OK"
+    },
+    "data": {
+        "attemptId": "56811845-8ef6-4a66-9459-2c995c030d75",
+        "phase": "TOURNAMENT_FINAL",
+        "normalTurn": 0,
+        "language": "es",
+        "actions": [
+            {
+                "actionId": "SvPZpn_6LcvQ_-mWo7zGZq214C9EvWmb6Ymljn0KBVI",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Widow's Bite",
+                "description": "Black Widow ataca con precisión de espía y la descarga de su entrenamiento de la Habitación Roja.",
+                "actorHeroId": "black-widow",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "ms-marvel",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "vyCdsdeGC4lRh4n6UEQ5eK7NwCIGIW-GptZCv8QfmP0",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Widow's Bite",
+                "description": "Black Widow ataca con precisión de espía y la descarga de su entrenamiento de la Habitación Roja.",
+                "actorHeroId": "black-widow",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "jubilee",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "41X6IfUUpFCpUAp1hnYiA-2cmYrDYq79oexxl82JFrQ",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Widow's Bite",
+                "description": "Black Widow ataca con precisión de espía y la descarga de su entrenamiento de la Habitación Roja.",
+                "actorHeroId": "black-widow",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "bishop",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "xg5ySUu8ZNHOsp1RDCBZsvMOtUPzu6MNIZWkKwPUCfM",
+                "actionCode": "OFFENSIVE_SPECIAL",
+                "label": "Red Room Barrage",
+                "description": "Black Widow combina armas de fuego y artes marciales en una ofensiva controlada.",
+                "actorHeroId": "black-widow",
+                "abilityId": "offensive-special",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "opponent",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 30
+                }
+            },
+            {
+                "actionId": "yb1Zw1UJzGQbiAiz5yim4crEmEhQ1hAuXBmqGO8yFFA",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Precision Shot",
+                "description": "Hawkeye clava una flecha justo donde se abre la defensa.",
+                "actorHeroId": "hawkeye",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "ms-marvel",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "SDq_AHSJ9uWqJuumr9oJRrAWKqV179KxA7rbmwF_fb4",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Precision Shot",
+                "description": "Hawkeye clava una flecha justo donde se abre la defensa.",
+                "actorHeroId": "hawkeye",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "jubilee",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "uc_jFX9iFvymRliNxvkOkC8Ax3QIuUgc7i2IdtBEq0s",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Precision Shot",
+                "description": "Hawkeye clava una flecha justo donde se abre la defensa.",
+                "actorHeroId": "hawkeye",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "bishop",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "oUmoJ1G6VmuEuqH3cb3xZ7eahQNpg-JVwtgFjQESwMM",
+                "actionCode": "OFFENSIVE_SPECIAL",
+                "label": "Trick Arrow Volley",
+                "description": "Hawkeye desata una lluvia de flechas especiales.",
+                "actorHeroId": "hawkeye",
+                "abilityId": "offensive-special",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "opponent",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 30
+                }
+            },
+            {
+                "actionId": "18Qnm7OE0yUs9-8lRW4GB67IlCvwLQ2dgJpefJyvW-M",
+                "actionCode": "SUPPORT_SPECIAL",
+                "label": "Covering Arrows",
+                "description": "Hawkeye usa una lluvia de flechas para que el equipo pueda reposicionarse.",
+                "actorHeroId": "hawkeye",
+                "abilityId": "support-special",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "player",
+                    "sideCode": "PLAYER"
+                },
+                "cost": {
+                    "abilityPoints": 25
+                }
+            },
+            {
+                "actionId": "6iuonCkteKZ4p-IfC5qAOi8Wez_nZklH1ZGGHqff57I",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Armored Burst",
+                "description": "Winter Soldier responde con una ráfaga controlada de su rifle.",
+                "actorHeroId": "winter-soldier",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "ms-marvel",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "XcHEBXou4LWVJRRu6T6QZqH8WA8Yz4_0OZx6lHKmSLI",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Armored Burst",
+                "description": "Winter Soldier responde con una ráfaga controlada de su rifle.",
+                "actorHeroId": "winter-soldier",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "jubilee",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "Mhxf_1u_47h02WutFW-PQ88G5Zaxywxh-jEzsfRSZwE",
+                "actionCode": "BASIC_ATTACK",
+                "label": "Armored Burst",
+                "description": "Winter Soldier responde con una ráfaga controlada de su rifle.",
+                "actorHeroId": "winter-soldier",
+                "abilityId": "basic-attack",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "bishop",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "4ftj1gKhjxbrVqds9tLvN-TmHWY4QEUGu2-Kr6qo72E",
+                "actionCode": "OFFENSIVE_SPECIAL",
+                "label": "Precision Suppression",
+                "description": "Winter Soldier combina el fuego de su rifle y el brazo metálico en una ofensiva disciplinada.",
+                "actorHeroId": "winter-soldier",
+                "abilityId": "offensive-special",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "opponent",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 30
+                }
+            },
+            {
+                "actionId": "DnuAtrOEDOC56yjAMYnO-1Lf1OpcTXlevHHjpXcoQoQ",
+                "actionCode": "SUPPORT_SPECIAL",
+                "label": "Tactical Advance",
+                "description": "Winter Soldier usa cobertura y movimiento para mejorar la posición del equipo.",
+                "actorHeroId": "winter-soldier",
+                "abilityId": "support-special",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "player",
+                    "sideCode": "PLAYER"
+                },
+                "cost": {
+                    "abilityPoints": 25
+                }
+            },
+            {
+                "actionId": "Q82NH1-Rkqe5RuCy-G4mBqNuSg9-ViuAx4KYHxb5j8k",
+                "actionCode": "LEADER_ABILITY",
+                "label": "Covert Coordination",
+                "description": "Black Widow convierte la preparación y la inteligencia en un plan de equipo implacable.",
+                "actorHeroId": "black-widow",
+                "abilityId": "leader-ability",
+                "target": {
+                    "targetType": "TEAM",
+                    "targetId": "player",
+                    "sideCode": "PLAYER"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "mpLDiIJmjvbVX0kEmoNbF6TrXXRxWEAE89E88tNnsbM",
+                "actionCode": "TEAM_ACTION",
+                "label": "Acción de equipo",
+                "description": "El Equipo puede usar Acción de Equipo contra un objetivo legal.",
+                "roleCombination": "AGILE+TECH",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "ms-marvel",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "OkDQ53j4yVOxxQYYDlgOuK1ftw2GkTCD2ijH94KVtnc",
+                "actionCode": "TEAM_ACTION",
+                "label": "Acción de equipo",
+                "description": "El Equipo puede usar Acción de Equipo contra un objetivo legal.",
+                "roleCombination": "AGILE+TECH",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "jubilee",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "oI9oAoWpO5g_hOLtlPm9pa6Yd8oFPwTO-YGNCGXD8lA",
+                "actionCode": "TEAM_ACTION",
+                "label": "Acción de equipo",
+                "description": "El Equipo puede usar Acción de Equipo contra un objetivo legal.",
+                "roleCombination": "AGILE+TECH",
+                "target": {
+                    "targetType": "HERO",
+                    "targetId": "bishop",
+                    "sideCode": "OPPONENT"
+                },
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "kWa8e7rRAxf1fFkTb8ia6-BMpizI5HZ9E47-soLlsuE",
+                "actionCode": "CHANGE_STRATEGY",
+                "label": "Cambiar estrategia",
+                "description": "Cambia la Estrategia a Agresiva.",
+                "strategyCode": "AGGRESSIVE",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "BbrxGxj-j0eKVnD-uSxg8WegwNpz6VbtrA4-lQa7UQw",
+                "actionCode": "CHANGE_STRATEGY",
+                "label": "Cambiar estrategia",
+                "description": "Cambia la Estrategia a Defensiva.",
+                "strategyCode": "DEFENSIVE",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "XbYxDgw9UDda7t32H0TBgVLUBRhiX67ire5qDVvymoY",
+                "actionCode": "CHANGE_STRATEGY",
+                "label": "Cambiar estrategia",
+                "description": "Cambia la Estrategia a Pragmática.",
+                "strategyCode": "PRAGMATIC",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "gB59RASIgkZJi_f3AQh_gaJTB8v6kOFgYALY8Mb5-8A",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Black Widow por Captain America.",
+                "outgoingHeroId": "black-widow",
+                "incomingHeroId": "captain-america",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "HL_WFMMUDoS4culIiTAyK5hziRz7R7KWqYZJRSpAnow",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Hawkeye por Captain America.",
+                "outgoingHeroId": "hawkeye",
+                "incomingHeroId": "captain-america",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "3fcWbuq4MScqVL8EpfKEjNXiAKXuZXfcaWr_PDmcOUg",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Winter Soldier por Captain America.",
+                "outgoingHeroId": "winter-soldier",
+                "incomingHeroId": "captain-america",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "9aEkuWQDZZmDAqq0g8K_YwVO4i1L8SflofpOUmfOCAk",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Black Widow por Falcon.",
+                "outgoingHeroId": "black-widow",
+                "incomingHeroId": "falcon",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "ymUsoj-PUpWIwFmZ7VBASpt2ppaFWX5JG8OjDfiVDhU",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Hawkeye por Falcon.",
+                "outgoingHeroId": "hawkeye",
+                "incomingHeroId": "falcon",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "SR7JvoxD5OaFqWKhdL_w3fCOojw6PVepebYomy2HL_E",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Winter Soldier por Falcon.",
+                "outgoingHeroId": "winter-soldier",
+                "incomingHeroId": "falcon",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "rdUT-m9V-TQqUFgcSHaVp_OAE3Zfwu3E7CAs3cVnbAU",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Black Widow por Spider-Woman.",
+                "outgoingHeroId": "black-widow",
+                "incomingHeroId": "spider-woman",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "ooHvxpLxYfFI5bgxbcHFBKN_txyWARZcVK7Z642WPAY",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Hawkeye por Spider-Woman.",
+                "outgoingHeroId": "hawkeye",
+                "incomingHeroId": "spider-woman",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            },
+            {
+                "actionId": "RMtKMIzx-5QqiHVzrOx5hVmlM4DN6cpHqHqJL1cdnCs",
+                "actionCode": "SWAP",
+                "label": "Cambiar héroes",
+                "description": "Cambia a Winter Soldier por Spider-Woman.",
+                "outgoingHeroId": "winter-soldier",
+                "incomingHeroId": "spider-woman",
+                "target": null,
+                "cost": {
+                    "abilityPoints": 0
+                }
+            }
+        ]
+    }
+}

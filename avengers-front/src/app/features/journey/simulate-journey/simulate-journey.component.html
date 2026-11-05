@@ -1,0 +1,118 @@
+<main class="simulate-page">
+  <header class="page-heading">
+    <span class="caption-box">{{ i18nService.t('r4.caption') }}</span>
+    <h1 class="page-title">{{ i18nService.t('r4.title') }}</h1>
+    <p class="page-subtitle">{{ i18nService.t('r4.subtitle') }}</p>
+  </header>
+
+  <app-loading-state
+    *ngIf="pageState.status === 'loading'"
+    [message]="i18nService.t('loading')"
+  ></app-loading-state>
+  <app-error-state
+    *ngIf="pageState.status === 'error'"
+    [message]="pageState.error ?? i18nService.t('error')"
+    [messageCode]="pageState.errorCode ?? null"
+  ></app-error-state>
+
+  <ng-container *ngIf="pageState.status === 'data' && pageState.data as data">
+    <section class="functional-panel spending-panel" aria-labelledby="spending-heading">
+      <div class="panel-heading">
+        <h2 id="spending-heading">{{ i18nService.t('r4.strategyTitle') }}</h2>
+        <span class="panel-kicker">{{ i18nService.t('r4.strategyKicker') }}</span>
+      </div>
+      <div
+        class="strategy-options"
+        role="group"
+        [attr.aria-label]="i18nService.t('r4.strategyTitle')"
+      >
+        <button
+          type="button"
+          [class.selected]="pageState.strategy === 'SAVE'"
+          (click)="onSpendingStrategySelect('SAVE')"
+        >
+          <strong>{{ i18nService.t('r4.save') }}</strong>
+          <span>{{ i18nService.t('r4.saveDescription') }}</span>
+        </button>
+        <button
+          type="button"
+          [class.selected]="pageState.strategy === 'BALANCED'"
+          (click)="onSpendingStrategySelect('BALANCED')"
+        >
+          <strong>{{ i18nService.t('r4.balanced') }}</strong>
+          <span>{{ i18nService.t('r4.balancedDescription') }}</span>
+        </button>
+        <button
+          type="button"
+          [class.selected]="pageState.strategy === 'AGGRESSIVE'"
+          (click)="onSpendingStrategySelect('AGGRESSIVE')"
+        >
+          <strong>{{ i18nService.t('r4.aggressive') }}</strong>
+          <span>{{ i18nService.t('r4.aggressiveDescription') }}</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="functional-panel final-panel" aria-labelledby="final-heading">
+      <div class="panel-heading">
+        <div>
+          <h2 id="final-heading">{{ i18nService.t('r4.finalBattle') }}</h2>
+          <p class="panel-subtitle">{{ i18nService.t('r4.finalSubtitle') }}</p>
+        </div>
+        <p *ngIf="pageState.success" class="success-state" role="status">
+          ✓ {{ pageState.success }}
+        </p>
+      </div>
+
+      <div class="versus-layout">
+        <section class="team-side" [attr.aria-label]="i18nService.t('r4.playerTeam')">
+          <h3>{{ data.playerTeam.name }}</h3>
+          <div class="hero-grid">
+            <article class="hero-identity" *ngFor="let hero of data.playerTeam.heroes">
+              <img [src]="portraitPath(hero.id)" [alt]="hero.name" (error)="imageError($event)" />
+              <span>{{ hero.name }}</span>
+              <small *ngIf="hero.leader">{{ i18nService.t('r4.leader') }}</small>
+            </article>
+          </div>
+        </section>
+
+        <div class="versus-mark" aria-hidden="true">VS</div>
+
+        <section class="team-side opponent-side" [attr.aria-label]="i18nService.t('r4.opponent')">
+          <h3>{{ opponentTeam?.name ?? i18nService.t('r4.toBeDetermined') }}</h3>
+          <div class="hero-grid" *ngIf="opponentTeam as opponent; else unknownTeam">
+            <article class="hero-identity" *ngFor="let hero of opponent.heroes">
+              <img [src]="portraitPath(hero.id)" [alt]="hero.name" (error)="imageError($event)" />
+              <span>{{ hero.name }}</span>
+              <small *ngIf="hero.leader">{{ i18nService.t('r4.leader') }}</small>
+            </article>
+          </div>
+          <ng-template #unknownTeam>
+            <div
+              class="hero-grid unknown-grid"
+              [attr.aria-label]="i18nService.t('r4.opponentUnknown')"
+            >
+              <div class="unknown-slot" *ngFor="let slot of [1, 2, 3, 4, 5, 6]" aria-hidden="true">
+                ?
+              </div>
+            </div>
+          </ng-template>
+        </section>
+      </div>
+
+      <div class="journey-actions">
+        <p *ngIf="data.reason" class="warning" role="status">{{ data.reason }}</p>
+        <button
+          class="button primary"
+          type="button"
+          [disabled]="!data.canSimulate || pageState.submitting"
+          (click)="simulateJourney()"
+        >
+          <span aria-hidden="true">▶</span>
+          {{ pageState.submitting ? i18nService.t('r4.simulating') : i18nService.t('r4.simulate') }}
+        </button>
+      </div>
+    </section>
+    <p *ngIf="pageState.error" class="error-state" role="alert">{{ pageState.error }}</p>
+  </ng-container>
+</main>

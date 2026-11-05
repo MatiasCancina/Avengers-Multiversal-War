@@ -1,0 +1,346 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.live-events-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px 20px 14px;
+  overflow: hidden;
+}
+
+.r10-header {
+  flex: 0 0 auto;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a2c3a;
+}
+
+.r10-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.r10-title-row .page-title {
+  margin: 0;
+}
+
+.page-subtitle {
+  margin: 4px 0 0;
+}
+
+.refresh-button {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 5px 10px;
+  font-size: calc(10px * var(--ui-font-scale));
+}
+
+.refresh-button:focus-visible,
+.simulate-link:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 2px;
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.live-events-workspace {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.functional-panel {
+  min-width: 0;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+.battle-panel {
+  flex: 0 0 auto;
+}
+
+.events-panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel-title {
+  flex: 0 0 auto;
+  margin: 0 0 6px;
+}
+
+.battle-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.battle-status div {
+  padding: 6px 8px;
+  border: 1px solid #253648;
+  background: #0d1928;
+}
+
+.battle-status dt,
+.event-facts dt {
+  color: var(--color-muted);
+  font-size: calc(9px * var(--ui-font-scale));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.battle-status dd {
+  margin: 2px 0 0;
+  color: #e1e7ef;
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-size: calc(14px * var(--ui-font-scale));
+  text-transform: uppercase;
+}
+
+.events-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 4px;
+  overflow-y: auto;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event-card {
+  padding: 8px 10px;
+  border: 1px solid #253648;
+  border-left: 3px solid #3b5573;
+  background: linear-gradient(160deg, #0c1828 0%, #070d16 100%);
+}
+
+.event-card[data-event-code='TOURNAMENT_FINAL_STARTED'] {
+  border-left-color: #c0c7d1;
+}
+
+.event-card[data-event-code='ACTION'],
+.event-card[data-event-code='ATTACK_HIT'] {
+  border-left-color: var(--color-action);
+}
+
+.event-card[data-event-code='ATTACK_MISS'],
+.event-card[data-event-code='DAMAGE'] {
+  border-left-color: var(--color-danger);
+}
+
+.event-card[data-event-code='KO'],
+.event-card[data-event-code='DEFEAT'],
+.event-card[data-event-code='EARLY_DEFEAT_SCENE'] {
+  border-left-color: #ff5b5b;
+}
+
+.event-card[data-event-code='HEAL'],
+.event-card[data-event-code='REVIVE'],
+.event-card[data-event-code='VICTORY'] {
+  border-left-color: var(--color-green);
+}
+
+.event-card[data-event-code='AP_CHANGE'] {
+  border-left-color: var(--color-violet);
+}
+
+.event-card[data-event-code='EFFECT'],
+.event-card[data-event-code='CLEANSE'],
+.event-card[data-event-code='FINAL_RESPONSE'] {
+  border-left-color: #49c5b6;
+}
+
+.event-card[data-event-code='EFFECT_EXPIRED'],
+.event-card[data-event-code='RIVALRY'] {
+  border-left-color: #a78bfa;
+}
+
+.event-card[data-event-code='SWAP'],
+.event-card[data-event-code='FORMATION_RESTORED'],
+.event-card[data-event-code='STRATEGY_CHANGE'] {
+  border-left-color: #4ca3d9;
+}
+
+.event-card[data-event-code='POWER_UP'],
+.event-card[data-event-code='FINAL_ATTACK'] {
+  border-left-color: var(--color-gold);
+}
+
+.event-card[data-event-code='PLAYER_REJECTION'],
+.event-card[data-event-code='OPPONENT_ALLIANCE'],
+.event-card[data-event-code='INITIALIZED'],
+.event-card[data-event-code='EARLY_DEFEAT_REVEAL'] {
+  border-left-color: #6a8dad;
+}
+
+.event-card[data-event-code='SURFER_ENOUGH'] {
+  border-left-color: #c0c7d1;
+}
+
+.event-card[data-event-code='DOOM_REVEALED'],
+.event-card[data-event-code='DOOM_EXPLANATION'],
+.event-card[data-event-code='DOOMSDAY_BEGINS'],
+.event-card[data-event-code='DOOM_INTERVENTION'],
+.event-card[data-event-code='DOOM_THREAT'],
+.event-card[data-event-code='DOOM_ALONE'] {
+  border-left-color: #39724b;
+}
+
+.event-card[data-event-code='SUE_STORM_APPEAL'] {
+  border-left-color: #f08cc4;
+}
+
+.event-card[data-event-code='PRE_REVEAL_ABANDON'],
+.event-card[data-event-code='POST_REVEAL_ABANDON'],
+.event-card[data-event-code='ABANDON'] {
+  border-left-color: var(--color-muted);
+}
+
+.event-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.event-sequence {
+  color: var(--color-muted);
+  font-size: calc(10px * var(--ui-font-scale));
+}
+
+.event-turn {
+  color: var(--color-gold);
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-size: calc(10px * var(--ui-font-scale));
+  letter-spacing: 0.2em;
+}
+
+.event-type {
+  color: #e1e7ef;
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-size: calc(12px * var(--ui-font-scale));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.event-narrative {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.narrative-line {
+  margin: 0;
+  color: #c5cfdd;
+  font-size: calc(12px * var(--ui-font-scale));
+  line-height: 1.45;
+}
+
+.narrative-dialogue {
+  padding-left: 8px;
+  border-left: 2px solid var(--color-violet);
+  color: #e1e7ef;
+}
+
+.speaker {
+  margin-right: 6px;
+  color: #bca5ff;
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-size: calc(10px * var(--ui-font-scale));
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.event-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid #1a2c3a;
+}
+
+.event-facts div {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.event-facts dd {
+  margin: 0;
+  color: #d5dfec;
+  font-size: calc(11px * var(--ui-font-scale));
+}
+
+.unavailable-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px;
+  border: 1px dashed #33465e;
+}
+
+.unavailable-state h3 {
+  margin: 0;
+  color: var(--color-action);
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-size: calc(12px * var(--ui-font-scale));
+  font-weight: 400;
+  letter-spacing: 0.16em;
+}
+
+.unavailable-state p {
+  margin: 0;
+  color: #aeb8c7;
+}
+
+.simulate-link {
+  color: var(--color-action);
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .live-events-page {
+    height: auto;
+    min-height: 100vh;
+    padding-right: 12px;
+    padding-left: 12px;
+    overflow: visible;
+  }
+
+  .live-events-workspace,
+  .events-scroll {
+    overflow: visible;
+  }
+}

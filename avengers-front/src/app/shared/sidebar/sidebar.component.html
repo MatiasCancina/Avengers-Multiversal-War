@@ -1,0 +1,62 @@
+<aside class="sidebar-shell">
+  <app-header></app-header>
+  <nav
+    class="player-navigation"
+    [attr.aria-label]="i18n.text('Player navigation', 'Navegación del jugador')"
+  >
+    <section class="nav-group">
+      <h2>{{ i18n.t('teamArea') }}</h2>
+      <a routerLink="/my-team/heroes" routerLinkActive="active">
+        <span aria-hidden="true">🦸</span>{{ i18n.t('heroRoster') }}
+      </a>
+      <a routerLink="/my-team/history-rivals" routerLinkActive="active">
+        <span aria-hidden="true">⚔</span>{{ i18n.t('historyRivals') }}
+      </a>
+      <a routerLink="/my-team/configuration" routerLinkActive="active">
+        <span aria-hidden="true">⚙</span>{{ i18n.t('teamConfig') }}
+      </a>
+    </section>
+
+    <section class="nav-group">
+      <h2>{{ i18n.t('journeyArea') }}</h2>
+      <a routerLink="/journey/simulate" routerLinkActive="active">
+        <span aria-hidden="true">▶</span>{{ i18n.t('simulateJourney') }}
+      </a>
+      <a routerLink="/journey/group-stage" routerLinkActive="active">
+        <span aria-hidden="true">🏟</span>{{ i18n.t('groupStage') }}
+      </a>
+      <a routerLink="/journey/knockout-stage" routerLinkActive="active">
+        <span aria-hidden="true">🏆</span>{{ i18n.t('knockoutStage') }}
+      </a>
+      <a routerLink="/journey/team" routerLinkActive="active">
+        <span aria-hidden="true">🧭</span>{{ i18n.t('teamJourney') }}
+      </a>
+    </section>
+
+    <section class="nav-group">
+      <h2>{{ i18n.t('finalBattleArea') }}</h2>
+      <a routerLink="/final-stage/preparation" routerLinkActive="active">
+        <span aria-hidden="true">🛡</span>{{ i18n.t('finalPreparationStore') }}
+      </a>
+      <a routerLink="/final-stage/play" routerLinkActive="active">
+        <span aria-hidden="true">💥</span>{{ i18n.t('playFinalStage') }}
+      </a>
+      <a routerLink="/final-stage/events" routerLinkActive="active">
+        <span aria-hidden="true">⚡</span>{{ i18n.t('liveEvents') }}
+      </a>
+      <a routerLink="/final-stage/status" routerLinkActive="active">
+        <span aria-hidden="true">📊</span>{{ i18n.t('battleStatus') }}
+      </a>
+    </section>
+
+    <section class="nav-group">
+      <h2>{{ i18n.t('resultsArea') }}</h2>
+      <a routerLink="/results/awards" routerLinkActive="active">
+        <span aria-hidden="true">🏅</span>{{ i18n.t('awards') }}
+      </a>
+      <a routerLink="/results/history" routerLinkActive="active">
+        <span aria-hidden="true">📜</span>{{ i18n.t('history') }}
+      </a>
+    </section>
+  </nav>
+</aside>

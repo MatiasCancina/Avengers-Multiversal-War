@@ -1,0 +1,435 @@
+[
+    // status COMPLETED de final, turnState COMPLETED y completion con outcomeCode ABANDON y terminalReasonCode PLAYER_ABANDONED
+    // GET game/teams/black-widow/journeys/current/final-stage
+    {
+        "serverTime": "2026-10-01T23:08:45.217Z",
+        "success": true,
+        "responseMessage": {
+            "messageCode": "0000",
+            "message": "OK"
+        },
+        "data": {
+            "variant": "COMPLETED",
+            "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
+            "status": "COMPLETED",
+            "phase": "COMPLETED",
+            "phaseLabel": "Completed",
+            "normalTurn": 1,
+            "turnState": "COMPLETED",
+            "participants": {
+                "playerTeamId": "black-widow",
+                "opponentTeamId": "generated-17"
+            },
+            "completion": {
+                "outcomeCode": "ABANDON",
+                "endingCode": "PRE_REVEAL_ABANDON",
+                "terminalReasonCode": "PLAYER_ABANDONED",
+                "endingEventSequences": [
+                    12
+                ]
+            }
+        }
+    },
+    
+    // event con contenido (Black Widow usa Widow's Bite, Reed Richards recibe daño, Invisible Woman usa Forceful Palm, Hawkeye recibe daño y el jugador abandona la final)
+    // GET game/teams/black-widow/journeys/current/final-stage/events 
+    {
+        "serverTime": "2026-10-01T23:10:32.225Z",
+        "success": true,
+        "responseMessage": {
+            "messageCode": "0000",
+            "message": "OK"
+        },
+        "data": {
+            "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
+            "language": "en",
+            "events": [
+                {
+                    "sequence": 1,
+                    "turn": 0,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "TOURNAMENT_FINAL_STARTED",
+                    "messageCode": "finalStage.opening.silverSurfer",
+                    "values": {
+                        "actorIdentityId": "silver-surfer",
+                        "playerTeamId": "black-widow",
+                        "opponentTeamId": "generated-17"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "silver-surfer",
+                                "text": "Thirty-two teams answered the call. Only two remain. Fight with everything you have. The multiverse may depend on the team that stands victorious.",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 2,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "ACTION",
+                    "messageCode": "finalStage.combat.action",
+                    "values": {
+                        "actorHeroId": "black-widow",
+                        "targetSideCode": "PLAYER",
+                        "actionName": "Widow's Bite",
+                        "actionCode": "BASIC_ATTACK"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Black Widow drives Widow's Bite through the opposing guard!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 3,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "ATTACK_HIT",
+                    "messageCode": "finalStage.combat.attackHit",
+                    "values": {
+                        "actorHeroId": "black-widow",
+                        "targetHeroIds": [
+                            "reed-richards"
+                        ],
+                        "targetId": "reed-richards",
+                        "targetSideCode": "OPPONENT"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Black Widow breaks through Reed Richards / Mister Fantastic’s guard!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 4,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "DAMAGE",
+                    "messageCode": "finalStage.combat.damage",
+                    "values": {
+                        "actorHeroId": "black-widow",
+                        "targetHeroIds": [
+                            "reed-richards"
+                        ],
+                        "targetId": "reed-richards",
+                        "targetSideCode": "OPPONENT",
+                        "amount": 44,
+                        "damage": 44,
+                        "energy": 221
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Reed Richards / Mister Fantastic absorbs the blow as the battlefield shakes!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 5,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "AP_CHANGE",
+                    "messageCode": "finalStage.combat.apChange",
+                    "values": {
+                        "actorHeroId": "black-widow",
+                        "targetHeroIds": [
+                            "black-widow"
+                        ],
+                        "targetId": "black-widow",
+                        "targetSideCode": "PLAYER",
+                        "apChange": 0,
+                        "abilityPoints": 123
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Power surges through Black Widow; AP now stands at 123.",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 6,
+                    "turn": 0,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "STRATEGY_CHANGE",
+                    "messageCode": "finalStage.combat.strategyChange",
+                    "values": {
+                        "actorSideCode": "OPPONENT",
+                        "targetSideCode": "OPPONENT",
+                        "strategyCode": "PRAGMATIC"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Opponent Team changes course to PRAGMATIC; resolve takes a new shape!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 7,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "ACTION",
+                    "messageCode": "finalStage.combat.action",
+                    "values": {
+                        "actorHeroId": "invisible-woman",
+                        "targetSideCode": "OPPONENT",
+                        "actionName": "Forceful Palm",
+                        "actionCode": "BASIC_ATTACK"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Invisible Woman drives Forceful Palm through the opposing guard!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 8,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "ATTACK_HIT",
+                    "messageCode": "finalStage.combat.attackHit",
+                    "values": {
+                        "actorHeroId": "invisible-woman",
+                        "targetHeroIds": [
+                            "hawkeye"
+                        ],
+                        "targetId": "hawkeye",
+                        "targetSideCode": "PLAYER"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Invisible Woman breaks through Hawkeye’s guard!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 9,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "DAMAGE",
+                    "messageCode": "finalStage.combat.damage",
+                    "values": {
+                        "actorHeroId": "invisible-woman",
+                        "targetHeroIds": [
+                            "hawkeye"
+                        ],
+                        "targetId": "hawkeye",
+                        "targetSideCode": "PLAYER",
+                        "amount": 5,
+                        "damage": 5,
+                        "energy": 211
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Hawkeye absorbs the blow as the battlefield shakes!",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 10,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "AP_CHANGE",
+                    "messageCode": "finalStage.combat.apChange",
+                    "values": {
+                        "actorHeroId": "invisible-woman",
+                        "targetHeroIds": [
+                            "invisible-woman"
+                        ],
+                        "targetId": "invisible-woman",
+                        "targetSideCode": "OPPONENT",
+                        "apChange": 0,
+                        "abilityPoints": 102
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Power surges through Invisible Woman; AP now stands at 102.",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 11,
+                    "turn": 1,
+                    "phase": "TOURNAMENT_FINAL",
+                    "eventCode": "PRE_REVEAL_ABANDON",
+                    "messageCode": "finalStage.ending.preRevealAbandon",
+                    "values": {
+                        "actorHeroId": "black-widow",
+                        "targetSideCode": "PLAYER"
+                    },
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "The Player Team lowers its weapons.",
+                                "lineSequence": 1
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "silver-surfer",
+                                "text": "Is that all? After everything you sacrificed to come this far?",
+                                "lineSequence": 2
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "black-widow",
+                                "text": "There will be no more battle. It's over.",
+                                "lineSequence": 3
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Silver Surfer remains still. For the first time, he smiles.",
+                                "lineSequence": 4
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "silver-surfer",
+                                "text": "Yes. For you.",
+                                "lineSequence": 5
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "The silver light fades. Green and steel armor emerges.",
+                                "lineSequence": 6
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "doctor-doom",
+                                "text": "You came farther than entire worlds... and chose to walk away when the moment came to decide their fate.",
+                                "lineSequence": 7
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "black-widow",
+                                "text": "Doom...",
+                                "lineSequence": 8
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "doctor-doom",
+                                "text": "Go. History has little use for those who abandon it.",
+                                "lineSequence": 9
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "Doom raises one hand. A green glow surrounds the Player Team.",
+                                "lineSequence": 10
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "black-widow",
+                                "text": "What are you doing?",
+                                "lineSequence": 11
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "The heroes try to resist, but Doom's energy closes around them. Their bodies begin to fade in green light.",
+                                "lineSequence": 12
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "black-widow",
+                                "text": "Doom...!",
+                                "lineSequence": 13
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "One by one, they disappear, never learning what will happen to those left behind.",
+                                "lineSequence": 14
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "The last image they see is Doom standing before the gathered realities.",
+                                "lineSequence": 15
+                            },
+                            {
+                                "type": "DIALOGUE",
+                                "speakerId": "doctor-doom",
+                                "text": "The multiverse will continue. It simply will do so without you.",
+                                "lineSequence": 16
+                            },
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "THE BATTLE CONTINUES WITHOUT YOU.",
+                                "lineSequence": 17
+                            }
+                        ]
+                    }
+                },
+                {
+                    "sequence": 12,
+                    "turn": 1,
+                    "phase": "COMPLETED",
+                    "eventCode": "ABANDON",
+                    "messageCode": "finalStage.combat.abandon",
+                    "values": {},
+                    "narrative": {
+                        "lines": [
+                            {
+                                "type": "NARRATION",
+                                "speakerId": null,
+                                "text": "THE BATTLE CONTINUES WITHOUT YOU.",
+                                "lineSequence": 1
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.brand-panel {
+  padding: 15px 12px 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.brand-mark {
+  color: var(--color-action);
+  font-size: 19px;
+}
+
+.brand-link strong,
+.brand-link small {
+  display: block;
+  font-family: Impact, 'Arial Narrow', sans-serif;
+  font-weight: 400;
+  letter-spacing: 1.4px;
+}
+
+.brand-link strong {
+  color: var(--color-action);
+  font-size: calc(14px * var(--ui-font-scale));
+}
+
+.brand-link small {
+  margin-top: 2px;
+  color: #abb7c6;
+  font-size: calc(10px * var(--ui-font-scale));
+}
+
+.context-identity {
+  margin: 12px 0 0;
+  color: #d4dbe4;
+  font-size: calc(10px * var(--ui-font-scale));
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.context-identity small {
+  display: block;
+  margin-top: 3px;
+  color: var(--color-muted);
+  font-size: calc(9px * var(--ui-font-scale));
+}

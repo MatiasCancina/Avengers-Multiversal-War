@@ -1,0 +1,92 @@
+<main class="knockout-page">
+  <header class="page-heading">
+    <span class="caption-box">{{ translate('r6.caption', pageState.lang) }}</span>
+    <h1 class="page-title">{{ translate('r6.title', pageState.lang) }}</h1>
+    <p class="page-subtitle">{{ translate('r6.subtitle', pageState.lang) }}</p>
+  </header>
+
+  <app-loading-state
+    *ngIf="pageState.status === 'loading'"
+    [message]="translate('loading', pageState.lang)"
+  ></app-loading-state>
+  <app-error-state
+    *ngIf="pageState.status === 'error'"
+    [message]="pageState.error ?? translate('error', pageState.lang)"
+    [messageCode]="pageState.errorCode ?? null"
+  ></app-error-state>
+
+  <section class="state-card empty-card" *ngIf="pageState.status === 'empty'">
+    <h2 class="panel-title">{{ translate('r6.noJourney', pageState.lang) }}</h2>
+    <p>{{ translate('r6.noJourneyCopy', pageState.lang) }}</p>
+    <a class="button" routerLink="/journey/simulate">
+      {{ translate('r6.simulateLink', pageState.lang) }}
+    </a>
+  </section>
+
+  <section
+    class="functional-panel bracket-panel"
+    *ngIf="pageState.status === 'data' && pageState.data as data"
+    aria-labelledby="knockout-stages-heading"
+  >
+    <h2 class="sr-only" id="knockout-stages-heading">
+      {{ translate('r6.stages', pageState.lang) }}
+    </h2>
+    <ol class="rounds">
+      <li class="round" *ngFor="let round of data.rounds; trackBy: trackRound">
+        <h2 class="panel-title">{{ stageLabel(round.stageCode) }}</h2>
+        <ol class="matches">
+          <li *ngFor="let match of round.matches; trackBy: trackMatch">
+            <article
+              class="match"
+              [class.player-match]="match.involvesPlayer"
+              [class.pending]="match.pending"
+            >
+              <div class="team" [class.winner]="isWinner(match, match.teamA)">
+                <p class="team-name">
+                  {{ match.teamA.name }}
+                  <small *ngIf="match.teamA.damageDealt !== null">{{ match.teamA.damageDealt }}</small>
+                  <span class="tag" *ngIf="isPlayer(match.teamA.teamId)">
+                    {{ translate('r6.yourTeam', pageState.lang) }}
+                  </span>
+                  <span class="tag" *ngIf="isWinner(match, match.teamA)">
+                    {{ translate('r6.winner', pageState.lang) }}
+                  </span>
+                </p>
+              </div>
+              <div class="team" [class.winner]="isWinner(match, match.teamB)">
+                <p class="team-name">
+                  {{ match.teamB.name }}
+                  <small *ngIf="match.teamB.damageDealt !== null">{{ match.teamB.damageDealt }}</small>
+                  <span class="tag" *ngIf="isPlayer(match.teamB.teamId)">
+                    {{ translate('r6.yourTeam', pageState.lang) }}
+                  </span>
+                  <span class="tag" *ngIf="isWinner(match, match.teamB)">
+                    {{ translate('r6.winner', pageState.lang) }}
+                  </span>
+                </p>
+              </div>
+              <span class="tag" *ngIf="match.pending">
+                {{ translate('r6.pending', pageState.lang) }}
+              </span>
+            </article>
+          </li>
+        </ol>
+      </li>
+      <li class="round final-round">
+        <h2 class="panel-title">{{ translate('r6.final', pageState.lang) }}</h2>
+        <article class="match player-match final-match">
+          <div class="team">
+            <p class="team-name">
+              {{ teamName(data.finalists.playerTeamId) }}
+              <span class="tag">{{ translate('r6.yourTeam', pageState.lang) }}</span>
+            </p>
+          </div>
+          <div class="team">
+            <p class="team-name">{{ teamName(data.finalists.opponentTeamId) }}</p>
+          </div>
+          <p class="final-note">{{ translate('r6.finalPending', pageState.lang) }}</p>
+        </article>
+      </li>
+    </ol>
+  </section>
+</main>

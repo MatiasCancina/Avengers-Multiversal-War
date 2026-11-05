@@ -1,0 +1,24 @@
+.narrative {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.narrative p {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--team-primary);
+}
+
+.narrative .dialogue {
+  background: color-mix(in srgb, var(--surface-paper) 86%, var(--team-primary));
+}
+
+.narrative .narration {
+  font-style: italic;
+}
+
+.speaker {
+  display: block;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}

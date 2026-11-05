@@ -1,0 +1,111 @@
+<main class="live-events-page">
+  <header class="r10-header">
+    <span class="caption-box">{{ translate('r10.caption', pageState.lang) }}</span>
+    <div class="r10-title-row">
+      <h1 class="page-title">{{ translate('r10.title', pageState.lang) }}</h1>
+      <button type="button" class="button button-secondary refresh-button" [disabled]="pageState.status === 'loading'"
+        (click)="refresh()">
+        {{ translate('r10.refresh', pageState.lang) }}
+      </button>
+    </div>
+    <p class="page-subtitle">{{ translate('r10.subtitle', pageState.lang) }}</p>
+  </header>
+
+  <div class="live-events-workspace">
+    <ng-container *ngIf="pageState.status === 'data' || pageState.status === 'empty'">
+      <section class="functional-panel battle-panel" *ngIf="pageState.data as live"
+        aria-labelledby="battle-status-heading">
+        <h2 class="panel-title" id="battle-status-heading">
+          {{ translate('r10.battleStatus', pageState.lang) }}
+        </h2>
+        <dl class="battle-status">
+          <div>
+            <dt>{{ translate('r10.state', pageState.lang) }}</dt>
+            <dd>{{ statusLabel(live.battle.status) }}</dd>
+          </div>
+          <div>
+            <dt>{{ translate('r10.phase', pageState.lang) }}</dt>
+            <dd>{{ live.battle.phaseLabel }}</dd>
+          </div>
+          <div>
+            <dt>{{ translate('r10.currentTurn', pageState.lang) }}</dt>
+            <dd>{{ live.battle.normalTurn }}</dd>
+          </div>
+          <div *ngIf="live.battle.outcomeCode">
+            <dt>{{ translate('r10.result', pageState.lang) }}</dt>
+            <dd>{{ outcomeLabel(live.battle.outcomeCode) }}</dd>
+          </div>
+        </dl>
+      </section>
+    </ng-container>
+
+    <section class="functional-panel events-panel" aria-labelledby="events-heading"
+      [attr.aria-busy]="pageState.status === 'loading'">
+      <h2 class="panel-title" id="events-heading">{{ translate('r10.events', pageState.lang) }}</h2>
+
+      <div class="events-scroll">
+        <app-loading-state *ngIf="pageState.status === 'loading'"
+          [message]="translate('r10.loading', pageState.lang)"></app-loading-state>
+
+        <app-error-state *ngIf="pageState.status === 'error'"
+          [message]="pageState.error ?? translate('error', pageState.lang)"
+          [messageCode]="pageState.errorCode ?? null"></app-error-state>
+
+        <div class="unavailable-state" *ngIf="pageState.status === 'unavailable'" role="status">
+          <h3>{{ translate('r10.noBattle', pageState.lang) }}</h3>
+          <p>{{ translate('r10.noBattleCopy', pageState.lang) }}</p>
+          <a class="simulate-link" [routerLink]="simulateJourneyPath">
+            {{ translate('r10.simulateLink', pageState.lang) }}
+          </a>
+        </div>
+
+        <app-empty-state *ngIf="pageState.status === 'empty'" [message]="emptyMessage()"></app-empty-state>
+
+        <ng-container *ngIf="pageState.status === 'data' && pageState.data as live">
+          <ol class="event-list">
+            <li *ngFor="let event of live.events; trackBy: trackEvent">
+              <article class="event-card" [attr.data-event-code]="event.eventCode">
+                <h3 class="event-title">
+                  <span class="event-sequence">#{{ event.sequence }}</span>
+                  <span class="event-turn">
+                    {{ translate('r10.turn', pageState.lang, { turn: event.turn }) }}
+                  </span>
+                  <span class="event-type">{{ eventLabel(event.eventCode) }}</span>
+                </h3>
+
+                <div class="event-narrative">
+                  <p class="narrative-line" *ngFor="let line of event.lines; trackBy: trackLine"
+                    [class.narrative-dialogue]="line.type === 'DIALOGUE'">
+                    <strong class="speaker" *ngIf="line.type === 'DIALOGUE' && line.speakerName">
+                      {{ line.speakerName }}
+                    </strong>
+                    <span>{{ line.text }}</span>
+                  </p>
+                </div>
+
+                <dl class="event-facts" *ngIf="hasFacts(event)">
+                  <div *ngIf="event.actorHeroName">
+                    <dt>{{ translate('r10.actor', pageState.lang) }}</dt>
+                    <dd>{{ event.actorHeroName }}</dd>
+                  </div>
+                  <div *ngIf="event.targetHeroNames?.length">
+                    <dt>{{ translate('r10.target', pageState.lang) }}</dt>
+                    <dd>{{ event.targetHeroNames?.join(', ') }}</dd>
+                  </div>
+                  <div *ngIf="event.damage !== undefined">
+                    <dt>{{ translate('r10.damage', pageState.lang) }}</dt>
+                    <dd>{{ event.damage }}</dd>
+                  </div>
+                  <div *ngIf="hasApChange(event)">
+                    <dt>{{ translate('r10.apChange', pageState.lang) }}</dt>
+                    <dd>{{ event.apChange }}</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
+          </ol>
+        </ng-container>
+      </div>
+    </section>
+  </div>
+</main>

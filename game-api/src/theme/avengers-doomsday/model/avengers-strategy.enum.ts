@@ -1,0 +1,6 @@
+export enum AvengersStrategy {
+  AGGRESSIVE = 'AGGRESSIVE',
+  DEFENSIVE = 'DEFENSIVE',
+  BALANCED = 'BALANCED',
+  PRAGMATIC = 'PRAGMATIC',
+}

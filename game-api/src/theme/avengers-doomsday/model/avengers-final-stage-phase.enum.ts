@@ -1,0 +1,6 @@
+export enum AvengersFinalStagePhase {
+  TOURNAMENT_FINAL = 'TOURNAMENT_FINAL',
+  DOOMSDAY = 'DOOMSDAY',
+  FINAL_ATTACK = 'FINAL_ATTACK',
+  COMPLETED = 'COMPLETED',
+}

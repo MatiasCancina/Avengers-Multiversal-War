@@ -1,0 +1,402 @@
+<main class="roster-page">
+  <header class="r1-header">
+    <span class="caption-box">{{ translate('heroRoster.caption', pageState.lang) }}</span>
+    <div class="r1-title-row">
+      <h1 class="page-title">{{ translate('heroRoster.title', pageState.lang) }}</h1>
+      <span class="hero-count" *ngIf="pageState.data as roster">
+        {{
+          roster.visibleHeroes === roster.totalHeroes
+            ? translate('heroRoster.heroCount', pageState.lang, { count: roster.totalHeroes })
+            : translate('heroRoster.resultCount', pageState.lang, {
+                visible: roster.visibleHeroes,
+                total: roster.totalHeroes,
+              })
+        }}
+      </span>
+    </div>
+    <p class="page-subtitle">{{ translate('heroRoster.subtitle', pageState.lang) }}</p>
+  </header>
+
+  <div class="roster-workspace">
+    <section class="functional-panel roster-panel" aria-labelledby="all-heroes-heading">
+      <div class="panel-heading-row">
+        <h2 class="panel-title" id="all-heroes-heading">
+          {{ translate('heroRoster.allHeroes', pageState.lang) }}
+        </h2>
+        <span class="result-count" aria-live="polite" *ngIf="pageState.data as roster">
+          {{
+            roster.visibleHeroes === roster.totalHeroes
+              ? translate('heroRoster.heroCount', pageState.lang, { count: roster.totalHeroes })
+              : translate('heroRoster.resultCount', pageState.lang, {
+                  visible: roster.visibleHeroes,
+                  total: roster.totalHeroes,
+                })
+          }}
+        </span>
+      </div>
+
+      <form
+        class="roster-tools"
+        aria-labelledby="all-heroes-heading"
+        (ngSubmit)="$event.preventDefault()"
+      >
+        <label class="search-field">
+          <span>{{ translate('heroRoster.searchLabel', pageState.lang) }}</span>
+          <input
+            type="search"
+            name="searchTerm"
+            [ngModel]="pageState.searchTerm"
+            (ngModelChange)="onSearchTermChange($event)"
+            [placeholder]="translate('heroRoster.searchPlaceholder', pageState.lang)"
+          />
+        </label>
+        <div
+          class="role-filters"
+          role="group"
+          [attr.aria-label]="translate('heroRoster.filterByRole', pageState.lang)"
+        >
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.ALL"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.ALL"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.ALL)"
+          >
+            {{ translate('heroRoster.role.all', pageState.lang) }}
+          </button>
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.AGILE"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.AGILE"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.AGILE)"
+          >
+            {{ translate('heroRoster.role.agile', pageState.lang) }}
+          </button>
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.WARRIOR"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.WARRIOR"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.WARRIOR)"
+          >
+            {{ translate('heroRoster.role.warrior', pageState.lang) }}
+          </button>
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.MYSTIC"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.MYSTIC"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.MYSTIC)"
+          >
+            {{ translate('heroRoster.role.mystic', pageState.lang) }}
+          </button>
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.TECH"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.TECH"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.TECH)"
+          >
+            {{ translate('heroRoster.role.tech', pageState.lang) }}
+          </button>
+          <button
+            type="button"
+            class="filter-button"
+            [class.active]="pageState.roleFilter === heroRosterRoleEnum.SUPPORT"
+            [attr.aria-pressed]="pageState.roleFilter === heroRosterRoleEnum.SUPPORT"
+            (click)="onRoleFilterChange(heroRosterRoleEnum.SUPPORT)"
+          >
+            {{ translate('heroRoster.role.support', pageState.lang) }}
+          </button>
+        </div>
+      </form>
+
+      <div class="roster-scroll">
+        <div class="portrait-grid" *ngIf="pageState.status === 'data'">
+          <ng-container *ngIf="pageState.data as roster">
+            <button
+              *ngFor="let hero of roster.heroes; trackBy: trackHero"
+              type="button"
+              class="portrait-cell"
+              [class.selected-first]="
+                pageState.comparisonHeroes.length > 0 &&
+                pageState.comparisonHeroes[0].id === hero.id
+              "
+              [class.selected-second]="
+                pageState.comparisonHeroes.length > 1 &&
+                pageState.comparisonHeroes[1].id === hero.id
+              "
+              [attr.aria-pressed]="
+                (pageState.comparisonHeroes.length > 0 &&
+                  pageState.comparisonHeroes[0].id === hero.id) ||
+                (pageState.comparisonHeroes.length > 1 &&
+                  pageState.comparisonHeroes[1].id === hero.id)
+              "
+              [attr.aria-label]="
+                translate('heroRoster.selectForComparison', pageState.lang, {
+                  hero: hero.displayName,
+                })
+              "
+              (click)="onHeroSelect(hero)"
+            >
+              <img
+                [src]="portraitPath(hero)"
+                [alt]="hero.displayName"
+                loading="lazy"
+                (error)="imageError($event)"
+              />
+              <span class="team-marker" *ngIf="hero.selected" aria-hidden="true">★</span>
+              <span
+                class="slot-marker"
+                *ngIf="
+                  pageState.comparisonHeroes.length > 0 &&
+                  pageState.comparisonHeroes[0].id === hero.id
+                "
+              >
+                1
+              </span>
+              <span
+                class="slot-marker"
+                *ngIf="
+                  pageState.comparisonHeroes.length > 1 &&
+                  pageState.comparisonHeroes[1].id === hero.id
+                "
+              >
+                2
+              </span>
+              <span class="portrait-name">{{ hero.displayName }}</span>
+            </button>
+            <app-empty-state
+              *ngIf="!roster.heroes.length"
+              [message]="translate('heroRoster.noMatch', pageState.lang)"
+            ></app-empty-state>
+          </ng-container>
+        </div>
+
+        <app-loading-state
+          *ngIf="pageState.status === 'loading'"
+          [message]="translate('heroRoster.loading', pageState.lang)"
+        ></app-loading-state>
+        <app-error-state
+          *ngIf="pageState.status === 'error'"
+          [message]="pageState.error ?? translate('error', pageState.lang)"
+          [messageCode]="pageState.errorCode ?? null"
+        ></app-error-state>
+        <app-empty-state
+          *ngIf="pageState.status === 'empty'"
+          [message]="translate('heroRoster.noHeroesAvailable', pageState.lang)"
+        ></app-empty-state>
+      </div>
+      <button
+        *ngIf="pageState.status === 'error'"
+        type="button"
+        class="button button-secondary retry-button"
+        (click)="retry()"
+      >
+        {{ translate('retry', pageState.lang) }}
+      </button>
+    </section>
+
+    <section class="functional-panel analysis-panel" aria-labelledby="analysis-heading">
+      <h2 class="analysis-heading" id="analysis-heading">
+        {{ translate('heroRoster.analysis', pageState.lang) }}
+      </h2>
+      <div class="analysis-slots">
+        <article class="analysis-slot slot-one" [class.occupied]="pageState.comparisonHeroes[0]">
+          <ng-container *ngIf="pageState.comparisonHeroes[0] as hero; else emptyHeroOne">
+            <div class="slot-header">
+              <span>{{ translate('heroRoster.heroOne', pageState.lang) }}</span>
+              <button
+                type="button"
+                class="remove-button"
+                [attr.aria-label]="
+                  translate('heroRoster.removeHero', pageState.lang, { hero: hero.displayName })
+                "
+                (click)="onHeroRemove(1)"
+              >
+                ×
+              </button>
+            </div>
+            <div class="slot-content">
+              <div class="slot-art">
+                <img [src]="cardPath(hero)" [alt]="hero.displayName" (error)="imageError($event)" />
+              </div>
+              <div class="slot-details">
+                <h3 class="slot-hero-name">{{ hero.displayName }}</h3>
+                <div class="tag-row">
+                  <span class="role-tag">{{ hero.archetype }}</span>
+                </div>
+                <div class="resource-row">
+                  <span
+                    >{{ translate('heroRoster.energy', pageState.lang) }}
+                    <strong>{{ hero.maxima.energy }}</strong></span
+                  >
+                  <span>
+                    {{ translate('heroRoster.abilityPoints', pageState.lang) }}
+                    <strong>{{ hero.maxima.abilityPoints }}</strong>
+                  </span>
+                </div>
+                <div class="stat-list">
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.power', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.power)"></i>
+                    </div>
+                    <strong>{{ hero.stats.power }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.agility', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.agility)"></i>
+                    </div>
+                    <strong>{{ hero.stats.agility }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.resistance', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.resistance)"></i>
+                    </div>
+                    <strong>{{ hero.stats.resistance }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.ability', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.ability)"></i>
+                    </div>
+                    <strong>{{ hero.stats.ability }}</strong>
+                  </div>
+                </div>
+                <div class="ability-list">
+                  <div class="ability-entry">
+                    <small>{{ translate('heroRoster.offensive', pageState.lang) }}</small>
+                    <strong>{{ hero.abilities.offensive.name }}</strong>
+                    <span *ngIf="hero.abilities.offensive.apCost">
+                      {{ hero.abilities.offensive.apCost }}
+                      {{ translate('heroRoster.ap', pageState.lang) }}
+                    </span>
+                  </div>
+                  <div class="ability-entry">
+                    <small>{{ translate('heroRoster.supportAbility', pageState.lang) }}</small>
+                    <strong>{{ hero.abilities.support.name }}</strong>
+                    <span *ngIf="hero.abilities.support.apCost">
+                      {{ hero.abilities.support.apCost }}
+                      {{ translate('heroRoster.ap', pageState.lang) }}
+                    </span>
+                  </div>
+                </div>
+                <p class="motivation" *ngIf="hero.tournamentMotivation || hero.biography">
+                  {{ hero.tournamentMotivation || hero.biography }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #emptyHeroOne>
+            <div class="empty-slot">
+              <span class="empty-slot-number">01</span>
+              <p>{{ translate('heroRoster.selectHero', pageState.lang) }}</p>
+            </div>
+          </ng-template>
+        </article>
+
+        <div class="analysis-divider" aria-hidden="true"></div>
+
+        <article class="analysis-slot slot-two" [class.occupied]="pageState.comparisonHeroes[1]">
+          <ng-container *ngIf="pageState.comparisonHeroes[1] as hero; else emptyHeroTwo">
+            <div class="slot-header">
+              <span>{{ translate('heroRoster.heroTwo', pageState.lang) }}</span>
+              <button
+                type="button"
+                class="remove-button"
+                [attr.aria-label]="
+                  translate('heroRoster.removeHero', pageState.lang, { hero: hero.displayName })
+                "
+                (click)="onHeroRemove(2)"
+              >
+                ×
+              </button>
+            </div>
+            <div class="slot-content">
+              <div class="slot-art">
+                <img [src]="cardPath(hero)" [alt]="hero.displayName" (error)="imageError($event)" />
+              </div>
+              <div class="slot-details">
+                <h3 class="slot-hero-name">{{ hero.displayName }}</h3>
+                <div class="tag-row">
+                  <span class="role-tag">{{ hero.archetype }}</span>
+                </div>
+                <div class="resource-row">
+                  <span
+                    >{{ translate('heroRoster.energy', pageState.lang) }}
+                    <strong>{{ hero.maxima.energy }}</strong></span
+                  >
+                  <span>
+                    {{ translate('heroRoster.abilityPoints', pageState.lang) }}
+                    <strong>{{ hero.maxima.abilityPoints }}</strong>
+                  </span>
+                </div>
+                <div class="stat-list">
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.power', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.power)"></i>
+                    </div>
+                    <strong>{{ hero.stats.power }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.agility', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.agility)"></i>
+                    </div>
+                    <strong>{{ hero.stats.agility }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.resistance', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.resistance)"></i>
+                    </div>
+                    <strong>{{ hero.stats.resistance }}</strong>
+                  </div>
+                  <div class="stat-row">
+                    <span>{{ translate('heroRoster.ability', pageState.lang) }}</span>
+                    <div class="stat-track">
+                      <i [style.width.%]="statPercent(hero.stats.ability)"></i>
+                    </div>
+                    <strong>{{ hero.stats.ability }}</strong>
+                  </div>
+                </div>
+                <div class="ability-list">
+                  <div class="ability-entry">
+                    <small>{{ translate('heroRoster.offensive', pageState.lang) }}</small>
+                    <strong>{{ hero.abilities.offensive.name }}</strong>
+                    <span *ngIf="hero.abilities.offensive.apCost">
+                      {{ hero.abilities.offensive.apCost }}
+                      {{ translate('heroRoster.ap', pageState.lang) }}
+                    </span>
+                  </div>
+                  <div class="ability-entry">
+                    <small>{{ translate('heroRoster.supportAbility', pageState.lang) }}</small>
+                    <strong>{{ hero.abilities.support.name }}</strong>
+                    <span *ngIf="hero.abilities.support.apCost">
+                      {{ hero.abilities.support.apCost }}
+                      {{ translate('heroRoster.ap', pageState.lang) }}
+                    </span>
+                  </div>
+                </div>
+                <p class="motivation" *ngIf="hero.tournamentMotivation || hero.biography">
+                  {{ hero.tournamentMotivation || hero.biography }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #emptyHeroTwo>
+            <div class="empty-slot">
+              <span class="empty-slot-number">02</span>
+              <p>{{ translate('heroRoster.selectAnotherHero', pageState.lang) }}</p>
+            </div>
+          </ng-template>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>

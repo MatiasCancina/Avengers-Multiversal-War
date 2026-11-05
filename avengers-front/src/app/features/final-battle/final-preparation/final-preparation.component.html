@@ -1,0 +1,362 @@
+<main class="student-feature-shell preparation-shell">
+  <app-loading-state *ngIf="pageState.status === 'loading'"></app-loading-state>
+  <app-error-state
+    *ngIf="pageState.status === 'error'"
+    [message]="pageState.error ?? ''"
+  ></app-error-state>
+
+  <section *ngIf="pageState.status === 'data' && data" class="preparation-page">
+    <header class="page-heading">
+      <div class="heading-copy">
+        <p class="eyebrow">BATALLA FINAL · R8</p>
+        <h1 class="page-title">Preparar batalla final</h1>
+        <p class="page-subtitle">
+          Revisá la formación, la estrategia y los recursos disponibles antes de entrar en combate.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="secondary refresh-button"
+        (click)="finalpreparationService.initialize()"
+        [disabled]="pageState.busy ?? false"
+      >
+        Actualizar estado
+      </button>
+    </header>
+
+    <p class="notice" *ngIf="pageState.notice" role="status">{{ pageState.notice }}</p>
+    <p class="error-message" *ngIf="pageState.error" role="alert">{{ pageState.error }}</p>
+
+    <section class="empty-state" *ngIf="!data.hasJourney">
+      <p class="eyebrow">JOURNEY NO DISPONIBLE</p>
+      <h2>No hay un Journey disponible</h2>
+      <p>
+        La preparación de la final requiere un Journey vigente. Volvé a esta sección cuando el
+        equipo tenga uno disponible.
+      </p>
+    </section>
+
+    <ng-container *ngIf="data.hasJourney">
+      <section class="summary-grid" aria-label="Resumen de la final">
+        <article class="panel team-summary">
+          <p class="eyebrow">PLAYER TEAM</p>
+          <h2>{{ teamDisplayName(player, 'Equipo del jugador') }}</h2>
+          <p class="meta-line" *ngIf="player?.teamId">
+            Team ID: <span>{{ player?.teamId }}</span>
+          </p>
+          <p>
+            Leader: <strong>{{ heroName(player?.leaderId) }}</strong>
+          </p>
+          <p>
+            Journey:
+            <span class="state-tag">{{ readableStatus(data.journey?.attempt?.status) }}</span>
+          </p>
+        </article>
+
+        <article class="panel rival-summary">
+          <p class="eyebrow">FINALISTA RIVAL</p>
+          <h2>{{ teamDisplayName(data.opponent, 'Rival pendiente de confirmar') }}</h2>
+          <p class="meta-line" *ngIf="data.opponent?.teamId">
+            Team ID: <span>{{ data.opponent?.teamId }}</span>
+          </p>
+          <p *ngIf="data.opponent?.leaderId">
+            Leader: <strong>{{ heroName(data.opponent?.leaderId) }}</strong>
+          </p>
+          <p *ngIf="!data.opponent">
+            El Game API todavía no publicó un rival disponible para esta preparación.
+          </p>
+        </article>
+
+        <article class="panel reward-panel">
+          <p class="eyebrow">REWARD POINTS</p>
+          <strong class="reward-value">{{ balance === null ? '—' : balance }}</strong>
+          <p>Saldo confirmado por el torneo</p>
+        </article>
+      </section>
+
+      <section class="panel formation-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FORMACIÓN</p>
+            <h2>Heroes Active y Reserve</h2>
+          </div>
+          <span class="counter" [class.counter-valid]="activeIds.length === 3">
+            {{ activeIds.length }} / 3 Active
+          </span>
+        </div>
+
+        <p class="hint">
+          Mantené tres héroes activos. El Leader debe formar parte del grupo Active.
+        </p>
+
+        <div class="formation-groups">
+          <section class="formation-group">
+            <h3>
+              <span class="formation-dot active-dot"></span>
+              Active <span class="group-count">{{ activeHeroIds.length }}</span>
+            </h3>
+
+            <div class="hero-grid">
+              <article class="hero-card active-card" *ngFor="let heroId of activeHeroIds">
+                <div class="hero-card-heading">
+                  <h4>{{ heroName(heroId) }}</h4>
+                  <span class="role-tag" *ngIf="heroId === player?.leaderId">LEADER</span>
+                </div>
+
+                <p class="resource-line" *ngIf="heroState(heroId) as hero">
+                  Energy
+                  <strong>{{ hero.currentEnergy ?? '—' }}</strong>
+                  /
+                  <strong>{{ hero.maximumEnergy ?? '—' }}</strong>
+
+                  <span class="resource-separator">·</span>
+
+                  AP
+                  <strong>{{ hero.currentAbilityPoints ?? '—' }}</strong>
+                  /
+                  <strong>{{ hero.maximumAbilityPoints ?? '—' }}</strong>
+                </p>
+
+                <p class="resource-line" *ngIf="!heroState(heroId)">Recursos no publicados</p>
+
+                <button
+                  type="button"
+                  class="secondary formation-button"
+                  (click)="toggleActive(heroId)"
+                  [disabled]="(pageState.busy ?? false) || heroId === player?.leaderId"
+                >
+                  Pasar a Reserve
+                </button>
+              </article>
+
+              <p class="empty-group" *ngIf="!activeHeroIds.length">
+                No hay héroes Active publicados.
+              </p>
+            </div>
+          </section>
+
+          <section class="formation-group reserve-group">
+            <h3>
+              <span class="formation-dot reserve-dot"></span>
+              Reserve <span class="group-count">{{ reserveHeroIds.length }}</span>
+            </h3>
+
+            <div class="hero-grid">
+              <article class="hero-card" *ngFor="let heroId of reserveHeroIds">
+                <div class="hero-card-heading">
+                  <h4>{{ heroName(heroId) }}</h4>
+                </div>
+
+                <p class="resource-line" *ngIf="heroState(heroId) as hero">
+                  Energy
+                  <strong>{{ hero.currentEnergy ?? '—' }}</strong>
+                  /
+                  <strong>{{ hero.maximumEnergy ?? '—' }}</strong>
+
+                  <span class="resource-separator">·</span>
+
+                  AP
+                  <strong>{{ hero.currentAbilityPoints ?? '—' }}</strong>
+                  /
+                  <strong>{{ hero.maximumAbilityPoints ?? '—' }}</strong>
+                </p>
+
+                <p class="resource-line" *ngIf="!heroState(heroId)">Recursos no publicados</p>
+
+                <button
+                  type="button"
+                  class="secondary formation-button"
+                  (click)="toggleActive(heroId)"
+                  [disabled]="(pageState.busy ?? false) || activeIds.length >= 3"
+                >
+                  Pasar a Active
+                </button>
+              </article>
+
+              <p class="empty-group" *ngIf="!reserveHeroIds.length">No hay héroes Reserve.</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="form-row">
+          <label
+            >Combat Strategy
+            <select [(ngModel)]="selectedStrategy" [disabled]="pageState.busy ?? false">
+              <option [ngValue]="data.journey?.summary?.configuration?.strategyCode ?? 'BALANCED'">
+                Actual:
+                {{
+                  readableStatus(data.journey?.summary?.configuration?.strategyCode ?? 'BALANCED')
+                }}
+              </option>
+              <option *ngFor="let strategy of strategies" [ngValue]="strategy.code">
+                {{ strategy.label ?? readableStatus(strategy.code)
+                }}<ng-container *ngIf="strategy.description">
+                  — {{ strategy.description }}</ng-container
+                >
+              </option>
+            </select>
+          </label>
+
+          <button
+            type="button"
+            (click)="savePreparation()"
+            [disabled]="
+              (pageState.busy ?? false) ||
+              activeIds.length !== 3 ||
+              !activeIds.includes(player?.leaderId ?? '')
+            "
+          >
+            Guardar preparación
+          </button>
+        </div>
+      </section>
+
+      <section class="two-column">
+        <article class="panel store-panel">
+          <p class="eyebrow">STORE</p>
+          <h2>Tienda de Power-Ups</h2>
+
+          <p class="panel-intro" *ngIf="balance !== null">
+            Saldo disponible: <strong>{{ balance }} RP</strong>
+          </p>
+          <p class="hint" *ngIf="balance === null">El saldo no está disponible en este estado.</p>
+
+          <div class="item-list">
+            <article class="item-card" *ngFor="let item of powerUps">
+              <div class="item-title">
+                <h3>{{ item.name ?? readableStatus(item.id) }}</h3>
+                <span class="price">{{ item.price }} RP</span>
+              </div>
+
+              <p>
+                {{
+                  item.description ?? 'El Game API no publicó una descripción para este Power-Up.'
+                }}
+              </p>
+
+              <p class="hint">
+                Alcance: {{ readableStatus(item.targetScope)
+                }}<ng-container *ngIf="item.useContexts?.length">
+                  · Contextos: {{ readableList(item.useContexts) }}</ng-container
+                >
+              </p>
+
+              <p class="hint" *ngIf="item.effect">Efecto: {{ effectSummary(item) }}</p>
+
+              <div class="purchase-row">
+                <label>
+                  Cantidad
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    [(ngModel)]="purchaseQuantity"
+                    [disabled]="pageState.busy ?? false"
+                  />
+                </label>
+
+                <button
+                  type="button"
+                  (click)="selectedPurchaseId = item.id; buy()"
+                  [disabled]="
+                    (pageState.busy ?? false) ||
+                    balance === null ||
+                    item.price == null ||
+                    balance < item.price * purchaseQuantity ||
+                    purchaseQuantity < 1
+                  "
+                >
+                  Comprar
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <p class="empty-list" *ngIf="!powerUps.length">
+            El catálogo de la tienda no está disponible en este estado.
+          </p>
+        </article>
+
+        <article class="panel inventory-panel">
+          <p class="eyebrow">INVENTARIO</p>
+          <h2>Ítems disponibles</h2>
+
+          <p class="empty-list" *ngIf="!inventory.length">
+            No hay ítems en el inventario o el Game API no publicó ninguno.
+          </p>
+
+          <div class="inventory-row" *ngFor="let owned of inventory">
+            <div class="inventory-copy">
+              <strong>{{ getItemName(owned.itemId) }}</strong>
+              <p class="hint">
+                Cantidad: {{ owned.quantity
+                }}<ng-container *ngIf="owned.legalUseContexts?.length">
+                  · Uso: {{ readableList(owned.legalUseContexts) }}</ng-container
+                >
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="secondary"
+              (click)="selectedUseId = owned.itemId; selectedTargetHeroId = ''"
+              [disabled]="
+                (pageState.busy ?? false) ||
+                owned.quantity < 1 ||
+                !owned.legalUseContexts?.includes('PRE_FINAL')
+              "
+            >
+              Seleccionar
+            </button>
+          </div>
+
+          <div class="use-form" *ngIf="selectedUseId">
+            <p>
+              Ítem seleccionado: <strong>{{ getItemName(selectedUseId) }}</strong>
+            </p>
+
+            <ng-container *ngIf="selectedPowerUp?.targetScope === 'HERO'; else teamTarget">
+              <label
+                >Héroe objetivo
+                <select [(ngModel)]="selectedTargetHeroId" [disabled]="pageState.busy ?? false">
+                  <option value="">Seleccionar objetivo</option>
+                  <option *ngFor="let heroId of activeIds" [value]="heroId">
+                    {{ heroName(heroId) }}
+                  </option>
+                </select>
+              </label>
+            </ng-container>
+
+            <ng-template #teamTarget>
+              <p class="hint">
+                Este ítem se aplica al equipo Active; no requiere seleccionar un héroe.
+              </p>
+            </ng-template>
+
+            <button
+              type="button"
+              (click)="useItem()"
+              [disabled]="
+                (pageState.busy ?? false) ||
+                !selectedPowerUp ||
+                !canUse(selectedPowerUp) ||
+                (selectedPowerUp?.targetScope === 'HERO' && !selectedTargetHeroId)
+              "
+            >
+              Usar ítem
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <footer class="final-cta">
+        <div>
+          <p class="eyebrow">SIGUIENTE PASO</p>
+          <h2>¿Listos para la batalla?</h2>
+          <p>El estado de la Final determina si corresponde comenzar o continuar.</p>
+        </div>
+        <a routerLink="/final-stage/play" class="cta-link">{{ finalBattleCta }}</a>
+      </footer>
+    </ng-container>
+  </section>
+</main>

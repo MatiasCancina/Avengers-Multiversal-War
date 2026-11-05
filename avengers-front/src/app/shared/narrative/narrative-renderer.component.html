@@ -1,0 +1,10 @@
+<section class="narrative" [attr.aria-label]="ariaLabel">
+  <p
+    *ngFor="let line of lines"
+    [class.dialogue]="line.type === 'DIALOGUE'"
+    [class.narration]="line.type === 'NARRATION'"
+  >
+    <strong *ngIf="line.speakerId" class="speaker">{{ line.speakerId }}</strong>
+    <span>{{ line.text }}</span>
+  </p>
+</section>

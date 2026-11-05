@@ -1,0 +1,10 @@
+<div class="app-shell">
+  <app-sidebar></app-sidebar>
+  <main class="application-main">
+    <section class="application-content">
+      <app-loading-state *ngIf="loading" [message]="i18n.t('loading')"></app-loading-state>
+      <app-error-state *ngIf="error" [message]="error" [messageCode]="errorCode"></app-error-state>
+      <router-outlet *ngIf="!loading && !error"></router-outlet>
+    </section>
+  </main>
+</div>

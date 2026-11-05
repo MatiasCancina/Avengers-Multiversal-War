@@ -1,0 +1,2 @@
+-- No theme-independent persisted records require initialization yet.
+-- Keep shared records here when existing persistent models require them.

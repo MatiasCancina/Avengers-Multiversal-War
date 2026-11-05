@@ -1,0 +1,158 @@
+    // la respuesta es la misma que si la final esta activa o completada
+    // GET game/teams/black-widow/journeys/current/final-stage/teams
+   {
+    "serverTime": "2026-10-07T15:00:24.153Z",
+    "success": true,
+    "responseMessage": {
+        "messageCode": "0000",
+        "message": "OK"
+    },
+    "data": {
+        "variant": "TOURNAMENT_FINAL",
+        "attemptId": "56811845-8ef6-4a66-9459-2c995c030d75",
+        "player": {
+            "teamId": "black-widow",
+            "leaderId": "black-widow",
+            "strategyCode": "BALANCED",
+            "heroes": [
+                {
+                    "heroId": "black-widow",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 266,
+                    "currentEnergy": 262,
+                    "maximumAbilityPoints": 123,
+                    "currentAbilityPoints": 123,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "hawkeye",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 216,
+                    "currentEnergy": 216,
+                    "maximumAbilityPoints": 94,
+                    "currentAbilityPoints": 94,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "winter-soldier",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 270,
+                    "currentEnergy": 270,
+                    "maximumAbilityPoints": 90,
+                    "currentAbilityPoints": 90,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "captain-america",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 299,
+                    "currentEnergy": 299,
+                    "maximumAbilityPoints": 114,
+                    "currentAbilityPoints": 114,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "falcon",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 229,
+                    "currentEnergy": 229,
+                    "maximumAbilityPoints": 97,
+                    "currentAbilityPoints": 97,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "spider-woman",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 258,
+                    "currentEnergy": 258,
+                    "maximumAbilityPoints": 84,
+                    "currentAbilityPoints": 84,
+                    "returnAtTurn": 0
+                }
+            ],
+            "vacantActiveHeroIds": [],
+            "synergyCode": "HIGH",
+            "teamActionsRemaining": 3,
+            "leaderAbilityUsesRemaining": 2,
+            "strategyChangesRemaining": 3
+        },
+        "opponent": {
+            "teamId": "generated-29",
+            "leaderId": "ms-marvel",
+            "strategyCode": "AGGRESSIVE",
+            "heroes": [
+                {
+                    "heroId": "ms-marvel",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 250,
+                    "currentEnergy": 209,
+                    "maximumAbilityPoints": 115,
+                    "currentAbilityPoints": 115,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "jubilee",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 268,
+                    "currentEnergy": 268,
+                    "maximumAbilityPoints": 104,
+                    "currentAbilityPoints": 104,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "cloak",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 197,
+                    "currentEnergy": 197,
+                    "maximumAbilityPoints": 143,
+                    "currentAbilityPoints": 143,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "mantis",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 207,
+                    "currentEnergy": 207,
+                    "maximumAbilityPoints": 134,
+                    "currentAbilityPoints": 134,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "kitty-pryde",
+                    "status": "INACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 234,
+                    "currentEnergy": 234,
+                    "maximumAbilityPoints": 90,
+                    "currentAbilityPoints": 90,
+                    "returnAtTurn": 0
+                },
+                {
+                    "heroId": "bishop",
+                    "status": "ACTIVE",
+                    "condition": "AVAILABLE",
+                    "maximumEnergy": 261,
+                    "currentEnergy": 261,
+                    "maximumAbilityPoints": 115,
+                    "currentAbilityPoints": 115,
+                    "returnAtTurn": 0
+                }
+            ],
+            "vacantActiveHeroIds": [],
+            "synergyCode": "MEDIUM",
+            "teamActionsRemaining": 3,
+            "leaderAbilityUsesRemaining": 2,
+            "strategyChangesRemaining": 3
+        }
+    }
+}

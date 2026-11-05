@@ -1,0 +1,379 @@
+<main class="final-page">
+  <header class="final-header">
+    <span class="caption-box">{{ translate('r10.caption') }}</span>
+    <div class="title-row">
+      <h1 class="page-title">{{ translate('r9.title') }}</h1>
+      <ul class="status-chips" *ngIf="pageState.data as battle">
+        <li class="chip-info">{{ statusLabel(battle.state.status) }}</li>
+        <li class="chip-info">{{ battle.state.phaseLabel }}</li>
+        <li class="chip-info">{{ translate('r10.turn', { turn: battle.state.normalTurn }) }}</li>
+        <li class="chip-info is-result" *ngIf="battle.state.outcomeCode">
+          {{ outcomeLabel(battle.state.outcomeCode) }}
+        </li>
+      </ul>
+      <button type="button" class="btn refresh-btn"
+        [disabled]="pageState.status === 'loading' || pageState.submitting || pageState.refreshing"
+        (click)="onRefresh()">
+        {{ translate(pageState.refreshing ? 'r10.refreshing' : 'r10.refresh') }}
+      </button>
+    </div>
+    <p class="page-subtitle">{{ translate('r9.subtitle') }}</p>
+  </header>
+
+  <app-loading-state *ngIf="pageState.status === 'loading'" [message]="translate('r9.loading')"></app-loading-state>
+
+  <div class="state-block" *ngIf="pageState.status === 'error'">
+    <app-error-state [message]="pageState.error ?? translate('error')"
+      [messageCode]="pageState.errorCode ?? null"></app-error-state>
+    <button type="button" class="btn" (click)="onRefresh()">{{ translate('retry') }}</button>
+  </div>
+
+  <div class="unavailable-state" *ngIf="pageState.status === 'unavailable'" role="status">
+    <h2>{{ translate('r9.unavailableTitle') }}</h2>
+    <p>{{ translate('r9.unavailableCopy') }}</p>
+    <a class="btn btn-primary" [routerLink]="simulateJourneyPath">
+      {{ translate('r10.simulateLink') }}
+    </a>
+  </div>
+
+  <app-empty-state *ngIf="pageState.status === 'empty'" [message]="translate('r9.empty')"></app-empty-state>
+
+  <div class="battle-layout" *ngIf="pageState.status === 'data' && pageState.data as battle">
+    <!-- Tarjeta de Héroe: la usan el equipo propio y el rival. compact = tarjeta de reserva. -->
+    <ng-template #heroCard let-hero let-leaderId="leaderId" let-selectedId="selectedId" let-compact="compact">
+      <li class="hero-card" [class.is-compact]="compact" [class.is-ko]="hero.condition === 'KNOCKED_OUT'"
+        [class.is-selected]="selectedId === hero.heroId">
+        <div class="portrait-frame">
+          <img class="hero-portrait" [src]="portraitPath(hero.heroId)" [alt]="hero.heroName" loading="lazy"
+            (error)="imageError($event)" />
+          <span class="leader-mark" *ngIf="hero.heroId === leaderId">
+            <span aria-hidden="true">★</span>
+            <span class="visually-hidden">{{ translate('r9.leader') }}</span>
+          </span>
+          <span class="ko-badge" *ngIf="hero.condition === 'KNOCKED_OUT'">
+            {{ translate('r9.knockedOut') }}
+          </span>
+        </div>
+        <div class="hero-info">
+          <h4 class="hero-name">{{ hero.heroName }}</h4>
+          <div class="meter meter-energy">
+            <p class="meter-text">
+              <span>{{ translate('r9.energy') }}</span>
+              <strong>{{ hero.currentEnergy }}/{{ hero.maximumEnergy }}</strong>
+            </p>
+            <div class="meter-track" aria-hidden="true">
+              <i [style.width.%]="percentOf(hero.currentEnergy, hero.maximumEnergy)"></i>
+            </div>
+          </div>
+          <div class="meter meter-ap">
+            <p class="meter-text">
+              <span>{{ translate('r9.ap') }}</span>
+              <strong>{{ hero.currentAbilityPoints }}/{{ hero.maximumAbilityPoints }}</strong>
+            </p>
+            <div class="meter-track" aria-hidden="true">
+              <i [style.width.%]="percentOf(hero.currentAbilityPoints, hero.maximumAbilityPoints)"></i>
+            </div>
+          </div>
+          <p class="hero-note" *ngIf="hero.returnAtTurn > 0">
+            {{ translate('r9.returnTurn', { turn: hero.returnAtTurn }) }}
+          </p>
+        </div>
+      </li>
+    </ng-template>
+
+    <!-- Héroes de un equipo: en combate (ACTIVE) y reserva (INACTIVE). -->
+    <ng-template #teamHeroes let-side let-selectedId="selectedId" let-doom="doom">
+      <h3 class="zone-title">{{ translate('r9.inCombat') }}</h3>
+      <ul class="hero-grid">
+        <ng-container *ngFor="let hero of side.heroes; trackBy: trackHero">
+          <ng-container *ngIf="hero.status === 'ACTIVE'">
+            <ng-container *ngTemplateOutlet="
+                heroCard;
+                context: {
+                  $implicit: hero,
+                  leaderId: side.leaderId,
+                  selectedId: selectedId,
+                  compact: false
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+        <li class="hero-card doom-card" *ngIf="doom && doom.currentEnergy > 0">
+          <div class="portrait-frame">
+            <img class="hero-portrait" [src]="portraitPath(doom.narrativeCharacterId)"
+              [alt]="translate('r9.doctorDoom')" loading="lazy" (error)="imageError($event)" />
+          </div>
+          <div class="hero-info">
+            <h4 class="hero-name">{{ translate('r9.doctorDoom') }}</h4>
+            <div class="meter meter-energy">
+              <p class="meter-text">
+                <span>{{ translate('r9.energy') }}</span>
+                <strong>{{ doom.currentEnergy }}/{{ doom.maximumEnergy }}</strong>
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <h3 class="zone-title">{{ translate('r9.reserve') }}</h3>
+      <ul class="hero-grid">
+        <ng-container *ngFor="let hero of side.heroes; trackBy: trackHero">
+          <ng-container *ngIf="hero.status === 'INACTIVE'">
+            <ng-container *ngTemplateOutlet="
+                heroCard;
+                context: {
+                  $implicit: hero,
+                  leaderId: side.leaderId,
+                  selectedId: selectedId,
+                  compact: true
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+        <li class="hero-card is-ko doom-card" *ngIf="doom && doom.currentEnergy <= 0">
+          <div class="portrait-frame">
+            <img class="hero-portrait" [src]="portraitPath(doom.narrativeCharacterId)"
+              [alt]="translate('r9.doctorDoom')" loading="lazy" (error)="imageError($event)" />
+            <span class="ko-badge">{{ translate('r9.knockedOut') }}</span>
+          </div>
+          <div class="hero-info">
+            <h4 class="hero-name">{{ translate('r9.doctorDoom') }}</h4>
+            <div class="meter meter-energy">
+              <p class="meter-text">
+                <span>{{ translate('r9.energy') }}</span>
+                <strong>{{ doom.currentEnergy }}/{{ doom.maximumEnergy }}</strong>
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </ng-template>
+
+    <!-- Equipo propio -->
+    <section class="functional-panel battle-panel player-panel" aria-labelledby="player-heading">
+      <header class="panel-head">
+        <h2 class="panel-title" id="player-heading">{{ translate('r9.yourTeam') }}</h2>
+        <span class="panel-tag" *ngIf="battle.teams as teams">
+          {{ translate('r9.strategy') }}: {{ teams.player.strategyCode }}
+        </span>
+      </header>
+
+      <div class="control-bar">
+        <div class="control-buttons">
+          <button *ngIf="battle.state.status === 'READY'" type="button" class="btn btn-primary" [disabled]="!canStart"
+            (click)="onStart()">
+            {{ translate('r9.start') }}
+          </button>
+          <ng-container *ngIf="battle.state.status === 'ACTIVE'">
+            <button type="button" class="btn btn-primary" [disabled]="!canExecute" (click)="onExecute()">
+              {{ pageState.submitting ? translate('r9.working') : translate('r9.execute') }}
+            </button>
+            <button type="button" class="btn btn-danger" [disabled]="!canAbandon" (click)="onAbandon()">
+              {{ translate('r9.abandon') }}
+            </button>
+          </ng-container>
+        </div>
+
+        <p class="control-hint" aria-live="polite">
+          <ng-container [ngSwitch]="battle.state.status">
+            <ng-container *ngSwitchCase="'READY'">{{ translate('r9.readyToStart') }}</ng-container>
+            <ng-container *ngSwitchCase="'COMPLETED'">{{ translate('r9.finished') }}</ng-container>
+            <ng-container *ngSwitchDefault>
+              {{
+              canExecute
+              ? translate('r9.readyHint')
+              : selectedAbility
+              ? translate('r9.targetHint')
+              : translate('r9.pickHint')
+              }}
+            </ng-container>
+          </ng-container>
+        </p>
+
+        <p class="inline-error" role="alert" *ngIf="pageState.operationError">
+          {{ pageState.operationError }}
+        </p>
+      </div>
+
+      <div class="panel-body">
+        <div class="heroes-zone">
+          <ng-container *ngIf="battle.teams as teams; else noPlayerTeam">
+            <ng-container *ngTemplateOutlet="
+                teamHeroes;
+                context: { $implicit: teams.player, selectedId: pageState.selectedHeroId }
+              "></ng-container>
+          </ng-container>
+          <ng-template #noPlayerTeam>
+            <p class="muted">{{ translate('r9.readyToStart') }}</p>
+          </ng-template>
+        </div>
+
+        <div class="dock" *ngIf="battle.state.status !== 'COMPLETED'">
+          <div class="dock-tabs" role="group">
+            <button type="button" class="tab-btn" [attr.aria-pressed]="activeTab === 'abilities'"
+              (click)="selectTab('abilities')">
+              {{ translate('r9.tab.abilities') }}
+            </button>
+            <button type="button" class="tab-btn" [attr.aria-pressed]="activeTab === 'inventory'"
+              (click)="selectTab('inventory')">
+              {{ translate('r9.tab.inventory') }}
+              <span class="tab-count">{{ inventoryStockCount }}</span>
+            </button>
+          </div>
+
+          <div class="dock-body" *ngIf="activeTab === 'abilities'">
+            <ng-container *ngIf="battle.state.status === 'ACTIVE'; else noActions">
+              <p class="muted" *ngIf="!battle.heroActions.length && !battle.teamActions.length">
+                {{ translate('r9.noActions') }}
+              </p>
+
+              <div class="pick-step" *ngIf="battle.heroActions.length">
+                <h3 class="step-title">{{ translate('r9.heroLabel') }}</h3>
+                <ul class="chip-row">
+                  <li *ngFor="let group of battle.heroActions; trackBy: trackHeroActionGroup">
+                    <button type="button" class="chip"
+                      [attr.aria-pressed]="pageState.selectedHeroId === group.actorHeroId"
+                      [disabled]="pageState.submitting" (click)="onSelectHero(group.actorHeroId)">
+                      <img class="chip-avatar" [src]="portraitPath(group.actorHeroId)" alt=""
+                        (error)="imageError($event)" />
+                      <span>{{ group.actorHeroName }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="pick-step" *ngIf="pageState.selectedHeroId">
+                <h3 class="step-title">{{ translate('r9.abilityLabel') }}</h3>
+                <ul class="option-list">
+                  <li *ngFor="let ability of selectedHeroAbilities; trackBy: trackAbility">
+                    <button type="button" class="option-btn" [disabled]="pageState.submitting" [attr.aria-pressed]="
+                        pageState.selectedAbilityKey === ability.groupKey &&
+                        pageState.selectedSource === 'hero'
+                      " (click)="onSelectAbility(ability.groupKey, 'hero')">
+                      <span class="option-name">{{ ability.label }}</span>
+                      <span class="option-cost">{{ ability.abilityPointCost }} {{ translate('r9.ap') }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="pick-step" *ngIf="battle.teamActions.length">
+                <h3 class="step-title">{{ translate('r9.teamActions') }}</h3>
+                <ul class="option-list">
+                  <li *ngFor="let ability of battle.teamActions; trackBy: trackTeamAction">
+                    <button type="button" class="option-btn" [disabled]="pageState.submitting" [attr.aria-pressed]="
+                        pageState.selectedAbilityKey === ability.groupKey &&
+                        pageState.selectedSource === 'team'
+                      " (click)="onSelectAbility(ability.groupKey, 'team')">
+                      <span class="option-name">{{ getTeamActionLabel(ability) }}</span>
+                      <span class="option-cost" *ngIf="ability.abilityPointCost > 0">
+                        {{ ability.abilityPointCost }} {{ translate('r9.ap') }}
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="pick-step target-step" *ngIf="selectedAbility as ability">
+                <h3 class="step-title">{{ translate('r9.targetLabel') }}</h3>
+                <p class="step-note" *ngIf="ability.description">{{ ability.description }}</p>
+                <ul class="chip-row">
+                  <li *ngFor="let option of selectedAbilityOptions; trackBy: trackOption">
+                    <button type="button" class="chip"
+                      [attr.aria-pressed]="pageState.selectedActionId === option.actionId"
+                      [disabled]="pageState.submitting" (click)="onSelectAction(option.actionId)">
+                      {{ getActionOptionLabel(option) }}
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-template #noActions>
+              <p class="muted">{{ translate('r9.noActions') }}</p>
+            </ng-template>
+          </div>
+
+          <div class="dock-body" *ngIf="activeTab === 'inventory'">
+            <ul class="inventory-list" *ngIf="battle.inventory.length; else noItems">
+              <li class="item-card" *ngFor="let item of battle.inventory; trackBy: trackInventoryItem"
+                [class.is-empty]="item.quantity === 0">
+                <div class="item-head">
+                  <h4 class="item-name">{{ item.name }}</h4>
+                  <span class="item-qty">×{{ item.quantity }}</span>
+                </div>
+                <p class="item-desc" *ngIf="item.description">{{ item.description }}</p>
+                <span class="scope-tag">
+                  {{ item.targetScope === 'HERO' ? translate('r9.scopeHero') : translate('r9.scopeTeam') }}
+                </span>
+              </li>
+            </ul>
+            <ng-template #noItems>
+              <p class="muted">{{ translate('r9.inventoryEmpty') }}</p>
+            </ng-template>
+            <p class="muted step-note">{{ translate('r9.useItemHint') }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo rival -->
+    <section class="functional-panel battle-panel rival-panel" aria-labelledby="rival-heading">
+      <header class="panel-head">
+        <h2 class="panel-title" id="rival-heading">{{ translate('r9.rivalTeam') }}</h2>
+        <span class="panel-tag" *ngIf="battle.teams as teams">
+          {{ translate('r9.strategy') }}: {{ teams.opponent.strategyCode }}
+        </span>
+      </header>
+      <div class="panel-scroll">
+        <ng-container *ngIf="battle.teams as teams; else noRivalTeam">
+          <ng-container
+            *ngTemplateOutlet="teamHeroes; context: {
+              $implicit: teams.opponent,
+              selectedId: null,
+              doom: battle.doom
+            }"></ng-container>
+        </ng-container>
+        <ng-template #noRivalTeam>
+          <p class="muted">{{ translate('r9.readyToStart') }}</p>
+        </ng-template>
+      </div>
+    </section>
+
+    <!-- Narrativa -->
+    <section class="functional-panel battle-panel narrative-panel" aria-labelledby="narrative-heading">
+      <header class="panel-head">
+        <h2 class="panel-title" id="narrative-heading">{{ translate('r9.narrative') }}</h2>
+        <span class="panel-tag">
+          {{ translate('r10.turn', { turn: battle.state.normalTurn }) }}
+        </span>
+      </header>
+
+      <p class="inline-error narrative-error" role="alert" *ngIf="pageState.eventsError">
+        {{ pageState.eventsError }}
+      </p>
+
+      <div class="event-scroll">
+        <p class="muted" *ngIf="!pageState.eventsError && pageState.events.length === 0">
+          {{ translate('r10.emptyEvents') }}
+        </p>
+        <ol class="event-list" *ngIf="pageState.events.length > 0">
+          <li class="event-card" *ngFor="let event of pageState.events; trackBy: trackEvent">
+            <p class="event-meta">
+              <span>#{{ event.sequence }}</span>
+              <span class="event-turn">{{ translate('r10.turn', { turn: event.turn }) }}</span>
+            </p>
+            <p class="event-line" *ngFor="let line of event.lines; trackBy: trackEventLine"
+              [class.is-dialogue]="line.type === 'DIALOGUE'">
+              <strong class="speaker" *ngIf="line.type === 'DIALOGUE' && line.speakerName">
+                {{ line.speakerName }}
+              </strong>
+              <span>{{ line.text }}</span>
+            </p>
+            <p class="event-fact" *ngIf="event.damage !== undefined">
+              {{ translate('r10.damage') }}: {{ event.damage }}
+            </p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </div>
+</main>

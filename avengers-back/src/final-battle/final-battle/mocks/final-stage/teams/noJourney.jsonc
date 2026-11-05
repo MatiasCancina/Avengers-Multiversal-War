@@ -1,0 +1,13 @@
+// respuesta de la final cuando no hay journey
+// GET game/teams/black-widow/journeys/current/final-stage/teams
+
+//no journey es "no disponible" en el front, y se muestra cuando no hay journey activo
+{
+    "serverTime": "2026-10-01T23:50:14.192Z",
+    "success": false,
+    "responseMessage": {
+        "messageCode": "JOURNEY_REQUIRED",
+        "message": "No current Journey exists."
+    },
+    "data": null
+}
