@@ -20,19 +20,19 @@ export class ApiService {
       }
     }
     return this.http
-      .get<ResponseObject<T>>(`${environment.bffUrl}${path}`, { params: query })
+      .get<ResponseObject<T>>(`${environment.apiBaseUrl}${path}`, { params: query })
       .pipe(catchError((error: unknown) => throwError(() => toApiError(error))));
   }
 
   post<T>(path: string, body: unknown): Observable<ResponseObject<T>> {
     return this.http
-      .post<ResponseObject<T>>(`${environment.bffUrl}${path}`, body)
+      .post<ResponseObject<T>>(`${environment.apiBaseUrl}${path}`, body)
       .pipe(catchError((error: unknown) => throwError(() => toApiError(error))));
   }
 
   put<T>(path: string, body: unknown): Observable<ResponseObject<T>> {
     return this.http
-      .put<ResponseObject<T>>(`${environment.bffUrl}${path}`, body)
+      .put<ResponseObject<T>>(`${environment.apiBaseUrl}${path}`, body)
       .pipe(catchError((error: unknown) => throwError(() => toApiError(error))));
   }
 }

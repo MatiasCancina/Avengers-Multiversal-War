@@ -1,1 +1,4 @@
-export const environment = { production: false, bffUrl: 'http://localhost:4102/gameCore' };
+export const environment = {
+    production: true,
+    apiBaseUrl: 'https://avengers-multiversal-war-backend.onrender.com/gameCore',
+};

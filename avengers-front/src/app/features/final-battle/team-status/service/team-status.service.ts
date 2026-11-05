@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface TeamStatusHero {
   heroId: string;
@@ -67,7 +68,7 @@ export interface TeamStatusResponse {
 })
 export class TeamStatusService {
   private readonly apiUrl =
-    'http://localhost:4102/gameCore/final-stage/status';
+    `${environment.apiBaseUrl}/final-stage`;
 
   constructor(private readonly http: HttpClient) {}
 
