@@ -7,7 +7,7 @@ import { ApplicationContextService } from './services/application-context.servic
 
 @Global()
 @Module({
-  imports: [HttpModule.register({ timeout: 15000 })],
+  imports: [HttpModule.register({ timeout: 120000 })],
   controllers: [ContextController],
   providers: [GameApiService, GameFeatureApiService, ApplicationContextService],
   exports: [GameApiService, GameFeatureApiService, ApplicationContextService],
