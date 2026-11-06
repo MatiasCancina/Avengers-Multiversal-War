@@ -7,6 +7,7 @@
     "start": "ng serve --port 3102",
     "build": "ng build",
     "build:dev": "ng build --configuration development",
+    "prebuild": "node scripts/set-env.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint \"src/**/*.{ts,html}\" --max-warnings=0",
