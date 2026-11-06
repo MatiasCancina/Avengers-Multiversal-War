@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../../core/services/api.service';
 import { BaseApiService } from '../../../../core/services/base-api.service';
@@ -26,11 +25,13 @@ export class GroupStageService extends BaseApiService {
   getViewModel(): GroupStageViewModel {
     return this.pageState;
   }
-selectGroup(groupId: string): void {
-  if (this.pageState.data?.groups.some((group) => group.groupId === groupId)) {
-    this.pageState.selectedGroupId = groupId;
+
+  selectGroup(groupId: string): void {
+    if (this.pageState.data?.groups.some((group) => group.groupId === groupId)) {
+      this.pageState.selectedGroupId = groupId;
+    }
   }
-}
+
   private loadGroupStage(): void {
     this.pageState.status = 'loading';
     this.pageState.error = null;
@@ -39,9 +40,9 @@ selectGroup(groupId: string): void {
       next: (data) => {
         this.pageState.data = data;
         this.pageState.selectedGroupId =
-  data.groups.find((group) => group.groupId === data.playerGroupId)?.groupId
-  ?? data.groups[0]?.groupId
-  ?? null;
+          data.groups.find((group) => group.groupId === data.playerGroupId)?.groupId ??
+          data.groups[0]?.groupId ??
+          null;
         this.pageState.status = data.journeyAvailable ? 'data' : 'empty';
       },
       error: (error: unknown) => {

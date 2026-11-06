@@ -12,10 +12,10 @@ export class TeamConfigController extends AbstractController {
   constructor(private readonly teamconfigService: TeamConfigService) {
     super();
   }
-  
+
   @Get()
   @ApiOperation({
-    summary: 'Get your team configuration'
+    summary: 'Get your team configuration',
   })
   async getConfiguration(): Promise<ResponseObject<TeamConfigModel>> {
     return this.createOkResponse(await this.teamconfigService.getConfiguration());
@@ -25,8 +25,9 @@ export class TeamConfigController extends AbstractController {
   @ApiOperation({
     summary: 'Save your team configuration',
   })
-  async saveConfiguration(@Body() configuration: SaveTeamConfigRequest)
-    : Promise<ResponseObject<TeamConfigSaveModel>> {
+  async saveConfiguration(
+    @Body() configuration: SaveTeamConfigRequest,
+  ): Promise<ResponseObject<TeamConfigSaveModel>> {
     return this.createOkResponse(await this.teamconfigService.saveConfiguration(configuration));
   }
 }

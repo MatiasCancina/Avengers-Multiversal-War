@@ -1,18 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApplicationContextService } from '../../basic/services/application-context.service';
 import { GameFeatureApiService } from '../../basic/game-feature-api.service';
-import {
-  ApiErrorMappingRule,
-  ApiErrorStatusMap,
-  ErrorUtils,
-} from '../../basic/error/error.utils';
+import { ApiErrorMappingRule, ApiErrorStatusMap, ErrorUtils } from '../../basic/error/error.utils';
 import { ErrorCode } from '../../basic/error/error-code.enum';
 import { JourneyStandingApi } from '../../basic/model/game-api/journey-stages.model';
 import { FinalEncounterApi } from '../../basic/model/game-api/final-contract.model';
-import {
-  GroupStageModel,
-  GroupStageStandingModel,
-} from './model/group-stage.model';
+import { GroupStageModel, GroupStageStandingModel } from './model/group-stage.model';
 
 const GROUP_STAGE_API_ERROR_STATUS_MAP: ApiErrorStatusMap = {
   [HttpStatus.NOT_FOUND]: {
@@ -55,10 +48,8 @@ export class GroupStageService {
 
       const stages = await this.game.currentStages(teamId);
       const teams = await this.game.currentTeams(teamId);
-const encounters = await this.game.currentEncountersDetailed(teamId);
-const teamNames = new Map(
-  teams.teams.map((team) => [team.teamId, team.name]),
-);
+      const encounters = await this.game.currentEncountersDetailed(teamId);
+      const teamNames = new Map(teams.teams.map((team) => [team.teamId, team.name]));
       const groups = stages.groupStage.groups.map((group) => {
         const standings = group.standings.map((standing) =>
           this.toStanding(standing, teamId, teamNames),
@@ -69,8 +60,8 @@ const teamNames = new Map(
           playerGroup: standings.some((standing) => standing.playerTeam),
           standings,
           encounters: encounters.encounters.filter(
-  (encounter: FinalEncounterApi) => encounter.groupId === group.groupId,
-),
+            (encounter: FinalEncounterApi) => encounter.groupId === group.groupId,
+          ),
         };
       });
 

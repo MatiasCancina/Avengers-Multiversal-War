@@ -15,7 +15,7 @@ export class LiveEventsService extends BaseApiService {
     error: null,
     errorCode: null,
     data: null,
-    lang: 'en'
+    lang: 'en',
   };
 
   constructor(
@@ -35,7 +35,7 @@ export class LiveEventsService extends BaseApiService {
   }
 
   refresh(): void {
-    this.loadLiveEvents()
+    this.loadLiveEvents();
   }
 
   private loadLiveEvents(): void {
@@ -52,10 +52,10 @@ export class LiveEventsService extends BaseApiService {
         const apiError: ApiError = toApiError(error);
         this.pageState.data = null;
         this.pageState.status =
-          apiError.messageCode === JOURNEY_REQUIRED_CODE ? 'unavailable' : 'error'
+          apiError.messageCode === JOURNEY_REQUIRED_CODE ? 'unavailable' : 'error';
         this.pageState.error = apiError.message;
         this.pageState.errorCode = apiError.messageCode;
-      }
+      },
     });
   }
 }

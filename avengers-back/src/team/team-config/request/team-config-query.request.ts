@@ -2,7 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ArrayMaxSize, ArrayMinSize, IsArray, IsIn, IsString } from 'class-validator';
 import { CombatStrategy } from 'src/basic/model/game-api/team-configuration.model';
 
-export const COMBAT_STRATEGIES: CombatStrategy[] = ['AGGRESSIVE', 'DEFENSIVE', 'BALANCED', 'PRAGMATIC'];
+export const COMBAT_STRATEGIES: CombatStrategy[] = [
+  'AGGRESSIVE',
+  'DEFENSIVE',
+  'BALANCED',
+  'PRAGMATIC',
+];
 
 export class SaveTeamConfigRequest {
   @ApiProperty({

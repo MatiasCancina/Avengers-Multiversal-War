@@ -2,10 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, of, timer } from 'rxjs';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 
-import {
-  TeamStatusService,
-  TeamStatusResponse
-} from './service/team-status.service';
+import { TeamStatusService, TeamStatusResponse } from './service/team-status.service';
 
 @Component({
   selector: 'app-team-status',
@@ -15,14 +12,14 @@ import {
 })
 export class TeamStatusComponent implements OnInit, OnDestroy {
   statusData: TeamStatusResponse['data'] | null = null;
+
   loading = true;
+
   errorMessage = '';
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(
-    private readonly teamStatusService: TeamStatusService
-  ) {}
+  constructor(private readonly teamStatusService: TeamStatusService) {}
 
   ngOnInit(): void {
     timer(0, 2000)
@@ -30,16 +27,13 @@ export class TeamStatusComponent implements OnInit, OnDestroy {
         switchMap(() =>
           this.teamStatusService.getStatus().pipe(
             catchError((error) => {
-              console.error(
-                'Error al consultar el estado de los equipos:',
-                error
-              );
+              console.error('Error al consultar el estado de los equipos:', error);
 
               return of(null);
-            })
-          )
+            }),
+          ),
         ),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((response) => {
         if (response === null) {
@@ -54,8 +48,7 @@ export class TeamStatusComponent implements OnInit, OnDestroy {
           this.errorMessage = '';
         } else {
           this.errorMessage =
-            response.responseMessage?.message ||
-            'No se pudo obtener el estado de los equipos.';
+            response.responseMessage?.message || 'No se pudo obtener el estado de los equipos.';
         }
 
         this.loading = false;

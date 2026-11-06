@@ -3,8 +3,12 @@
     <span class="caption-box">{{ translate('r10.caption', pageState.lang) }}</span>
     <div class="r10-title-row">
       <h1 class="page-title">{{ translate('r10.title', pageState.lang) }}</h1>
-      <button type="button" class="button button-secondary refresh-button" [disabled]="pageState.status === 'loading'"
-        (click)="refresh()">
+      <button
+        type="button"
+        class="button button-secondary refresh-button"
+        [disabled]="pageState.status === 'loading'"
+        (click)="refresh()"
+      >
         {{ translate('r10.refresh', pageState.lang) }}
       </button>
     </div>
@@ -13,8 +17,11 @@
 
   <div class="live-events-workspace">
     <ng-container *ngIf="pageState.status === 'data' || pageState.status === 'empty'">
-      <section class="functional-panel battle-panel" *ngIf="pageState.data as live"
-        aria-labelledby="battle-status-heading">
+      <section
+        class="functional-panel battle-panel"
+        *ngIf="pageState.data as live"
+        aria-labelledby="battle-status-heading"
+      >
         <h2 class="panel-title" id="battle-status-heading">
           {{ translate('r10.battleStatus', pageState.lang) }}
         </h2>
@@ -39,17 +46,24 @@
       </section>
     </ng-container>
 
-    <section class="functional-panel events-panel" aria-labelledby="events-heading"
-      [attr.aria-busy]="pageState.status === 'loading'">
+    <section
+      class="functional-panel events-panel"
+      aria-labelledby="events-heading"
+      [attr.aria-busy]="pageState.status === 'loading'"
+    >
       <h2 class="panel-title" id="events-heading">{{ translate('r10.events', pageState.lang) }}</h2>
 
       <div class="events-scroll">
-        <app-loading-state *ngIf="pageState.status === 'loading'"
-          [message]="translate('r10.loading', pageState.lang)"></app-loading-state>
+        <app-loading-state
+          *ngIf="pageState.status === 'loading'"
+          [message]="translate('r10.loading', pageState.lang)"
+        ></app-loading-state>
 
-        <app-error-state *ngIf="pageState.status === 'error'"
+        <app-error-state
+          *ngIf="pageState.status === 'error'"
           [message]="pageState.error ?? translate('error', pageState.lang)"
-          [messageCode]="pageState.errorCode ?? null"></app-error-state>
+          [messageCode]="pageState.errorCode ?? null"
+        ></app-error-state>
 
         <div class="unavailable-state" *ngIf="pageState.status === 'unavailable'" role="status">
           <h3>{{ translate('r10.noBattle', pageState.lang) }}</h3>
@@ -59,7 +73,10 @@
           </a>
         </div>
 
-        <app-empty-state *ngIf="pageState.status === 'empty'" [message]="emptyMessage()"></app-empty-state>
+        <app-empty-state
+          *ngIf="pageState.status === 'empty'"
+          [message]="emptyMessage()"
+        ></app-empty-state>
 
         <ng-container *ngIf="pageState.status === 'data' && pageState.data as live">
           <ol class="event-list">
@@ -74,8 +91,11 @@
                 </h3>
 
                 <div class="event-narrative">
-                  <p class="narrative-line" *ngFor="let line of event.lines; trackBy: trackLine"
-                    [class.narrative-dialogue]="line.type === 'DIALOGUE'">
+                  <p
+                    class="narrative-line"
+                    *ngFor="let line of event.lines; trackBy: trackLine"
+                    [class.narrative-dialogue]="line.type === 'DIALOGUE'"
+                  >
                     <strong class="speaker" *ngIf="line.type === 'DIALOGUE' && line.speakerName">
                       {{ line.speakerName }}
                     </strong>

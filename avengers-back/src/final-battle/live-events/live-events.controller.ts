@@ -16,8 +16,7 @@ export class LiveEventsController extends AbstractController {
   @ApiOperation({
     summary: 'Get the live events for the final stage of the current journey.',
   })
-  async getLiveEvents(
-  ): Promise<ResponseObject<LiveEventsModel>> {
+  async getLiveEvents(): Promise<ResponseObject<LiveEventsModel>> {
     return this.createOkResponse(await this.liveEventsService.getLiveEvents());
   }
 }

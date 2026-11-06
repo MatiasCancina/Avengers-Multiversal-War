@@ -1,4 +1,3 @@
-
 export interface GroupStageModel {
   journeyAvailable: boolean;
   playerTeamId: string;

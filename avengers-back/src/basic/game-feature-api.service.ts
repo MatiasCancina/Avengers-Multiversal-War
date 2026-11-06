@@ -25,16 +25,18 @@ import { HeroCatalogApi, RelationshipCatalogApi } from './model/game-api/hero-ca
 import {
   CurrentJourneyApi,
   JourneySpendingStrategy,
-
   SimulateJourneyApi,
 } from './model/game-api/journey.model';
 import { TeamProfileApi } from './model/game-api/team-profile.model';
-import { SaveConfigurationBody, TeamConfigurationReadApi } from './model/game-api/team-configuration.model';
+import {
+  SaveConfigurationBody,
+  TeamConfigurationReadApi,
+} from './model/game-api/team-configuration.model';
 import { JourneyEncountersApi, JourneyStagesApi } from './model/game-api/journey-stages.model';
 
 @Injectable()
 export class GameFeatureApiService {
-  constructor(private readonly api: GameApiService) { }
+  constructor(private readonly api: GameApiService) {}
 
   profile(teamId: string, lang = 'en') {
     return this.api.get<TeamProfileApi>(`/teams/${teamId}/profile`, { lang });
@@ -101,11 +103,11 @@ export class GameFeatureApiService {
       teamId: data.teamId,
       configuration: data.configuration
         ? {
-          leaderId: data.configuration.leaderId,
-          companionIds: data.configuration.companionIds,
-          activeHeroIds: data.configuration.activeHeroIds,
-          strategy: data.configuration.strategyCode,
-        }
+            leaderId: data.configuration.leaderId,
+            companionIds: data.configuration.companionIds,
+            activeHeroIds: data.configuration.activeHeroIds,
+            strategy: data.configuration.strategyCode,
+          }
         : null,
       currentAttempt: data.currentAttempt,
       editability: data.editability,
@@ -117,7 +119,7 @@ export class GameFeatureApiService {
   }
 
   async saveConfiguration(teamID: string, body: SaveConfigurationBody) {
-    return await this.api.put<FinalSaveConfigurationApi>(`teams/${teamID}/configuration`, body)
+    return await this.api.put<FinalSaveConfigurationApi>(`teams/${teamID}/configuration`, body);
   }
 
   async currentJourney(teamId: string, lang: string) {
@@ -131,16 +133,16 @@ export class GameFeatureApiService {
       summary: current.summary,
       attempt: current.attempt
         ? {
-          id: current.attempt.attemptId,
-          teamId: current.teamId,
-          status: current.attempt.status,
-          stageCount: current.attempt.stageCount,
-          encounterCount: current.attempt.encounterCount,
-          spendingStrategy: attempt?.spendingStrategyCode,
-          finalistIds: attempt
-            ? [attempt.finalists.playerTeamId, attempt.finalists.opponentTeamId]
-            : [],
-        }
+            id: current.attempt.attemptId,
+            teamId: current.teamId,
+            status: current.attempt.status,
+            stageCount: current.attempt.stageCount,
+            encounterCount: current.attempt.encounterCount,
+            spendingStrategy: attempt?.spendingStrategyCode,
+            finalistIds: attempt
+              ? [attempt.finalists.playerTeamId, attempt.finalists.opponentTeamId]
+              : [],
+          }
         : null,
     } satisfies CurrentJourneyApi;
   }
@@ -177,9 +179,7 @@ export class GameFeatureApiService {
 
   // R7 - Camino del Equipo: misma ruta, tipo completo (incluye etapa, rival y resultado).
   currentEncountersDetailed(teamId: string) {
-    return this.api.get<FinalCurrentEncountersApi>(
-      `/teams/${teamId}/journeys/current/encounters`,
-    );
+    return this.api.get<FinalCurrentEncountersApi>(`/teams/${teamId}/journeys/current/encounters`);
   }
 
   // R7 - Camino del Equipo: detalle público de un encuentro del Journey actual.
@@ -202,47 +202,42 @@ export class GameFeatureApiService {
   }
 
   finalStage(teamId: string, lang: string) {
-    return this.api.get<FinalStageStateApi>(
-      `/teams/${teamId}/journeys/current/final-stage`,
-      { lang }
-    )
+    return this.api.get<FinalStageStateApi>(`/teams/${teamId}/journeys/current/final-stage`, {
+      lang,
+    });
   }
 
   finalStageEvents(teamId: string, lang: string) {
     return this.api.get<FinalStageEventsApi>(
       `/teams/${teamId}/journeys/current/final-stage/events`,
-      { lang }
-    )
+      { lang },
+    );
   }
 
   finalStageTeams(teamId: string) {
-    return this.api.get<FinalStageTeamsApi>(
-      `/teams/${teamId}/journeys/current/final-stage/teams`
-    )
+    return this.api.get<FinalStageTeamsApi>(`/teams/${teamId}/journeys/current/final-stage/teams`);
   }
 
   finalStageActions(teamId: string, lang: string) {
     return this.api.get<FinalStageActionsApi>(
       `/teams/${teamId}/journeys/current/final-stage/actions`,
-      { lang }
-    )
+      { lang },
+    );
   }
 
   inventory(teamId: string) {
-    return this.api.get<FinalInventoryApi>(
-      `/teams/${teamId}/journeys/current/inventory`
-    );
+    return this.api.get<FinalInventoryApi>(`/teams/${teamId}/journeys/current/inventory`);
   }
 
   powerUps(teamId: string, lang: string) {
     return this.api.get<FinalPowerUpCatalogApi>('/reference/power-ups', { teamId, lang });
   }
 
-    playFinalStage(teamId: string, body: FinalStagePlayBodyApi, lang: string) {
+  playFinalStage(teamId: string, body: FinalStagePlayBodyApi, lang: string) {
     return this.api.post<FinalStagePlayResultApi>(
       `/teams/${teamId}/journeys/current/final-stage/play`,
       body,
-      { lang }
+      { lang },
     );
   }
 }

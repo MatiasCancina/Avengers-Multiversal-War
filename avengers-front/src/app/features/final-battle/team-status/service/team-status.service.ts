@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -67,8 +66,7 @@ export interface TeamStatusResponse {
   providedIn: 'root',
 })
 export class TeamStatusService {
-  private readonly apiUrl =
-    `${environment.apiBaseUrl}/final-stage`;
+  private readonly apiUrl = `${environment.apiBaseUrl}/final-stage`;
 
   constructor(private readonly http: HttpClient) {}
 

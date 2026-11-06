@@ -15,7 +15,7 @@ export class FinalBattleController extends AbstractController {
 
   @Get()
   @ApiOperation({
-    summary: 'Get the final battle'
+    summary: 'Get the final battle',
   })
   async getFinalBattle(): Promise<ResponseObject<FinalBattleModel>> {
     return this.createOkResponse(await this.finalBattleService.getFinalBattle());
@@ -24,10 +24,10 @@ export class FinalBattleController extends AbstractController {
   @Post('play')
   @HttpCode(200)
   @ApiOperation({
-    summary: 'Start the Final, execute one legal action by its opaque actionId, or abandon it'
+    summary: 'Start the Final, execute one legal action by its opaque actionId, or abandon it',
   })
   async playFinalBattle(
-    @Body() request: PlayFinalStageRequest
+    @Body() request: PlayFinalStageRequest,
   ): Promise<ResponseObject<FinalBattlePlayResultModel>> {
     return this.createOkResponse(await this.finalBattleService.playFinalBattle(request));
   }

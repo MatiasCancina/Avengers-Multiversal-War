@@ -45,7 +45,7 @@ export class FinalBattleComponent implements OnInit {
     private readonly finalBattleService: FinalBattleService,
     private readonly i18nService: I18nService,
     private readonly heroArtworkResolverService: HeroArtworkResolverService,
-  ) { }
+  ) {}
 
   get pageState(): FinalBattleViewModel {
     return this.finalBattleService.getViewModel();
@@ -178,7 +178,7 @@ export class FinalBattleComponent implements OnInit {
     }
 
     const item = this.pageState.data?.inventory.find(
-      (inventoryItem) => inventoryItem.itemId === ability.itemId
+      (inventoryItem) => inventoryItem.itemId === ability.itemId,
     );
 
     return item ? `Usar ${item.name}` : ability.label;

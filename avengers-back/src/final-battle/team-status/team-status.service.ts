@@ -1,12 +1,7 @@
-
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApplicationContextService } from '../../basic/services/application-context.service';
 import { GameApiService } from '../../basic/game-api.service';
-import {
-  ApiErrorMappingRule,
-  ApiErrorStatusMap,
-  ErrorUtils,
-} from '../../basic/error/error.utils';
+import { ApiErrorMappingRule, ApiErrorStatusMap, ErrorUtils } from '../../basic/error/error.utils';
 import {
   FinalStageTeamsStatusApi,
   FinalStageStateApi,

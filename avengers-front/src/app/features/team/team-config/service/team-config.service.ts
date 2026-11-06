@@ -3,7 +3,13 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { AppContextService } from 'src/app/core/services/app-context.service';
 import { BaseApiService } from 'src/app/core/services/base-api.service';
 import { HeroArtworkResolverService } from 'src/app/core/services/hero-artwork-resolver.service';
-import { CombatStrategy, SaveTeamConfigBody, TeamConfigCatalogHeroModel, TeamConfigModel, TeamConfigSaveModel } from '../model/team-config-api.interface';
+import {
+  CombatStrategy,
+  SaveTeamConfigBody,
+  TeamConfigCatalogHeroModel,
+  TeamConfigModel,
+  TeamConfigSaveModel,
+} from '../model/team-config-api.interface';
 import { ApiError, toApiError } from 'src/app/core/models/api-error.interface';
 import { TeamConfigViewModel } from '../model/team-config-view-model';
 import { AppCopyKey, I18nService } from 'src/app/core/services/i18n.service';
@@ -19,13 +25,12 @@ export class TeamConfigService extends BaseApiService {
     error: null,
     errorCode: null,
     data: null,
-    searchTerm: "",
+    searchTerm: '',
     saving: false,
     saveMessage: null,
     lang: 'en',
     replacingHeroId: null,
   };
-
 
   constructor(
     api: ApiService,
@@ -85,7 +90,9 @@ export class TeamConfigService extends BaseApiService {
         this.pageState.status = 'data';
         this.pageState.data = result.configuration;
         this.pageState.draft = this.buildDraft(result.configuration);
-        this.pageState.saveMessage = result.journeyReplaced ? 'teamConfig.journeyReplaced' : 'teamConfig.saved'
+        this.pageState.saveMessage = result.journeyReplaced
+          ? 'teamConfig.journeyReplaced'
+          : 'teamConfig.saved';
         this.pageState.saving = false;
       },
       error: (error: unknown) => {
@@ -95,8 +102,8 @@ export class TeamConfigService extends BaseApiService {
         this.pageState.error = this.i18nService.translate(key, this.pageState.lang);
         this.pageState.errorCode = null;
         this.pageState.saving = false;
-      }
-    })
+      },
+    });
   }
 
   /** Traduce el código de error del guardado a un texto de la pantalla. */
@@ -117,12 +124,14 @@ export class TeamConfigService extends BaseApiService {
 
   public toggleActive(heroID: string) {
     if (this.pageState.draft) {
-      const hero = this.pageState.draft.activeHeroIds.find(h => h === heroID)
+      const hero = this.pageState.draft.activeHeroIds.find((h) => h === heroID);
       if (hero) {
-        this.pageState.draft.activeHeroIds.splice(this.pageState.draft.activeHeroIds.indexOf(hero), 1)
-      }
-      else {
-        this.pageState.draft.activeHeroIds.push(heroID)
+        this.pageState.draft.activeHeroIds.splice(
+          this.pageState.draft.activeHeroIds.indexOf(hero),
+          1,
+        );
+      } else {
+        this.pageState.draft.activeHeroIds.push(heroID);
       }
     }
   }
@@ -136,8 +145,10 @@ export class TeamConfigService extends BaseApiService {
   }
 
   isInDraft(heroId: string): boolean {
-    return this.pageState.data?.leader?.id === heroId
-      || (this.pageState.draft?.companionIds.includes(heroId) ?? false);
+    return (
+      this.pageState.data?.leader?.id === heroId ||
+      (this.pageState.draft?.companionIds.includes(heroId) ?? false)
+    );
   }
 
   removeCompanion(heroId: string): void {
@@ -172,9 +183,11 @@ export class TeamConfigService extends BaseApiService {
       return false;
     }
     const saved = this.buildDraft(data);
-    return !this.sameIds(saved.companionIds, draft.companionIds)
-      || !this.sameIds(saved.activeHeroIds, draft.activeHeroIds)
-      || saved.strategy !== draft.strategy;
+    return (
+      !this.sameIds(saved.companionIds, draft.companionIds) ||
+      !this.sameIds(saved.activeHeroIds, draft.activeHeroIds) ||
+      saved.strategy !== draft.strategy
+    );
   }
 
   private sameIds(a: string[], b: string[]): boolean {
@@ -195,10 +208,10 @@ export class TeamConfigService extends BaseApiService {
     const term = this.pageState.searchTerm.trim().toLowerCase();
     const catalog = this.pageState.data?.catalog ?? [];
     if (!term) {
-      return catalog
+      return catalog;
     }
-    return catalog.filter((hero) =>
-      hero.displayName.toLowerCase().includes(term) || hero.id.includes(term),
+    return catalog.filter(
+      (hero) => hero.displayName.toLowerCase().includes(term) || hero.id.includes(term),
     );
   }
 

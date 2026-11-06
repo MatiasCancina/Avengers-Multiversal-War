@@ -1,24 +1,24 @@
-    //status ACTIVE de la final y turnState AWAITING_PLAYER_ACTION
-    // GET game/teams/black-widow/journeys/current/final-stage
-    {
-        "serverTime": "2026-10-01T22:14:48.223Z",
-        "success": true,
-        "responseMessage": {
-            "messageCode": "0000",
-            "message": "OK"
-        },
-        "data": {
-            "variant": "TOURNAMENT_FINAL",
-            "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
-            "status": "ACTIVE",
-            "phase": "TOURNAMENT_FINAL",
-            "phaseLabel": "Tournament Final",
-            "normalTurn": 0,
-            "turnState": "AWAITING_PLAYER_ACTION",
-            "participants": {
-                "playerTeamId": "black-widow",
-                "opponentTeamId": "generated-17"
-            },
-            "completion": null
-        }
-    }
+//status ACTIVE de la final y turnState AWAITING_PLAYER_ACTION
+// GET game/teams/black-widow/journeys/current/final-stage
+{
+  "serverTime": "2026-10-01T22:14:48.223Z",
+  "success": true,
+  "responseMessage": {
+    "messageCode": "0000",
+    "message": "OK",
+  },
+  "data": {
+    "variant": "TOURNAMENT_FINAL",
+    "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
+    "status": "ACTIVE",
+    "phase": "TOURNAMENT_FINAL",
+    "phaseLabel": "Tournament Final",
+    "normalTurn": 0,
+    "turnState": "AWAITING_PLAYER_ACTION",
+    "participants": {
+      "playerTeamId": "black-widow",
+      "opponentTeamId": "generated-17",
+    },
+    "completion": null,
+  },
+}

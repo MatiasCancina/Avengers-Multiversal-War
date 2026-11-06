@@ -1,12 +1,12 @@
 // respuesta de la final cuando esta empezada status:READY
 // GET game/teams/black-widow/journeys/current/final-stage/teams
-    
+
 {
-    "serverTime": "2026-10-07T14:50:09.401Z",
-    "success": false,
-    "responseMessage": {
-        "messageCode": "FINAL_STAGE_NOT_ACTIVE",
-        "message": "FinalStage Team state is available after the final has started."
-    },
-    "data": null
+  "serverTime": "2026-10-07T14:50:09.401Z",
+  "success": false,
+  "responseMessage": {
+    "messageCode": "FINAL_STAGE_NOT_ACTIVE",
+    "message": "FinalStage Team state is available after the final has started.",
+  },
+  "data": null,
 }

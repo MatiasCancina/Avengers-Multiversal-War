@@ -1,47 +1,112 @@
 <main class="r2-page">
-  <header class="r2-heading"><span class="eyebrow">EQUIPO · R2</span><h1>HISTORIA Y RIVALES</h1>
-    <p>Rivales canónicos y encuentros reales entre equipos del torneo multiversal.</p></header>
+  <header class="r2-heading">
+    <span class="eyebrow">EQUIPO · R2</span>
+    <h1>HISTORIA Y RIVALES</h1>
+    <p>Rivales canónicos y encuentros reales entre equipos del torneo multiversal.</p>
+  </header>
   <p class="notice" *ngIf="state.status === 'loading'">Cargando héroes, rivales e historia…</p>
   <div class="notice error" *ngIf="state.status === 'error'" role="alert">
-    {{ state.error }} <button type="button" (click)="retry()">Reintentar</button></div>
-  <p class="notice" *ngIf="state.status === 'empty'">El equipo todavía no tiene héroes configurados.</p>
+    {{ state.error }} <button type="button" (click)="retry()">Reintentar</button>
+  </div>
+  <p class="notice" *ngIf="state.status === 'empty'">
+    El equipo todavía no tiene héroes configurados.
+  </p>
   <ng-container *ngIf="state.status === 'data' && state.data as data">
-    <section class="r2-panel"><div class="r2-row"><h2>JOURNEY</h2>
-      <label>Consultar
-        <select [value]="state.attemptId" (change)="feature.selectAttempt($any($event.target).value)">
-          <option value="current">Journey actual</option>
-          <option *ngFor="let attempt of data.history" [value]="attempt.attemptId">
-            {{ attempt.completedAt | date:'short' }} · {{ attempt.outcomeCode }}
-          </option>
-        </select></label></div>
-      <p class="hint" *ngIf="!data.journeyAvailable">Todavía no hay un Journey actual simulado. Podés consultar el historial si existe.</p>
+    <section class="r2-panel">
+      <div class="r2-row">
+        <h2>JOURNEY</h2>
+        <label
+          >Consultar
+          <select
+            [value]="state.attemptId"
+            (change)="feature.selectAttempt($any($event.target).value)"
+          >
+            <option value="current">Journey actual</option>
+            <option *ngFor="let attempt of data.history" [value]="attempt.attemptId">
+              {{ attempt.completedAt | date: 'short' }} · {{ attempt.outcomeCode }}
+            </option>
+          </select></label
+        >
+      </div>
+      <p class="hint" *ngIf="!data.journeyAvailable">
+        Todavía no hay un Journey actual simulado. Podés consultar el historial si existe.
+      </p>
     </section>
-    <section class="r2-panel"><h2>1 · ELEGÍ UN HÉROE DE TU EQUIPO</h2>
-      <div class="hero-grid"><button type="button" *ngFor="let hero of data.heroes" class="hero-tile"
-        [class.selected]="hero.id === state.heroId" (click)="feature.selectHero(hero.id)">
-        <img [src]="artwork.portraitPath(hero.id)" [alt]="hero.name" (error)="artwork.useFallback($event)" />
-        <strong>{{ hero.name }}</strong><small *ngIf="hero.leader">LÍDER</small>
-      </button></div></section>
-    <section class="r2-panel"><h2>2 · RIVALES CANÓNICOS</h2>
+    <section class="r2-panel">
+      <h2>1 · ELEGÍ UN HÉROE DE TU EQUIPO</h2>
+      <div class="hero-grid">
+        <button
+          type="button"
+          *ngFor="let hero of data.heroes"
+          class="hero-tile"
+          [class.selected]="hero.id === state.heroId"
+          (click)="feature.selectHero(hero.id)"
+        >
+          <img
+            [src]="artwork.portraitPath(hero.id)"
+            [alt]="hero.name"
+            (error)="artwork.useFallback($event)"
+          />
+          <strong>{{ hero.name }}</strong
+          ><small *ngIf="hero.leader">LÍDER</small>
+        </button>
+      </div>
+    </section>
+    <section class="r2-panel">
+      <h2>2 · RIVALES CANÓNICOS</h2>
       <ng-container *ngIf="feature.selectedHero as hero">
-        <p class="hint" *ngIf="!hero.rivals.length">Este héroe no tiene rivales canónicos publicados.</p>
-        <div class="rival-list"><button type="button" *ngFor="let rival of hero.rivals" class="rival-chip"
-          [class.selected]="rival.id === state.rivalId" (click)="feature.selectRival(rival.id)">
-          {{ rival.name }}</button></div>
-      </ng-container></section>
-    <section class="r2-panel" *ngIf="state.rivalId"><div class="r2-row"><h2>3 · ENCUENTROS COMPARTIDOS</h2>
-      <span class="count">{{ feature.matches.length }} encuentros</span></div>
-      <p class="hint">Se muestran batallas entre Teams opuestos con ambos héroes presentes, no duelos individuales.</p>
-      <p class="notice" *ngIf="!feature.matches.length">No Battles Yet · No hay encuentros publicados entre este héroe y su rival en el Journey seleccionado.</p>
+        <p class="hint" *ngIf="!hero.rivals.length">
+          Este héroe no tiene rivales canónicos publicados.
+        </p>
+        <div class="rival-list">
+          <button
+            type="button"
+            *ngFor="let rival of hero.rivals"
+            class="rival-chip"
+            [class.selected]="rival.id === state.rivalId"
+            (click)="feature.selectRival(rival.id)"
+          >
+            {{ rival.name }}
+          </button>
+        </div>
+      </ng-container>
+    </section>
+    <section class="r2-panel" *ngIf="state.rivalId">
+      <div class="r2-row">
+        <h2>3 · ENCUENTROS COMPARTIDOS</h2>
+        <span class="count">{{ feature.matches.length }} encuentros</span>
+      </div>
+      <p class="hint">
+        Se muestran batallas entre Teams opuestos con ambos héroes presentes, no duelos
+        individuales.
+      </p>
+      <p class="notice" *ngIf="!feature.matches.length">
+        No Battles Yet · No hay encuentros publicados entre este héroe y su rival en el Journey
+        seleccionado.
+      </p>
       <article class="match" *ngFor="let match of feature.matches">
-        <div class="match-stage">{{ match.stageCode }} <span *ngIf="match.groupId">· Grupo {{ match.groupId }}</span></div>
-        <div class="teams"><strong>{{ match.teamA.name }}</strong><span>VS</span><strong>{{ match.teamB.name }}</strong></div>
-        <p>Ganador: <strong>{{ winnerName(match.winnerTeamId, match) }}</strong></p>
-        <div class="damage" *ngIf="match.damageByTeam.length"><span *ngFor="let d of match.damageByTeam">
-          {{ d.teamId === match.teamA.id ? match.teamA.name : match.teamB.name }}:
-          {{ d.damageDealt }} damage</span></div>
-        <div class="damage" *ngIf="match.results.length"><span *ngFor="let result of match.results">
-          {{ result.teamId === match.teamA.id ? match.teamA.name : match.teamB.name }}: {{ result.resultCode }}</span></div>
+        <div class="match-stage">
+          {{ match.stageCode }} <span *ngIf="match.groupId">· Grupo {{ match.groupId }}</span>
+        </div>
+        <div class="teams">
+          <strong>{{ match.teamA.name }}</strong
+          ><span>VS</span><strong>{{ match.teamB.name }}</strong>
+        </div>
+        <p>
+          Ganador: <strong>{{ winnerName(match.winnerTeamId, match) }}</strong>
+        </p>
+        <div class="damage" *ngIf="match.damageByTeam.length">
+          <span *ngFor="let d of match.damageByTeam">
+            {{ d.teamId === match.teamA.id ? match.teamA.name : match.teamB.name }}:
+            {{ d.damageDealt }} damage</span
+          >
+        </div>
+        <div class="damage" *ngIf="match.results.length">
+          <span *ngFor="let result of match.results">
+            {{ result.teamId === match.teamA.id ? match.teamA.name : match.teamB.name }}:
+            {{ result.resultCode }}</span
+          >
+        </div>
       </article>
     </section>
   </ng-container>

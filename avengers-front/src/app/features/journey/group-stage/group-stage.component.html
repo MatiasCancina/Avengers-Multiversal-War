@@ -1,14 +1,9 @@
-
 <section class="student-feature-shell">
   <h1>Fase de Grupos</h1>
 
-  <p *ngIf="pageState.status === 'loading'">
-    Cargando fase de grupos...
-  </p>
+  <p *ngIf="pageState.status === 'loading'">Cargando fase de grupos...</p>
 
-  <p *ngIf="pageState.status === 'error'">
-    Error: {{ pageState.error }}
-  </p>
+  <p *ngIf="pageState.status === 'error'">Error: {{ pageState.error }}</p>
 
   <p *ngIf="pageState.status === 'empty'">
     No hay un Journey actual. Primero debes simular batallas.
@@ -18,100 +13,106 @@
     <p>Equipo del jugador: {{ data.playerTeamId }}</p>
     <p>Grupo del jugador: {{ data.playerGroupId }}</p>
 
-<nav aria-label="Seleccionar grupo">
-  <button
-    type="button"
-    *ngFor="let group of data.groups"
-    (click)="onGroupChange(group.groupId)"
-    [attr.aria-pressed]="pageState.selectedGroupId === group.groupId"
-  >
-    Grupo {{ group.groupId }}
-    <span *ngIf="group.playerGroup">(Tu grupo)</span>
-  </button>
-</nav>
+    <nav aria-label="Seleccionar grupo">
+      <button
+        type="button"
+        *ngFor="let group of data.groups"
+        (click)="onGroupChange(group.groupId)"
+        [attr.aria-pressed]="pageState.selectedGroupId === group.groupId"
+      >
+        Grupo {{ group.groupId }}
+        <span *ngIf="group.playerGroup">(Tu grupo)</span>
+      </button>
+    </nav>
 
     <section *ngFor="let group of data.groups">
       <ng-container *ngIf="pageState.selectedGroupId === group.groupId">
-      <h2>
-        Grupo {{ group.groupId }}
-        <span *ngIf="group.playerGroup">(Tu grupo)</span>
-      </h2>
+        <h2>
+          Grupo {{ group.groupId }}
+          <span *ngIf="group.playerGroup">(Tu grupo)</span>
+        </h2>
 
-      <table>
-        <caption>Clasificación del grupo {{ group.groupId }}</caption>
+        <table>
+          <caption>
+            Clasificación del grupo
+            {{
+              group.groupId
+            }}
+          </caption>
 
-        <thead>
-          <tr>
-            <th scope="col">Pos.</th>
-            <th scope="col">Equipo</th>
-            <th scope="col">PJ</th>
-            <th scope="col">G</th>
-            <th scope="col">E</th>
-            <th scope="col">P</th>
-            <th scope="col">Pts.</th>
-            <th scope="col">Daño +</th>
-            <th scope="col">Daño -</th>
-            <th scope="col">Dif.</th>
-            <th scope="col">Clasifica</th>
-          </tr>
-        </thead>
+          <thead>
+            <tr>
+              <th scope="col">Pos.</th>
+              <th scope="col">Equipo</th>
+              <th scope="col">PJ</th>
+              <th scope="col">G</th>
+              <th scope="col">E</th>
+              <th scope="col">P</th>
+              <th scope="col">Pts.</th>
+              <th scope="col">Daño +</th>
+              <th scope="col">Daño -</th>
+              <th scope="col">Dif.</th>
+              <th scope="col">Clasifica</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr *ngFor="let standing of group.standings">
-            <td>{{ standing.position }}</td>
-            <td>
-              {{ standing.teamName }}
-              <strong *ngIf="standing.playerTeam">(Tu equipo)</strong>
-            </td>
-            <td>{{ standing.played }}</td>
-            <td>{{ standing.wins }}</td>
-            <td>{{ standing.draws }}</td>
-            <td>{{ standing.losses }}</td>
-            <td>{{ standing.points }}</td>
-            <td>{{ standing.damageDealt }}</td>
-            <td>{{ standing.damageReceived }}</td>
-            <td>{{ standing.damageDifference }}</td>
-            <td>{{ standing.qualified ? 'Sí' : 'No' }}</td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody>
+            <tr *ngFor="let standing of group.standings">
+              <td>{{ standing.position }}</td>
+              <td>
+                {{ standing.teamName }}
+                <strong *ngIf="standing.playerTeam">(Tu equipo)</strong>
+              </td>
+              <td>{{ standing.played }}</td>
+              <td>{{ standing.wins }}</td>
+              <td>{{ standing.draws }}</td>
+              <td>{{ standing.losses }}</td>
+              <td>{{ standing.points }}</td>
+              <td>{{ standing.damageDealt }}</td>
+              <td>{{ standing.damageReceived }}</td>
+              <td>{{ standing.damageDifference }}</td>
+              <td>{{ standing.qualified ? 'Sí' : 'No' }}</td>
+            </tr>
+          </tbody>
+        </table>
 
-<h3>Encuentros del grupo {{ group.groupId }}</h3>
+        <h3>Encuentros del grupo {{ group.groupId }}</h3>
 
-<p *ngIf="group.encounters.length === 0">
-  Este grupo todavía no tiene encuentros publicados.
-</p>
+        <p *ngIf="group.encounters.length === 0">
+          Este grupo todavía no tiene encuentros publicados.
+        </p>
 
-<ul *ngIf="group.encounters.length > 0">
-  <li *ngFor="let encounter of group.encounters">
-    <p>
-      <strong>{{ getTeamName(encounter.teamAId) }}</strong>
-      vs.
-      <strong>{{ getTeamName(encounter.teamBId) }}</strong>
-    </p>
-  <p>
-  Estado: {{ encounter.results.length > 0 ? 'Jugado' : 'Pendiente' }}
-</p>
+        <ul *ngIf="group.encounters.length > 0">
+          <li *ngFor="let encounter of group.encounters">
+            <p>
+              <strong>{{ getTeamName(encounter.teamAId) }}</strong>
+              vs.
+              <strong>{{ getTeamName(encounter.teamBId) }}</strong>
+            </p>
+            <p>Estado: {{ encounter.results.length > 0 ? 'Jugado' : 'Pendiente' }}</p>
 
-    <p>
-      Ganador:
-      {{ encounter.winnerTeamId ? getTeamName(encounter.winnerTeamId) : 'Sin ganador publicado' }}
-    </p>
+            <p>
+              Ganador:
+              {{
+                encounter.winnerTeamId
+                  ? getTeamName(encounter.winnerTeamId)
+                  : 'Sin ganador publicado'
+              }}
+            </p>
 
-    <ul *ngIf="encounter.results.length > 0">
-      <li *ngFor="let result of encounter.results">
-        {{ getTeamName(result.teamId) }}: {{ result.resultCode }}
-      </li>
-    </ul>
+            <ul *ngIf="encounter.results.length > 0">
+              <li *ngFor="let result of encounter.results">
+                {{ getTeamName(result.teamId) }}: {{ result.resultCode }}
+              </li>
+            </ul>
 
-    <ul *ngIf="encounter.damageByTeam.length > 0">
-      <li *ngFor="let damage of encounter.damageByTeam">
-        {{ getTeamName(damage.teamId) }}: {{ damage.damageDealt }} de daño causado
-      </li>
-    </ul>
-  </li>
-</ul>
-
+            <ul *ngIf="encounter.damageByTeam.length > 0">
+              <li *ngFor="let damage of encounter.damageByTeam">
+                {{ getTeamName(damage.teamId) }}: {{ damage.damageDealt }} de daño causado
+              </li>
+            </ul>
+          </li>
+        </ul>
       </ng-container>
     </section>
   </ng-container>

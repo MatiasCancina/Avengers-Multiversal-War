@@ -2,7 +2,12 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { GameFeatureApiService } from 'src/basic/game-feature-api.service';
 import { ApplicationContextService } from 'src/basic/services/application-context.service';
 import { TeamConfigurationApi } from 'src/basic/model/game-api/team-configuration.model';
-import { TeamConfigHeroModel, TeamConfigModel, TeamConfigSaveModel, TeamConfigSlot } from './model/team-config.model';
+import {
+  TeamConfigHeroModel,
+  TeamConfigModel,
+  TeamConfigSaveModel,
+  TeamConfigSlot,
+} from './model/team-config.model';
 import { HeroApi } from 'src/basic/model/game-api/hero-catalog.model';
 import { SaveTeamConfigRequest } from './request/team-config-query.request';
 import { ApiErrorMappingRule, ApiErrorStatusMap, ErrorUtils } from 'src/basic/error/error.utils';
@@ -30,14 +35,12 @@ const TEAM_CONFIG_API_ERROR_FALLBACK: ApiErrorMappingRule = {
 
 @Injectable()
 export class TeamConfigService {
-  constructor(private context: ApplicationContextService,
-    private gameFeatureService: GameFeatureApiService
-  ) {
-
-  }
+  constructor(
+    private context: ApplicationContextService,
+    private gameFeatureService: GameFeatureApiService,
+  ) {}
 
   async getConfiguration(): Promise<TeamConfigModel> {
-
     try {
       const teamId = this.context.getCurrentTeamId();
       const language = this.context.language;
@@ -84,11 +87,13 @@ export class TeamConfigService {
         editability: configuration.editability,
         currentAttempt: configuration.currentAttempt,
       } satisfies TeamConfigModel;
+    } catch (error) {
+      ErrorUtils.mapGameApiError(
+        error,
+        TEAM_CONFIG_API_ERROR_STATUS_MAP,
+        TEAM_CONFIG_API_ERROR_FALLBACK,
+      );
     }
-    catch (error) {
-      ErrorUtils.mapGameApiError(error, TEAM_CONFIG_API_ERROR_STATUS_MAP, TEAM_CONFIG_API_ERROR_FALLBACK);
-    }
-
   }
 
   /** Devuelve la posición del héroe en el equipo, o null si no está. */
@@ -129,10 +134,12 @@ export class TeamConfigService {
         journeyReplaced: result.journeyReplaced,
         configuration: await this.getConfiguration(),
       };
-    }
-    catch (error) {
-      ErrorUtils.mapGameApiError(error, TEAM_CONFIG_API_ERROR_STATUS_MAP, TEAM_CONFIG_API_ERROR_FALLBACK);
+    } catch (error) {
+      ErrorUtils.mapGameApiError(
+        error,
+        TEAM_CONFIG_API_ERROR_STATUS_MAP,
+        TEAM_CONFIG_API_ERROR_FALLBACK,
+      );
     }
   }
-
 }

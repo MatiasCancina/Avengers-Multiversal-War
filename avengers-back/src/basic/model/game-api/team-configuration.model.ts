@@ -25,5 +25,5 @@ export interface SaveConfigurationApi {
 export interface SaveConfigurationBody {
   companionIds: string[];
   activeHeroIds: string[];
-  strategy: CombatStrategy
+  strategy: CombatStrategy;
 }

@@ -662,7 +662,8 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     'teamConfig.loading': 'Loading Team configuration…',
     'teamConfig.noHeroesAvailable': 'No Team configuration is available.',
     'teamConfig.save': 'SAVE CONFIGURATION',
-    'teamConfig.invalid': 'The configuration is not valid. Check that there are exactly 3 active Heroes.',
+    'teamConfig.invalid':
+      'The configuration is not valid. Check that there are exactly 3 active Heroes.',
     'teamConfig.replaceHero': 'Replace {hero}',
     'teamConfig.replacing': 'Choose a Hero from the catalog to replace the selected companion.',
     'teamConfig.cancelReplace': 'Cancel',
@@ -1184,9 +1185,11 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     'teamConfig.loading': 'Cargando la configuración del Equipo…',
     'teamConfig.noHeroesAvailable': 'No hay una configuración de Equipo disponible.',
     'teamConfig.save': 'GUARDAR CONFIGURACIÓN',
-    'teamConfig.invalid': 'La configuración no es válida. Revisá que haya exactamente 3 Héroes activos.',
+    'teamConfig.invalid':
+      'La configuración no es válida. Revisá que haya exactamente 3 Héroes activos.',
     'teamConfig.replaceHero': 'Reemplazar a {hero}',
-    'teamConfig.replacing': 'Elegí un Héroe del catálogo para reemplazar al companion seleccionado.',
+    'teamConfig.replacing':
+      'Elegí un Héroe del catálogo para reemplazar al companion seleccionado.',
     'teamConfig.cancelReplace': 'Cancelar',
     'r4.caption': 'CAMINO',
     'r4.title': 'SIMULAR BATALLAS',

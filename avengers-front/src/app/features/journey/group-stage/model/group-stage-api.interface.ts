@@ -28,7 +28,6 @@ export interface GroupStageStandingApi {
   playerTeam: boolean;
 }
 
-
 export interface GroupStageEncounterApi {
   encounterId: string;
   stageId: string;

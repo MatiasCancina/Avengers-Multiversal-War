@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { GroupStageService } from './service/group-stage.service';
 
@@ -18,22 +17,22 @@ export class GroupStageComponent implements OnInit {
   ngOnInit(): void {
     this.groupStageService.initialize();
   }
+
   onGroupChange(groupId: string): void {
-  this.groupStageService.selectGroup(groupId);
-}
-getTeamName(teamId: string): string {
-  const groups = this.pageState.data?.groups ?? [];
-
-  for (const group of groups) {
-    const standing = group.standings.find(
-      (standing) => standing.teamId === teamId,
-    );
-
-    if (standing) {
-      return standing.teamName;
-    }
+    this.groupStageService.selectGroup(groupId);
   }
 
-  return teamId;
-}
+  getTeamName(teamId: string): string {
+    const groups = this.pageState.data?.groups ?? [];
+
+    for (const group of groups) {
+      const standing = group.standings.find((standing) => standing.teamId === teamId);
+
+      if (standing) {
+        return standing.teamName;
+      }
+    }
+
+    return teamId;
+  }
 }

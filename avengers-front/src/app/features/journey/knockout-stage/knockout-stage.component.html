@@ -44,7 +44,9 @@
               <div class="team" [class.winner]="isWinner(match, match.teamA)">
                 <p class="team-name">
                   {{ match.teamA.name }}
-                  <small *ngIf="match.teamA.damageDealt !== null">{{ match.teamA.damageDealt }}</small>
+                  <small *ngIf="match.teamA.damageDealt !== null">{{
+                    match.teamA.damageDealt
+                  }}</small>
                   <span class="tag" *ngIf="isPlayer(match.teamA.teamId)">
                     {{ translate('r6.yourTeam', pageState.lang) }}
                   </span>
@@ -56,7 +58,9 @@
               <div class="team" [class.winner]="isWinner(match, match.teamB)">
                 <p class="team-name">
                   {{ match.teamB.name }}
-                  <small *ngIf="match.teamB.damageDealt !== null">{{ match.teamB.damageDealt }}</small>
+                  <small *ngIf="match.teamB.damageDealt !== null">{{
+                    match.teamB.damageDealt
+                  }}</small>
                   <span class="tag" *ngIf="isPlayer(match.teamB.teamId)">
                     {{ translate('r6.yourTeam', pageState.lang) }}
                   </span>

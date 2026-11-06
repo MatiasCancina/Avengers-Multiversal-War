@@ -8,7 +8,9 @@ export class PlayFinalStageRequest {
   @IsIn(['START', 'CHOOSE_ACTION', 'ABANDON'])
   type!: FinalStagePlayType;
 
-  @ApiPropertyOptional({ description: 'Required only for CHOOSE_ACTION. Exact opaque actionId from GET /final-stage.' })
+  @ApiPropertyOptional({
+    description: 'Required only for CHOOSE_ACTION. Exact opaque actionId from GET /final-stage.',
+  })
   @ValidateIf((request: PlayFinalStageRequest) => request.type === 'CHOOSE_ACTION')
   @IsString()
   @IsNotEmpty()

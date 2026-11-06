@@ -157,7 +157,6 @@ export interface FinalHistoryApi {
   items: FinalHistoryItemApi[];
 }
 
-
 export interface FinalJourneyTeamsApi {
   attemptId: string;
   teams: FinalJourneyTeamApi[];
@@ -210,28 +209,26 @@ export interface FinalStageStatusTeamApi {
   strategyChangesRemaining: number;
 }
 
-
-
 //estado completo de la final segun la API. Se transforma en FinalBattleStatusModel para el front
 
 export interface FinalStageStateApi {
   variant: string;
   attemptId: string;
-  status: "READY" | "ACTIVE" | "COMPLETED";
+  status: 'READY' | 'ACTIVE' | 'COMPLETED';
   phase: string;
   phaseLabel: string;
   normalTurn: number;
   turnState: string;
   participants: { playerTeamId: string; opponentTeamId: string };
   completion: {
-    outcomeCode: string
-    endingCode?: string
-    terminalReasonCode: string
-    endingEventSequences: number[]
+    outcomeCode: string;
+    endingCode?: string;
+    terminalReasonCode: string;
+    endingEventSequences: number[];
   } | null;
 }
 
-//UNA line dentro de narrative dentro de events 
+//UNA line dentro de narrative dentro de events
 export interface FinalStageNarrativeLineApi {
   type: string;
   speakerId: string | null;
@@ -245,9 +242,9 @@ export interface FinalStageEventApi {
   turn: number;
   phase: string;
   eventCode: string;
-  messageCode: string
+  messageCode: string;
   values?: Record<string, unknown>; //las claves cambian segun el eventCode
-  narrative: { lines: FinalStageNarrativeLineApi[] }
+  narrative: { lines: FinalStageNarrativeLineApi[] };
 }
 
 //coleccion de events recibidos desde la API para la lista de events
@@ -260,42 +257,42 @@ export interface FinalStageEventsApi {
 //heroe individual recibido de la API de la final
 export interface FinalStageHeroApi {
   heroId: string;
-  status: string
-  condition: string
-  maximumEnergy: number
-  currentEnergy: number
-  maximumAbilityPoints: number
-  currentAbilityPoints: number
-  returnAtTurn: number
+  status: string;
+  condition: string;
+  maximumEnergy: number;
+  currentEnergy: number;
+  maximumAbilityPoints: number;
+  currentAbilityPoints: number;
+  returnAtTurn: number;
 }
 
 //equipo individual recibido de la API de la final
 export interface FinalStageSideApi {
-  teamId: string
-  leaderId: string
-  strategyCode: string
-  heroes: FinalStageHeroApi[]
-  vacantActiveHeroIds: string[]
-  synergyCode: string
-  teamActionsRemaining: number
-  leaderAbilityUsesRemaining: number
-  strategyChangesRemaining: number
+  teamId: string;
+  leaderId: string;
+  strategyCode: string;
+  heroes: FinalStageHeroApi[];
+  vacantActiveHeroIds: string[];
+  synergyCode: string;
+  teamActionsRemaining: number;
+  leaderAbilityUsesRemaining: number;
+  strategyChangesRemaining: number;
 }
 
 // respuesta de la API de ambos equipos de la final
 export interface FinalStageTeamsApi {
-  variant: string
-  attemptId: string
-  player: FinalStageSideApi
-  opponent: FinalStageSideApi
-  doom?: FinalStageDoomApi
+  variant: string;
+  attemptId: string;
+  player: FinalStageSideApi;
+  opponent: FinalStageSideApi;
+  doom?: FinalStageDoomApi;
 }
 
 export interface FinalStageDoomApi {
-  narrativeCharacterId: string
-  maximumEnergy: number
-  currentEnergy: number
-  threatLevelCode: string
+  narrativeCharacterId: string;
+  maximumEnergy: number;
+  currentEnergy: number;
+  threatLevelCode: string;
 }
 
 //action individual recibida de la API de actions
@@ -314,18 +311,18 @@ export interface FinalStageActionApi {
   target: {
     targetType: string;
     targetId: string;
-    sideCode: string
+    sideCode: string;
   } | null;
   cost: { abilityPoints: number };
 }
 
 //coleccion de actions recibidas de la API de actions
 export interface FinalStageActionsApi {
-  attemptId: string
-  phase: string
-  normalTurn: number
-  language: string
-  actions: FinalStageActionApi[]
+  attemptId: string;
+  phase: string;
+  normalTurn: number;
+  language: string;
+  actions: FinalStageActionApi[];
 }
 
 export interface FinalCurrentEncountersApi {

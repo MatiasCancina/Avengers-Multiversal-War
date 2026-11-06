@@ -6,7 +6,9 @@ import { HistoryRivalsService } from './history-rivals.service';
 @ApiTags('History and Rivals')
 @Controller('my-team/history-rivals')
 export class HistoryRivalsController extends AbstractController {
-  constructor(private readonly feature: HistoryRivalsService) { super(); }
+  constructor(private readonly feature: HistoryRivalsService) {
+    super();
+  }
 
   @Get()
   async read(@Query('attemptId') attemptId?: string) {

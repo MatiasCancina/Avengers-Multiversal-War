@@ -12,8 +12,8 @@ export interface Hero {
 export interface TeamConfigHeroModel {
   id: string;
   displayName: string;
-  roles: Hero['roles'];             // { primary: string; secondary: string }
-  stats: Hero['stats'];             // { power; agility; resistance; ability }
+  roles: Hero['roles']; // { primary: string; secondary: string }
+  stats: Hero['stats']; // { power; agility; resistance; ability }
   eligibility: Hero['eligibility']; // 'PREFERRED' | 'ELIGIBLE' | 'COMPANION_ONLY'
   slot: TeamConfigSlot;
 }
@@ -40,7 +40,7 @@ export interface TeamConfigModel {
   teamId: string;
   configured: boolean;
   leader: TeamConfigHeroModel;
-  activeHeroes: TeamConfigHeroModel[];  // 2 (sin el líder)
+  activeHeroes: TeamConfigHeroModel[]; // 2 (sin el líder)
   reserveHeroes: TeamConfigHeroModel[]; // 3
   catalog: TeamConfigCatalogHeroModel[];
   strategies: TeamConfigStrategyModel[];

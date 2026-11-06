@@ -717,8 +717,8 @@
   overflow-y: auto;
 }
 
-.event-scroll>.event-list,
-.event-scroll>.muted {
+.event-scroll > .event-list,
+.event-scroll > .muted {
   margin-bottom: auto;
 }
 
@@ -763,7 +763,7 @@
   overflow-wrap: anywhere;
 }
 
-.event-line+.event-line {
+.event-line + .event-line {
   margin-top: 4px;
 }
 

@@ -42,7 +42,7 @@
   background: #263b55;
 }
 
-.student-feature-shell nav button[aria-pressed="true"] {
+.student-feature-shell nav button[aria-pressed='true'] {
   background: #b42335;
   border-color: #d34858;
   font-weight: 700;

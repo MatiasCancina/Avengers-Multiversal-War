@@ -261,7 +261,8 @@
                   [disabled]="
                     (pageState.busy ?? false) ||
                     balance === null ||
-                    item.price == null ||
+                    item.price === null ||
+                    item.price === undefined ||
                     balance < item.price * purchaseQuantity ||
                     purchaseQuantity < 1
                   "

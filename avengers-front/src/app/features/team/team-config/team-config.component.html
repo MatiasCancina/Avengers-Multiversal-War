@@ -6,19 +6,25 @@
   </header>
 
   <!-- Page Status -->
-  <app-loading-state *ngIf="pageState.status === 'loading'"
-    [message]="translate('teamConfig.loading', pageState.lang)"></app-loading-state>
+  <app-loading-state
+    *ngIf="pageState.status === 'loading'"
+    [message]="translate('teamConfig.loading', pageState.lang)"
+  ></app-loading-state>
 
   <ng-container *ngIf="pageState.status === 'error'">
-    <app-error-state [message]="pageState.error ?? translate('error', pageState.lang)"
-      [messageCode]="pageState.errorCode ?? null"></app-error-state>
+    <app-error-state
+      [message]="pageState.error ?? translate('error', pageState.lang)"
+      [messageCode]="pageState.errorCode ?? null"
+    ></app-error-state>
     <button type="button" class="button button-secondary retry-button" (click)="retry()">
       {{ translate('retry', pageState.lang) }}
     </button>
   </ng-container>
 
-  <app-empty-state *ngIf="pageState.status === 'empty'"
-    [message]="translate('teamConfig.noHeroesAvailable', pageState.lang)"></app-empty-state>
+  <app-empty-state
+    *ngIf="pageState.status === 'empty'"
+    [message]="translate('teamConfig.noHeroesAvailable', pageState.lang)"
+  ></app-empty-state>
 
   <ng-container *ngIf="pageState.status === 'data' && pageState.data as config">
     <p class="state-card locked-message" *ngIf="!canEditAnything">
@@ -31,13 +37,22 @@
     <!-- Workplace general -->
     <div class="team-config-workspace">
       <section class="functional-panel catalog-panel" aria-labelledby="catalog-heading">
-        <h2 class="panel-title" id="catalog-heading">{{ translate('teamConfig.heroCatalog', pageState.lang) }}</h2>
+        <h2 class="panel-title" id="catalog-heading">
+          {{ translate('teamConfig.heroCatalog', pageState.lang) }}
+        </h2>
         <!-- Busqueda -->
         <div class="catalog-filters">
-          <label for="catalog-search">{{ translate('teamConfig.searchLabel', pageState.lang) }}</label>
-          <input id="catalog-search" type="search" name="catalogSearch" [ngModel]="pageState.searchTerm"
+          <label for="catalog-search">{{
+            translate('teamConfig.searchLabel', pageState.lang)
+          }}</label>
+          <input
+            id="catalog-search"
+            type="search"
+            name="catalogSearch"
+            [ngModel]="pageState.searchTerm"
             (ngModelChange)="onSearchTermChange($event)"
-            [placeholder]="translate('teamConfig.searchPlaceholder', pageState.lang)" />
+            [placeholder]="translate('teamConfig.searchPlaceholder', pageState.lang)"
+          />
         </div>
         <!-- Catalogo -->
         <ul class="catalog-list" *ngIf="filteredCatalog.length; else noMatches">
@@ -45,16 +60,28 @@
             <article class="catalog-card" [class.in-team]="isInDraft(hero)">
               <img class="hero-art" [src]="cardPath(hero)" [alt]="hero.displayName" />
               <h3 class="hero-name">{{ hero.displayName }}</h3>
-              <span class="tag" *ngIf="isInDraft(hero)">{{ translate('teamConfig.teamMarker', pageState.lang) }}</span>
-              <button type="button" class="button" *ngIf="!isInDraft(hero)"
+              <span class="tag" *ngIf="isInDraft(hero)">{{
+                translate('teamConfig.teamMarker', pageState.lang)
+              }}</span>
+              <button
+                type="button"
+                class="button"
+                *ngIf="!isInDraft(hero)"
                 [disabled]="!config.editability.members || pageState.saving || !canPickFromCatalog"
-                [attr.aria-label]="translate('teamConfig.selectHero', pageState.lang, { hero: hero.displayName })"
-                (click)="onAddCompanion(hero)">+</button>
+                [attr.aria-label]="
+                  translate('teamConfig.selectHero', pageState.lang, { hero: hero.displayName })
+                "
+                (click)="onAddCompanion(hero)"
+              >
+                +
+              </button>
             </article>
           </li>
         </ul>
         <ng-template #noMatches>
-          <app-empty-state [message]="translate('teamConfig.noCatalogMatches', pageState.lang)"></app-empty-state>
+          <app-empty-state
+            [message]="translate('teamConfig.noCatalogMatches', pageState.lang)"
+          ></app-empty-state>
         </ng-template>
       </section>
 
@@ -85,7 +112,11 @@
           /
           {{ translate('teamConfig.reserve', pageState.lang) }}
         </h3>
-        <p class="state-card replacing-message" *ngIf="pageState.replacingHeroId" aria-live="polite">
+        <p
+          class="state-card replacing-message"
+          *ngIf="pageState.replacingHeroId"
+          aria-live="polite"
+        >
           {{ translate('teamConfig.replacing', pageState.lang) }}
           <button type="button" class="button button-secondary" (click)="onCancelReplace()">
             {{ translate('teamConfig.cancelReplace', pageState.lang) }}
@@ -93,7 +124,11 @@
         </p>
         <ul class="hero-list">
           <li *ngFor="let hero of draftCompanions; trackBy: trackHero">
-            <article class="hero-card" [class.is-active]="isActive(hero)" [class.is-replacing]="isReplacing(hero)">
+            <article
+              class="hero-card"
+              [class.is-active]="isActive(hero)"
+              [class.is-replacing]="isReplacing(hero)"
+            >
               <img class="hero-art" [src]="cardPath(hero)" [alt]="hero.displayName" />
               <div class="hero-info">
                 <h4 class="hero-name">{{ hero.displayName }}</h4>
@@ -101,30 +136,54 @@
                   <span class="tag">{{ hero.roles.primary }}</span>
                   <span class="tag">{{ hero.roles.secondary }}</span>
                 </p>
-                <button type="button" class="slot-toggle" [attr.aria-pressed]="isActive(hero)"
-                  [disabled]="!config.editability.formation || pageState.saving" (click)="onToggleActive(hero)">
+                <button
+                  type="button"
+                  class="slot-toggle"
+                  [attr.aria-pressed]="isActive(hero)"
+                  [disabled]="!config.editability.formation || pageState.saving"
+                  (click)="onToggleActive(hero)"
+                >
                   {{
-                  isActive(hero)
-                  ? translate('teamConfig.active', pageState.lang)
-                  : translate('teamConfig.reserveState', pageState.lang)
+                    isActive(hero)
+                      ? translate('teamConfig.active', pageState.lang)
+                      : translate('teamConfig.reserveState', pageState.lang)
                   }}
                 </button>
                 <div class="hero-actions">
-                  <button type="button" class="button button-secondary"
-                    [disabled]="!config.editability.members || pageState.saving" [attr.aria-pressed]="isReplacing(hero)"
-                    [attr.aria-label]="translate('teamConfig.replaceHero', pageState.lang, { hero: hero.displayName })"
-                    (click)="isReplacing(hero) ? onCancelReplace() : onStartReplace(hero)">⇄</button>
-                  <button type="button" class="button button-secondary"
+                  <button
+                    type="button"
+                    class="button button-secondary"
                     [disabled]="!config.editability.members || pageState.saving"
-                    [attr.aria-label]="translate('teamConfig.removeHero', pageState.lang, { hero: hero.displayName })"
-                    (click)="onRemoveCompanion(hero)">✕</button>
+                    [attr.aria-pressed]="isReplacing(hero)"
+                    [attr.aria-label]="
+                      translate('teamConfig.replaceHero', pageState.lang, {
+                        hero: hero.displayName,
+                      })
+                    "
+                    (click)="isReplacing(hero) ? onCancelReplace() : onStartReplace(hero)"
+                  >
+                    ⇄
+                  </button>
+                  <button
+                    type="button"
+                    class="button button-secondary"
+                    [disabled]="!config.editability.members || pageState.saving"
+                    [attr.aria-label]="
+                      translate('teamConfig.removeHero', pageState.lang, { hero: hero.displayName })
+                    "
+                    (click)="onRemoveCompanion(hero)"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
             </article>
           </li>
           <li *ngFor="let slot of emptySlots">
             <article class="hero-card empty-slot">
-              <p class="empty-slot-text">{{ translate('teamConfig.selectHeroForSlot', pageState.lang) }}</p>
+              <p class="empty-slot-text">
+                {{ translate('teamConfig.selectHeroForSlot', pageState.lang) }}
+              </p>
             </article>
           </li>
         </ul>
@@ -137,14 +196,25 @@
         </h2>
 
         <form class="strategy-form" (ngSubmit)="onSave()">
-          <fieldset class="strategy-options" [disabled]="!config.editability.strategy || pageState.saving">
+          <fieldset
+            class="strategy-options"
+            [disabled]="!config.editability.strategy || pageState.saving"
+          >
             <legend class="visually-hidden">
               {{ translate('teamConfig.combatStrategy', pageState.lang) }}
             </legend>
-            <label class="strategy-option" *ngFor="let strategy of config.strategies"
-              [class.is-selected]="pageState.draft?.strategy === strategy.code">
-              <input type="radio" name="strategy" [value]="strategy.code"
-                [checked]="pageState.draft?.strategy === strategy.code" (change)="onStrategyChange(strategy.code)" />
+            <label
+              class="strategy-option"
+              *ngFor="let strategy of config.strategies"
+              [class.is-selected]="pageState.draft?.strategy === strategy.code"
+            >
+              <input
+                type="radio"
+                name="strategy"
+                [value]="strategy.code"
+                [checked]="pageState.draft?.strategy === strategy.code"
+                (change)="onStrategyChange(strategy.code)"
+              />
               <span class="strategy-text">
                 <strong class="strategy-label">{{ strategy.label }}</strong>
                 <span class="strategy-description">{{ strategy.description }}</span>
@@ -153,8 +223,11 @@
           </fieldset>
 
           <footer class="save-row">
-            <button type="submit" class="button save-button"
-              [disabled]="pageState.saving || !hasPendingChanges || !canEditAnything">
+            <button
+              type="submit"
+              class="button save-button"
+              [disabled]="pageState.saving || !hasPendingChanges || !canEditAnything"
+            >
               {{ translate('teamConfig.save', pageState.lang) }}
             </button>
             <p class="save-message" aria-live="polite">

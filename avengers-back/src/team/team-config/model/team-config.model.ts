@@ -8,8 +8,8 @@ export type TeamConfigSlot = 'LEADER' | 'ACTIVE' | 'RESERVE';
 export interface TeamConfigHeroModel {
   id: string;
   displayName: string;
-  roles: HeroApi['roles'];             // { primary: string; secondary: string }
-  stats: HeroApi['stats'];             // { power; agility; resistance; ability }
+  roles: HeroApi['roles']; // { primary: string; secondary: string }
+  stats: HeroApi['stats']; // { power; agility; resistance; ability }
   eligibility: HeroApi['eligibility']; // 'PREFERRED' | 'ELIGIBLE' | 'COMPANION_ONLY'
   slot: TeamConfigSlot;
 }
@@ -36,7 +36,7 @@ export interface TeamConfigModel {
   teamId: string;
   configured: boolean;
   leader: TeamConfigHeroModel | null;
-  activeHeroes: TeamConfigHeroModel[];  // 2 (sin el líder)
+  activeHeroes: TeamConfigHeroModel[]; // 2 (sin el líder)
   reserveHeroes: TeamConfigHeroModel[]; // 3
   catalog: TeamConfigCatalogHeroModel[];
   strategies: TeamConfigStrategyModel[];

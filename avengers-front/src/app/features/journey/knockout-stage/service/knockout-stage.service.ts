@@ -7,8 +7,7 @@ import { KnockoutStageApi } from '../model/knockout-stage-api.interface';
 import { ApiError, toApiError } from '../../../../core/models/api-error.interface';
 
 @Injectable({ providedIn: 'root' })
-export class KnockoutStageService extends BaseApiService{
-
+export class KnockoutStageService extends BaseApiService {
   constructor(
     api: ApiService,
     private readonly appContextService: AppContextService,
@@ -23,7 +22,7 @@ export class KnockoutStageService extends BaseApiService{
     data: null,
     lang: 'en',
   };
-  
+
   getViewModel(): KnockoutStageViewModel {
     return this.pageState;
   }

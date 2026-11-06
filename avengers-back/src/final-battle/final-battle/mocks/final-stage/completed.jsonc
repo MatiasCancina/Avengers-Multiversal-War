@@ -1,31 +1,29 @@
-    // status COMPLETED de final, turnState COMPLETED y completion con outcomeCode ABANDON y terminalReasonCode PLAYER_ABANDONED
-    // GET game/teams/black-widow/journeys/current/final-stage
-    {
-        "serverTime": "2026-10-01T23:08:45.217Z",
-        "success": true,
-        "responseMessage": {
-            "messageCode": "0000",
-            "message": "OK"
-        },
-        "data": {
-            "variant": "COMPLETED",
-            "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
-            "status": "COMPLETED",
-            "phase": "COMPLETED",
-            "phaseLabel": "Completed",
-            "normalTurn": 1,
-            "turnState": "COMPLETED",
-            "participants": {
-                "playerTeamId": "black-widow",
-                "opponentTeamId": "generated-17"
-            },
-            "completion": {
-                "outcomeCode": "ABANDON",
-                "endingCode": "PRE_REVEAL_ABANDON",
-                "terminalReasonCode": "PLAYER_ABANDONED",
-                "endingEventSequences": [
-                    12
-                ]
-            }
-        }
-    }
+// status COMPLETED de final, turnState COMPLETED y completion con outcomeCode ABANDON y terminalReasonCode PLAYER_ABANDONED
+// GET game/teams/black-widow/journeys/current/final-stage
+{
+  "serverTime": "2026-10-01T23:08:45.217Z",
+  "success": true,
+  "responseMessage": {
+    "messageCode": "0000",
+    "message": "OK",
+  },
+  "data": {
+    "variant": "COMPLETED",
+    "attemptId": "23ffdb27-abe7-47ce-9fb8-b666d364855e",
+    "status": "COMPLETED",
+    "phase": "COMPLETED",
+    "phaseLabel": "Completed",
+    "normalTurn": 1,
+    "turnState": "COMPLETED",
+    "participants": {
+      "playerTeamId": "black-widow",
+      "opponentTeamId": "generated-17",
+    },
+    "completion": {
+      "outcomeCode": "ABANDON",
+      "endingCode": "PRE_REVEAL_ABANDON",
+      "terminalReasonCode": "PLAYER_ABANDONED",
+      "endingEventSequences": [12],
+    },
+  },
+}

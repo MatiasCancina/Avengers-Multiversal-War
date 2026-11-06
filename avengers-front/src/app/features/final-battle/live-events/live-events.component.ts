@@ -5,7 +5,7 @@ import { LiveEventsViewModel } from './model/live-events-view-model.interface';
 import { LiveEventApi, LiveEventLineApi } from './model/live-events-api.interface';
 
 // diccionario de codigos de la API (ej: 'DAMAGE', 'VICTORY', 'COMPLETED')
-type LabelMap = Partial<Record<string, AppCopyKey>>
+type LabelMap = Partial<Record<string, AppCopyKey>>;
 
 const EVENT_LABELS: LabelMap = {
   TOURNAMENT_FINAL_STARTED: 'r10.event.tournamentFinalStarted',
@@ -59,7 +59,6 @@ const OUTCOME_LABELS: LabelMap = {
   ABANDON: 'r10.result.abandon',
 };
 
-
 @Component({
   selector: 'app-live-events',
   templateUrl: './live-events.component.html',
@@ -67,12 +66,12 @@ const OUTCOME_LABELS: LabelMap = {
   standalone: false,
 })
 export class LiveEventsComponent implements OnInit {
-  readonly simulateJourneyPath = '/journey/simulate'
+  readonly simulateJourneyPath = '/journey/simulate';
 
   constructor(
     private readonly liveEventsService: LiveEventsService,
-    readonly i18nService: I18nService
-  ) { }
+    readonly i18nService: I18nService,
+  ) {}
 
   get pageState(): LiveEventsViewModel {
     return this.liveEventsService.getViewModel();
@@ -83,7 +82,7 @@ export class LiveEventsComponent implements OnInit {
   }
 
   refresh(): void {
-    this.liveEventsService.refresh()
+    this.liveEventsService.refresh();
   }
 
   // Delegan en I18nService.
@@ -94,31 +93,31 @@ export class LiveEventsComponent implements OnInit {
     lang: AppLanguage,
     params: Record<string, string | number> = {},
   ): string {
-    return this.i18nService.translate(key, lang, params)
+    return this.i18nService.translate(key, lang, params);
   }
 
   // Etiquetas legibles para códigos de la API; si no hay etiqueta, se muestra el código tal cual.
   eventLabel(eventCode: string): string {
-    return this.label(EVENT_LABELS, eventCode)
+    return this.label(EVENT_LABELS, eventCode);
   }
 
   statusLabel(status: string): string {
-    return this.label(STATUS_LABELS, status)
+    return this.label(STATUS_LABELS, status);
   }
 
   outcomeLabel(outcomeCode: string): string {
-    return this.label(OUTCOME_LABELS, outcomeCode)
+    return this.label(OUTCOME_LABELS, outcomeCode);
   }
 
   // En READY todavía no empezó la Final; en otro estado es que aún no hay eventos registrados.
   emptyMessage(): string {
     const key: AppCopyKey =
-      this.pageState.data?.battle.status === 'READY' ? 'r10.notStarted' : 'r10.emptyEvents'
-    return this.translate(key, this.pageState.lang)
+      this.pageState.data?.battle.status === 'READY' ? 'r10.notStarted' : 'r10.emptyEvents';
+    return this.translate(key, this.pageState.lang);
   }
 
   hasApChange(event: LiveEventApi): boolean {
-    return event.apChange !== undefined && event.apChange !== 0
+    return event.apChange !== undefined && event.apChange !== 0;
   }
 
   // true si el evento tiene al menos un dato para mostrar; evita dibujar un bloque vacío.
@@ -129,20 +128,20 @@ export class LiveEventsComponent implements OnInit {
       !!event.targetHeroNames?.length ||
       event.damage !== undefined ||
       this.hasApChange(event)
-    )
+    );
   }
 
-  // ambos tracks sirven para el trackBy del *ngFor en el html 
+  // ambos tracks sirven para el trackBy del *ngFor en el html
   trackEvent(_index: number, event: LiveEventApi): number {
-    return event.sequence
+    return event.sequence;
   }
 
   trackLine(_index: number, line: LiveEventLineApi): number {
-    return line.lineSequence
+    return line.lineSequence;
   }
 
   private label(labels: LabelMap, code: string): string {
-    const key = labels[code] //busca el codigo y devuelve la clave de code o undefined si no esta en el map
-    return key ? this.translate(key, this.pageState.lang) : code
+    const key = labels[code]; //busca el codigo y devuelve la clave de code o undefined si no esta en el map
+    return key ? this.translate(key, this.pageState.lang) : code;
   }
 }

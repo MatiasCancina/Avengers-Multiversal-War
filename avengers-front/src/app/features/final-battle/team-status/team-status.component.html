@@ -1,24 +1,19 @@
 <main class="student-feature-shell">
   <section class="team-status-container">
-
     <div class="header">
       <span class="caption-box">BATALLA FINAL</span>
       <h1 class="title">Estado de los equipos</h1>
       <p class="subtitle">Batalla final</p>
     </div>
 
-    <div *ngIf="loading" class="message">
-      Cargando información de los equipos...
-    </div>
+    <div *ngIf="loading" class="message">Cargando información de los equipos...</div>
 
     <div *ngIf="errorMessage" class="message error">
       {{ errorMessage }}
     </div>
 
     <ng-container *ngIf="!loading && statusData">
-
       <div class="teams-grid" *ngIf="statusData.teams.length === 0">
-
         <article class="team-card">
           <h3>Tu equipo</h3>
           <p>
@@ -26,8 +21,8 @@
             Esperando el inicio de la batalla
           </p>
           <p>
-            La información táctica y los héroes estarán disponibles
-            cuando comience la batalla final.
+            La información táctica y los héroes estarán disponibles cuando comience la batalla
+            final.
           </p>
         </article>
 
@@ -38,25 +33,20 @@
             Esperando el inicio de la batalla
           </p>
           <p>
-            La información táctica y los héroes estarán disponibles
-            cuando comience la batalla final.
+            La información táctica y los héroes estarán disponibles cuando comience la batalla
+            final.
           </p>
         </article>
-
       </div>
 
       <div class="teams-grid" *ngIf="statusData.teams.length > 0">
-
         <article class="team-card" *ngFor="let team of statusData.teams">
-
           <div class="table-card">
-
             <span class="team-id">
               {{ team.teamId === 'black-widow' ? 'Tu equipo' : 'Equipo rival' }}
             </span>
 
             <div class="information-table-card">
-
               <p>
                 <strong>Líder:</strong>
                 {{ team.leaderId }}
@@ -86,25 +76,24 @@
                 <strong>Cambios de estrategia restantes:</strong>
                 {{ team.strategyChangesRemaining }}
               </p>
-
             </div>
           </div>
 
           <div class="team-content">
+            <p *ngIf="team.heroes.length === 0">Este equipo no tiene héroes registrados.</p>
 
-            <p *ngIf="team.heroes.length === 0">
-              Este equipo no tiene héroes registrados.
-            </p>
-
-            <div class="hero-card" *ngFor="let hero of team.heroes" [ngClass]="{
+            <div
+              class="hero-card"
+              *ngFor="let hero of team.heroes"
+              [ngClass]="{
                 'hero-available': hero.condition === 'AVAILABLE',
                 'hero-ko': hero.condition === 'KNOCKED_OUT',
                 'hero-active': hero.status === 'ACTIVE' && hero.condition === 'AVAILABLE',
                 'hero-reserve': hero.status === 'INACTIVE' && hero.condition === 'AVAILABLE',
                 'hero-leader': hero.heroId === team.leaderId,
-                'hero-member': hero.heroId !== team.leaderId
-              }">
-
+                'hero-member': hero.heroId !== team.leaderId,
+              }"
+            >
               <span *ngIf="hero.heroId === team.leaderId" class="leader-badge">
                 ★ LÍDER DEL EQUIPO
               </span>
@@ -113,8 +102,11 @@
                 ◆ MIEMBRO DEL EQUIPO
               </span>
 
-              <img [src]="'../../../../assets/portraits/' + hero.heroId + '-portrait.webp'" [alt]="hero.heroId"
-                class="hero-image" />
+              <img
+                [src]="'../../../../assets/portraits/' + hero.heroId + '-portrait.webp'"
+                [alt]="hero.heroId"
+                class="hero-image"
+              />
 
               <h5>{{ hero.heroId }}</h5>
 
@@ -122,19 +114,12 @@
                 <strong>Condición:</strong>
 
                 <span [ngSwitch]="hero.condition">
-
-                  <span *ngSwitchCase="'KNOCKED_OUT'">
-                    Fuera de combate
-                  </span>
+                  <span *ngSwitchCase="'KNOCKED_OUT'"> Fuera de combate </span>
 
                   <span *ngSwitchCase="'AVAILABLE'">
                     <span [ngSwitch]="hero.status">
-                      <span *ngSwitchCase="'ACTIVE'">
-                        Activo
-                      </span>
-                      <span *ngSwitchCase="'INACTIVE'">
-                        En reserva
-                      </span>
+                      <span *ngSwitchCase="'ACTIVE'"> Activo </span>
+                      <span *ngSwitchCase="'INACTIVE'"> En reserva </span>
                       <span *ngSwitchDefault>
                         {{ hero.status }}
                       </span>
@@ -144,7 +129,6 @@
                   <span *ngSwitchDefault>
                     {{ hero.condition }}
                   </span>
-
                 </span>
               </p>
 
@@ -152,72 +136,68 @@
                 El héroe está fuera de combate y no puede luchar.
               </p>
 
-              <p class="hero-description" *ngIf="hero.condition === 'AVAILABLE' && hero.status === 'ACTIVE'">
+              <p
+                class="hero-description"
+                *ngIf="hero.condition === 'AVAILABLE' && hero.status === 'ACTIVE'"
+              >
                 El héroe forma parte del equipo activo.
               </p>
 
-              <p class="hero-description" *ngIf="hero.condition === 'AVAILABLE' && hero.status === 'INACTIVE'">
+              <p
+                class="hero-description"
+                *ngIf="hero.condition === 'AVAILABLE' && hero.status === 'INACTIVE'"
+              >
                 El héroe está en reserva.
               </p>
 
               <div class="hero-stats">
-
                 <div class="stat-heading">
                   <strong>Energía</strong>
-                  <span>
-                    {{ hero.currentEnergy }} / {{ hero.maximumEnergy }}
-                  </span>
+                  <span> {{ hero.currentEnergy }} / {{ hero.maximumEnergy }} </span>
                 </div>
 
                 <div class="stat-bar">
-                  <div class="stat-fill energy-fill" [style.width.%]="hero.maximumEnergy > 0
-                      ? (hero.currentEnergy / hero.maximumEnergy) * 100
-                      : 0">
-                  </div>
+                  <div
+                    class="stat-fill energy-fill"
+                    [style.width.%]="
+                      hero.maximumEnergy > 0 ? (hero.currentEnergy / hero.maximumEnergy) * 100 : 0
+                    "
+                  ></div>
                 </div>
 
                 <div class="stat-heading">
                   <strong>Puntos de habilidad</strong>
-                  <span>
-                    {{ hero.currentAbilityPoints }} / {{ hero.maximumAbilityPoints }}
-                  </span>
+                  <span> {{ hero.currentAbilityPoints }} / {{ hero.maximumAbilityPoints }} </span>
                 </div>
 
                 <div class="stat-bar">
-                  <div class="stat-fill ability-fill" [style.width.%]="hero.maximumAbilityPoints > 0
-                      ? (hero.currentAbilityPoints / hero.maximumAbilityPoints) * 100
-                      : 0">
-                  </div>
+                  <div
+                    class="stat-fill ability-fill"
+                    [style.width.%]="
+                      hero.maximumAbilityPoints > 0
+                        ? (hero.currentAbilityPoints / hero.maximumAbilityPoints) * 100
+                        : 0
+                    "
+                  ></div>
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         </article>
-
       </div>
 
       <section class="battle-info">
-
         <h2>Estado de la batalla</h2>
 
         <div class="information-blatte-info">
-
           <p>
             <strong>Estado:</strong>
 
             <span [ngSwitch]="statusData.finalState.status">
               <span *ngSwitchCase="'ACTIVE'"> Activa</span>
               <span *ngSwitchCase="'COMPLETED'"> Completada</span>
-              <span *ngSwitchCase="'WAITING_TO_START'">
-                Esperando inicio
-              </span>
-              <span *ngSwitchCase="'NOT_STARTED'">
-                Sin iniciar
-              </span>
+              <span *ngSwitchCase="'WAITING_TO_START'"> Esperando inicio </span>
+              <span *ngSwitchCase="'NOT_STARTED'"> Sin iniciar </span>
               <span *ngSwitchDefault>
                 {{ statusData.finalState.status }}
               </span>
@@ -238,29 +218,17 @@
             <strong>Estado del turno:</strong>
 
             <span [ngSwitch]="statusData.finalState.turnState">
-              <span *ngSwitchCase="'AWAITING_PLAYER_ACTION'">
-                Esperando acción del jugador
-              </span>
-              <span *ngSwitchCase="'IN_PROGRESS'">
-                En curso
-              </span>
-              <span *ngSwitchCase="'COMPLETED'">
-                Completado
-              </span>
-              <span *ngSwitchCase="'AWAITING_START'">
-                Esperando inicio
-              </span>
+              <span *ngSwitchCase="'AWAITING_PLAYER_ACTION'"> Esperando acción del jugador </span>
+              <span *ngSwitchCase="'IN_PROGRESS'"> En curso </span>
+              <span *ngSwitchCase="'COMPLETED'"> Completado </span>
+              <span *ngSwitchCase="'AWAITING_START'"> Esperando inicio </span>
               <span *ngSwitchDefault>
                 {{ statusData.finalState.turnState }}
               </span>
             </span>
           </p>
-
         </div>
-
       </section>
-
     </ng-container>
-
   </section>
 </main>
