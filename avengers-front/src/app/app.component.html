@@ -7,4 +7,20 @@
       <router-outlet *ngIf="!loading && !error"></router-outlet>
     </section>
   </main>
+
+  <div
+    *ngIf="showBackendWakeupNotice"
+    class="backend-wakeup-overlay"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="'backend-wakeup-title'"
+  >
+    <section class="backend-wakeup-dialog">
+      <h2 id="backend-wakeup-title">{{ i18n.t('backendWakeupTitle') }}</h2>
+      <p>{{ i18n.t('backendWakeupMessage') }}</p>
+      <button class="button" type="button" (click)="dismissBackendWakeupNotice()">
+        {{ i18n.t('understood') }}
+      </button>
+    </section>
+  </div>
 </div>

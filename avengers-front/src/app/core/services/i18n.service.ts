@@ -5,6 +5,9 @@ export type AppLanguage = 'en' | 'es';
 
 export type AppCopyKey =
   | 'loading'
+  | 'backendWakeupTitle'
+  | 'backendWakeupMessage'
+  | 'understood'
   | 'retry'
   | 'empty'
   | 'error'
@@ -528,6 +531,10 @@ export type AppCopyKey =
 const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
   en: {
     loading: 'Loading…',
+    backendWakeupTitle: 'The first load may take longer',
+    backendWakeupMessage:
+      'This service runs on a free server that may go idle after a period without requests. The first request after that can take a few extra seconds. Please wait while it becomes available.',
+    understood: 'Got it',
     retry: 'Retry',
     empty: 'No records available.',
     error: 'Unable to complete this request.',
@@ -1051,6 +1058,10 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
   },
   es: {
     loading: 'Cargando…',
+    backendWakeupTitle: 'La primera carga puede tardar más',
+    backendWakeupMessage:
+      'Este servicio funciona en un servidor gratuito que puede quedar inactivo tras un período sin solicitudes. La primera petición después de ese tiempo puede tardar unos segundos más. Espera un momento mientras vuelve a estar disponible.',
+    understood: 'Entendido',
     retry: 'Reintentar',
     empty: 'No hay registros disponibles.',
     error: 'No se pudo completar esta solicitud.',
