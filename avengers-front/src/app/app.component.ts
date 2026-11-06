@@ -28,21 +28,32 @@ export class AppComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.wakeupNoticeTimer = window.setTimeout(
-      () => (this.showBackendWakeupNotice = true),
-      BACKEND_WAKEUP_NOTICE_DELAY_MS,
-    );
+    const forceWakeupNotice =
+      new URLSearchParams(window.location.search).get('showBackendWakeupNotice') === 'true';
+
+    if (forceWakeupNotice) {
+      this.showBackendWakeupNotice = true;
+    } else {
+      this.wakeupNoticeTimer = window.setTimeout(
+        () => (this.showBackendWakeupNotice = true),
+        BACKEND_WAKEUP_NOTICE_DELAY_MS,
+      );
+    }
 
     this.context.initialize().subscribe({
       next: () => {
         this.clearWakeupNoticeTimer();
         this.loading = false;
-        this.showBackendWakeupNotice = false;
+        if (!forceWakeupNotice) {
+          this.showBackendWakeupNotice = false;
+        }
       },
       error: (error) => {
         this.clearWakeupNoticeTimer();
         this.loading = false;
-        this.showBackendWakeupNotice = false;
+        if (!forceWakeupNotice) {
+          this.showBackendWakeupNotice = false;
+        }
         const apiError: ApiError = toApiError(error);
         this.error = apiError.message;
         this.errorCode = apiError.messageCode;
