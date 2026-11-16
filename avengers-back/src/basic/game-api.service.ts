@@ -84,9 +84,7 @@ export class GameApiService {
             }
 
             const delayMs = Math.min(retryCount * 1000, 5000, remainingWindow);
-            this.logger.warn(
-              `Retrying Game API GET after a transient error (${retryCount}/50).`,
-            );
+            this.logger.warn(`Retrying Game API GET after a transient error (${retryCount}/50).`);
             return timer(delayMs);
           },
         }),
