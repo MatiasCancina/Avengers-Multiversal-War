@@ -24,7 +24,7 @@ export class HistoryRivalsService {
     private readonly context: ApplicationContextService,
     private readonly game: GameFeatureApiService,
     private readonly api: GameApiService,
-  ) { }
+  ) {}
 
   async read(attemptId?: string) {
     const teamId = this.context.getCurrentTeamId();
@@ -63,12 +63,12 @@ export class HistoryRivalsService {
       encounters = encounterData.encounters;
     } catch (error) {
       if (attemptId) {
-        throw error
-      };
+        throw error;
+      }
       const current = await this.game.currentJourney(teamId, lang);
       if (current.attempt) {
-        throw error
-      };
+        throw error;
+      }
       journeyAvailable = false;
     }
     const teamMap = new Map(teams.map((team) => [team.teamId, team]));
@@ -89,8 +89,8 @@ export class HistoryRivalsService {
       const a = teamMap.get(encounter.teamAId);
       const b = teamMap.get(encounter.teamBId);
       if (!a || !b) {
-        return []
-      };
+        return [];
+      }
       return rivals.flatMap((hero) =>
         hero.rivals
           .filter(
