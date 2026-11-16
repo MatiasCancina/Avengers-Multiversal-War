@@ -28,7 +28,6 @@ export class GameApiService {
       ),
     );
   }
-
   async post<T>(
     path: string,
     body: unknown,
