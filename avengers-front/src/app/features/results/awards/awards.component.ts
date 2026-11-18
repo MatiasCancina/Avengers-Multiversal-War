@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AwardsService } from './service/awards.service';
+import { AwardsViewModel } from './service/awards-view-model.interface';
 
 @Component({
   selector: 'app-awards',
@@ -9,6 +10,10 @@ import { AwardsService } from './service/awards.service';
 })
 export class AwardsComponent implements OnInit {
   constructor(private readonly awardsService: AwardsService) {}
+
+  get pageState(): AwardsViewModel {
+    return this.awardsService.getViewModel();
+  }
 
   ngOnInit(): void {
     this.awardsService.initialize();

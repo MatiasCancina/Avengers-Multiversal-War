@@ -1,3 +1,10 @@
 <main class="student-feature-shell">
-  <app-feature-pending></app-feature-pending>
+  <ng-container [ngSwitch]="pageState.status">
+    <pre *ngSwitchCase="'loading'">Loading...</pre>
+    <pre *ngSwitchCase="'empty'">No awards available yet.</pre>
+    <pre *ngSwitchCase="'unavailable'">Awards are unavailable right now.</pre>
+    <pre *ngSwitchCase="'error'">Error: {{ pageState.error }}</pre>
+    <pre *ngSwitchCase="'data'">Awards: {{ pageState.data | json }}</pre>
+    <pre *ngSwitchDefault>Unknown awards state: {{ pageState.status }}</pre>
+  </ng-container>
 </main>
