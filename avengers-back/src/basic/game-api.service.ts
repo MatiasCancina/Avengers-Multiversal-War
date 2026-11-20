@@ -5,7 +5,7 @@ import { AxiosResponse, isAxiosError } from 'axios';
 import { firstValueFrom, Observable, retry, throwError, timer } from 'rxjs';
 import { ResponseObject } from './response-object.interface';
 
-const GAME_API_STARTUP_RETRY_WINDOW_MS = 110_000;
+const GAME_API_STARTUP_RETRY_WINDOW_MS = 180_000;
 
 @Injectable()
 export class GameApiService {
