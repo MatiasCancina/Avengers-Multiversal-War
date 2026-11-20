@@ -495,6 +495,10 @@ export type AppCopyKey =
   | 'r12.unavailableCopy'
   | 'r12.statistics'
   | 'r12.awards'
+  | 'r12.award.mightiestHero'
+  | 'r12.award.bestSupport'
+  | 'r12.award.mostResilient'
+  | 'r12.award.journeyMvp'
   | 'r12.noAwards'
   | 'r12.winner'
   | 'r12.metric'
@@ -1020,9 +1024,13 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     'r12.title': 'AWARDS',
     'r12.subtitle': 'Official statistics and Awards for the completed Journey.',
     'r12.unavailable': 'AWARDS NOT AVAILABLE',
-    'r12.unavailableCopy': 'Awards are available after the Final Battle is complete.',
+    'r12.unavailableCopy': 'Awards are published when the Final ends.',
     'r12.statistics': 'JOURNEY STATISTICS',
     'r12.awards': 'OFFICIAL AWARDS',
+    'r12.award.mightiestHero': 'MIGHTIEST HERO',
+    'r12.award.bestSupport': 'BEST SUPPORT',
+    'r12.award.mostResilient': 'MOST RESILIENT',
+    'r12.award.journeyMvp': 'JOURNEY MVP',
     'r12.noAwards': 'No Awards are available for this Journey.',
     'r12.winner': 'WINNER',
     'r12.metric': 'METRIC',
@@ -1075,10 +1083,10 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     compare: 'Comparar',
     remove: 'Quitar',
     save: 'Guardar',
-    simulate: 'Simular Journey',
-    selectStrategy: 'Estrategia de gasto del Journey',
+    simulate: 'Simular Camino',
+    selectStrategy: 'Estrategia de gasto del Camino',
     myTeam: 'Mi equipo',
-    journey: 'Journey',
+    journey: 'Camino',
     finalStage: 'Etapa final',
     overview: 'Resumen',
     teamJourney: 'Camino del Equipo',
@@ -1088,10 +1096,10 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     play: 'Jugar',
     events: 'Eventos',
     status: 'Estado',
-    noJourney: 'Sin Journey',
-    journeyOverview: 'Resumen del Journey',
+    noJourney: 'Sin Camino',
+    journeyOverview: 'Resumen del Camino',
     encounterDetails: 'Detalles del encuentro',
-    archiveDetail: 'Detalle del historial del Journey',
+    archiveDetail: 'Detalle del historial del Camino',
     liveEvents: 'Eventos en Vivo',
     battleStatus: 'Estado del Equipo',
     finalPreparationStore: 'Preparar Batalla Final',
@@ -1107,7 +1115,7 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     knockoutStage: 'Fase Eliminatoria',
     awards: 'Premios',
     history: 'Historial de Batallas',
-    historyDetail: 'Detalle del historial del Journey',
+    historyDetail: 'Detalle del historial del Camino',
     comingSoon: 'Próximamente',
     featurePending: 'Esta funcionalidad se diseñará en una futura iteración del prototipo.',
     'heroRoster.caption': 'ROSTER DE HÉROES',
@@ -1191,7 +1199,7 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     'teamConfig.noCatalogMatches': 'Ningún Héroe coincide con estos filtros.',
     'teamConfig.pending': 'CAMBIOS PENDIENTES — SELECCIONÁ UN HÉROE',
     'teamConfig.saved': 'Configuración actualizada.',
-    'teamConfig.journeyReplaced': 'Configuración actualizada. Se generó un Journey de reemplazo.',
+    'teamConfig.journeyReplaced': 'Configuración actualizada. Se generó un Camino de reemplazo.',
     'teamConfig.locked': 'La configuración está bloqueada mientras la Batalla Final esté activa.',
     'teamConfig.loading': 'Cargando la configuración del Equipo…',
     'teamConfig.noHeroesAvailable': 'No hay una configuración de Equipo disponible.',
@@ -1551,9 +1559,13 @@ const DICTIONARY: Record<AppLanguage, Record<AppCopyKey, string>> = {
     'r12.title': 'PREMIOS',
     'r12.subtitle': 'Estadísticas y premios oficiales del Camino completado.',
     'r12.unavailable': 'PREMIOS NO DISPONIBLES',
-    'r12.unavailableCopy': 'Los premios estarán disponibles al completar la Batalla Final.',
+    'r12.unavailableCopy': 'Los premios se publican cuando termina la Final.',
     'r12.statistics': 'ESTADÍSTICAS DEL CAMINO',
     'r12.awards': 'PREMIOS OFICIALES',
+    'r12.award.mightiestHero': 'HÉROE MÁS PODEROSO',
+    'r12.award.bestSupport': 'MEJOR APOYO',
+    'r12.award.mostResilient': 'HÉROE MÁS RESISTENTE',
+    'r12.award.journeyMvp': 'MVP DEL CAMINO',
     'r12.noAwards': 'No hay premios disponibles para este Camino.',
     'r12.winner': 'GANADOR',
     'r12.metric': 'MÉTRICA',

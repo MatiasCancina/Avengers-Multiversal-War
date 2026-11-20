@@ -1,22 +1,22 @@
-export interface AwardWinnerApi {
-    teamId: string;
-    heroId: string;
-    heroName: string;
-    isPlayerTeam: boolean;
+export interface AwardWinnerModel {
+  teamId: string;
+  heroId: string;
+  heroName: string;
+  isPlayerTeam: boolean;
 }
 
-export interface AwardApi {
-    code: string;
-    label: string;
-    explanation: string;
-    reason: string;
-    metricCode: string | null;
-    value: number | null;
-    winner: AwardWinnerApi | null;
+export interface AwardModel {
+  code: string;
+  label: string;
+  explanation: string;
+  reason: string;
+  metricCode: string | null;
+  value: number | null;
+  winner: AwardWinnerModel | null;
 }
 
-export interface AwardsApi {
-    attemptId: string;
-    outcomeCode: string;
-    awards: AwardApi[];
+export interface AwardsModel {
+  attemptId: string;
+  outcomeCode: string;
+  awards: AwardModel[];
 }

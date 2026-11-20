@@ -1,11 +1,7 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { ErrorCode } from '../../basic/error/error-code.enum';
-import {
-  ApiErrorMappingRule,
-  ApiErrorStatusMap,
-  ErrorUtils,
-} from '../../basic/error/error.utils';
+import { ApiErrorMappingRule, ApiErrorStatusMap, ErrorUtils } from '../../basic/error/error.utils';
 import { GameFeatureApiService } from '../../basic/game-feature-api.service';
 import { ApplicationContextService } from '../../basic/services/application-context.service';
 import { AwardsModel } from '../model/results.model';
@@ -17,8 +13,8 @@ const POST_GAME_API_ERROR_STATUS_MAP: ApiErrorStatusMap = {
     message: 'Post-game statistics are not available right now.',
   },
   [HttpStatus.CONFLICT]: {
-    messageCode: ErrorCode.POST_GAME_UNAVAILABLE,
-    message: 'Post-game statistics are not available right now.',
+    messageCode: ErrorCode.POST_GAME_NOT_READY,
+    message: 'Awards will be published when the Final ends.',
   },
 };
 
@@ -32,7 +28,7 @@ export class AwardsService {
   constructor(
     private readonly context: ApplicationContextService,
     private readonly game: GameFeatureApiService,
-  ) { }
+  ) {}
 
   async getAwards(): Promise<AwardsModel> {
     const teamId = this.context.getCurrentTeamId();
@@ -47,9 +43,24 @@ export class AwardsService {
       const heroNames = new Map<string, string>(
         heroCatalog.heroes.map((hero): [string, string] => [hero.id, hero.displayName]),
       );
-      
+
       return this.toAwardsModel(statistics, heroNames, teamId);
     } catch (error) {
+      const details = ErrorUtils.extractExceptionDetails(error);
+      const statusRule = POST_GAME_API_ERROR_STATUS_MAP[details.statusCode];
+      if (statusRule) {
+        throw new HttpException(
+          {
+            responseMessage: {
+              messageCode: statusRule.messageCode,
+              message: statusRule.message,
+            },
+            data: null,
+          },
+          HttpStatus.BAD_GATEWAY,
+        );
+      }
+
       ErrorUtils.mapGameApiError(
         error,
         POST_GAME_API_ERROR_STATUS_MAP,

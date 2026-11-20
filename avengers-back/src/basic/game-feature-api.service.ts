@@ -37,7 +37,7 @@ import { JourneyStatisticsApi } from 'src/basic/model/game-api/results-contract.
 
 @Injectable()
 export class GameFeatureApiService {
-  constructor(private readonly api: GameApiService) { }
+  constructor(private readonly api: GameApiService) {}
 
   profile(teamId: string, lang = 'en') {
     return this.api.get<TeamProfileApi>(`/teams/${teamId}/profile`, { lang });
@@ -104,11 +104,11 @@ export class GameFeatureApiService {
       teamId: data.teamId,
       configuration: data.configuration
         ? {
-          leaderId: data.configuration.leaderId,
-          companionIds: data.configuration.companionIds,
-          activeHeroIds: data.configuration.activeHeroIds,
-          strategy: data.configuration.strategyCode,
-        }
+            leaderId: data.configuration.leaderId,
+            companionIds: data.configuration.companionIds,
+            activeHeroIds: data.configuration.activeHeroIds,
+            strategy: data.configuration.strategyCode,
+          }
         : null,
       currentAttempt: data.currentAttempt,
       editability: data.editability,
@@ -134,16 +134,16 @@ export class GameFeatureApiService {
       summary: current.summary,
       attempt: current.attempt
         ? {
-          id: current.attempt.attemptId,
-          teamId: current.teamId,
-          status: current.attempt.status,
-          stageCount: current.attempt.stageCount,
-          encounterCount: current.attempt.encounterCount,
-          spendingStrategy: attempt?.spendingStrategyCode,
-          finalistIds: attempt
-            ? [attempt.finalists.playerTeamId, attempt.finalists.opponentTeamId]
-            : [],
-        }
+            id: current.attempt.attemptId,
+            teamId: current.teamId,
+            status: current.attempt.status,
+            stageCount: current.attempt.stageCount,
+            encounterCount: current.attempt.encounterCount,
+            spendingStrategy: attempt?.spendingStrategyCode,
+            finalistIds: attempt
+              ? [attempt.finalists.playerTeamId, attempt.finalists.opponentTeamId]
+              : [],
+          }
         : null,
     } satisfies CurrentJourneyApi;
   }
@@ -243,7 +243,8 @@ export class GameFeatureApiService {
   }
 
   journeyStatistics(teamId: string, lang: string) {
-    return this.api.get<JourneyStatisticsApi>
-      (`/teams/${teamId}/journeys/current/statistics`, { lang });
+    return this.api.get<JourneyStatisticsApi>(`/teams/${teamId}/journeys/current/statistics`, {
+      lang,
+    });
   }
 }

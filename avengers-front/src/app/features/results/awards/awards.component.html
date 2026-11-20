@@ -1,10 +1,73 @@
-<main class="student-feature-shell">
-  <ng-container [ngSwitch]="pageState.status">
-    <pre *ngSwitchCase="'loading'">Loading...</pre>
-    <pre *ngSwitchCase="'empty'">No awards available yet.</pre>
-    <pre *ngSwitchCase="'unavailable'">Awards are unavailable right now.</pre>
-    <pre *ngSwitchCase="'error'">Error: {{ pageState.error }}</pre>
-    <pre *ngSwitchCase="'data'">Awards: {{ pageState.data | json }}</pre>
-    <pre *ngSwitchDefault>Unknown awards state: {{ pageState.status }}</pre>
-  </ng-container>
+<main class="awards-page">
+  <header class="awards-header">
+    <span class="caption-box">{{ translate('r12.caption') }}</span>
+    <div class="awards-title-row">
+      <h1 class="page-title">{{ translate('r12.title') }}</h1>
+    </div>
+    <p class="page-subtitle">{{ translate('r12.subtitle') }}</p>
+  </header>
+
+  <div class="state-message" *ngIf="pageState.status === 'loading'" role="status">
+    {{ translate('loading') }}
+  </div>
+
+  <section
+    class="unavailable-state"
+    *ngIf="pageState.status === 'unavailable'"
+    role="status"
+    aria-live="polite"
+  >
+    <h2>{{ translate('r12.unavailable') }}</h2>
+    <p>{{ translate('r12.unavailableCopy') }}</p>
+  </section>
+
+  <section class="error-state" *ngIf="pageState.status === 'error'" role="alert">
+    <p>{{ pageState.error ?? translate('error') }}</p>
+    <button type="button" class="retry-button" (click)="onRefresh()">
+      {{ translate('retry') }}
+    </button>
+  </section>
+
+  <section class="empty-state" *ngIf="pageState.status === 'empty'" aria-live="polite">
+    <h2>{{ translate('r12.noAwards') }}</h2>
+  </section>
+
+  <section
+    class="awards-section"
+    *ngIf="pageState.status === 'data' && pageState.data as awards"
+    aria-labelledby="awards-section-title"
+  >
+    <h2 id="awards-section-title">{{ translate('r12.awards') }}</h2>
+    <ol class="award-list">
+      <li class="award-list-item" *ngFor="let award of awards.awards; trackBy: trackAward">
+        <article class="award-card">
+          <header class="award-card-header">
+            <span class="award-code" aria-hidden="true">{{ award.code }}</span>
+            <h3>{{ awardTitle(award) }}</h3>
+          </header>
+          <p class="award-explanation">{{ award.explanation }}</p>
+
+          <div class="award-winner" *ngIf="award.winner as winner">
+            <span class="award-field-label">{{ translate('r12.winner') }}</span>
+            <strong>{{ winner.heroName }}</strong>
+            <span class="winner-team">{{ winner.teamId }}</span>
+          </div>
+
+          <dl class="award-details">
+            <div *ngIf="award.metricCode || award.value !== null">
+              <dt>{{ translate('r12.metric') }}</dt>
+              <dd>
+                <span *ngIf="award.metricCode">{{ award.metricCode }}</span>
+                <span *ngIf="award.value !== null">{{ award.value }}</span>
+              </dd>
+            </div>
+            <div *ngIf="award.reason">
+              <dt>{{ translate('r12.reason') }}</dt>
+              <dd>{{ award.reason }}</dd>
+            </div>
+          </dl>
+        </article>
+      </li>
+    </ol>
+  </section>
 </main>
