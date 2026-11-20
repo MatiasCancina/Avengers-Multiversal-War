@@ -3,6 +3,18 @@ module.exports = {
   ignorePatterns: ['dist/', 'node_modules/', '.angular/'],
   overrides: [
     {
+      files: ['scripts/**/*.js'],
+      env: {
+        node: true,
+        es2022: true,
+      },
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'commonjs',
+      },
+      extends: ['eslint:recommended', 'prettier'],
+    },
+    {
       files: ['src/**/*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
