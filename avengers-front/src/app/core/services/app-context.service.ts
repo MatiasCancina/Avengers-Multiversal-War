@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, retry, tap, throwError, timer } from 'rxjs';
 import { AppContext } from '../models/app-context.interface';
-import { responseData } from '../models/api-error.interface';
+import { ApiError, responseData } from '../models/api-error.interface';
 import { ApiService } from './api.service';
 import { STANDARD_THEME, UiVisualsService } from './ui-visuals.service';
+
+const CONTEXT_RETRY_DELAY_MS = 3000;
 
 @Injectable({ providedIn: 'root' })
 export class AppContextService {
@@ -30,6 +32,13 @@ export class AppContextService {
 
   reload(): Observable<AppContext> {
     return this.api.get<AppContext>('/context').pipe(
+      retry({
+        count: 1,
+        delay: (error: unknown) =>
+          error instanceof ApiError && error.messageCode === 'BFF_TEAM_CONTEXT_UNAVAILABLE'
+            ? timer(CONTEXT_RETRY_DELAY_MS)
+            : throwError(() => error),
+      }),
       map(responseData),
       tap((context) => this.publish(context)),
     );
