@@ -80,16 +80,29 @@ export class GameApiService {
 
             const remainingWindow = GAME_API_STARTUP_RETRY_WINDOW_MS - (Date.now() - startedAt);
             if (remainingWindow <= 0) {
+              this.logger.error(
+                `Game API GET retry window expired: ${this.startupErrorDetails(error)}.`,
+              );
               return throwError(() => error);
             }
 
             const delayMs = Math.min(retryCount * 1000, 5000, remainingWindow);
-            this.logger.warn(`Retrying Game API GET after a transient error (${retryCount}/50).`);
+            this.logger.warn(
+              `Retrying Game API GET after a transient error (${retryCount}/50): ${this.startupErrorDetails(error)}.`,
+            );
             return timer(delayMs);
           },
         }),
       ),
     );
+  }
+
+  private startupErrorDetails(error: unknown): string {
+    if (!isAxiosError(error)) {
+      return error instanceof Error ? error.message : 'Unknown error';
+    }
+
+    return `status=${error.response?.status ?? 'none'} code=${error.code ?? 'none'} url=${error.config?.url ?? 'unknown'}`;
   }
 
   private isTransientStartupError(error: unknown): boolean {
