@@ -24,7 +24,7 @@ describe('AppContextService', () => {
           success: true,
           responseMessage: { messageCode: '0000', message: 'OK' },
           data: context('spider-man'),
-        })
+        });
       },
     } as unknown as ApiService;
     let applied: VisualTheme | undefined;
@@ -53,7 +53,7 @@ describe('AppContextService', () => {
             responseMessage: { messageCode: '0000', message: 'OK' },
             data: context('spider-man'),
           });
-        })
+        }),
     } as unknown as ApiService;
     const visuals = { apply: () => undefined } as UiVisualsService;
     const service = new AppContextService(api, visuals);
