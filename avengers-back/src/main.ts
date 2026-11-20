@@ -32,9 +32,12 @@ async function bootstrap(): Promise<void> {
     jsonDocumentUrl: 'gameCore/api-json',
     swaggerOptions: { docExpansion: 'none', tryItOutEnabled: true },
   });
-  await app.listen(
-    config.get<number>('APP_PORT', 4102),
-    config.get<string>('APP_HOST', 'localhost'),
-  );
+  const renderPort = config.get<string>('PORT');
+  const port = Number(renderPort ?? config.get<string>('APP_PORT', '4102'));
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error('PORT or APP_PORT must be a valid TCP port.');
+  }
+  const host = renderPort ? '0.0.0.0' : config.get<string>('APP_HOST', 'localhost');
+  await app.listen(port, host);
 }
 void bootstrap();
